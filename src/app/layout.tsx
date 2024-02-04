@@ -1,18 +1,29 @@
-import '@/styles/globals.css'
+import { cn } from "@/lib/utils";
+import "@/styles/globals.css";
+import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/Toaster";
 
 export const metadata = {
-  title: 'Breadit',
-  description: 'A Reddit clone built with Next.js and TypeScript.',
-}
+	title: "Apunts Dades",
+	description:
+		"Un forum per a compartir, recomanar i discutir sobre apunts del Grau en Ciència i Enginyeria de Dades (GCED) de la UPC",
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <html lang='en'>
-      <body>{children}</body>
-    </html>
-  )
+const inter = Inter({ subsets: ["latin"] }); // TODO: Fer servir la font de l'AED
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<html
+			lang="en"
+			className={cn("bg-white text-slate-900 antialiased light", inter.className)}>
+			<body className="min-h-screen pt-12 bg-slate-50 antialiased">
+				<Navbar />
+
+				<div className="container max-w-7xl mx-auto h-full pt-12">{children}</div>
+
+				<Toaster />
+			</body>
+		</html>
+	);
 }
