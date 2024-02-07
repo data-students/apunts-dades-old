@@ -57,14 +57,25 @@ model User {
   subscriptions   Subscription[]
 }
 
+model Semester {
+  id   String @id @default(cuid())
+  name String @unique // e.g. Q1, Q2, ..., Q7, GCED, OPT
+
+  subjects Subject[]
+
+  @@index([name])
+}
+
 model Subject {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  acronym   String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  creator   User?    @relation("CreatedBy", fields: [creatorId], references: [id])
-  creatorId String?
+  id         String    @id @default(cuid())
+  name       String    @unique
+  acronym    String    @unique
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  creator    User?     @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId  String?
+  semester   Semester? @relation(fields: [semesterId], references: [id])
+  semesterId String?
 
   subscribers Subscription[]
 
