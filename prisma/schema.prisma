@@ -72,9 +72,9 @@ model Subject {
   acronym    String    @unique
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  creator    User?     @relation("CreatedBy", fields: [creatorId], references: [id])
-  creatorId  String?
-  semester   Semester? @relation(fields: [semesterId], references: [id])
+  creator    User      @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId  String
+  semester   Semester? @relation(fields: [semesterId], references: [id]) // TODO: remove the optional
   semesterId String?
 
   subscribers Subscription[]

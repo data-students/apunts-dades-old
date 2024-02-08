@@ -158,7 +158,7 @@ const Editor: FC<EditorProps> = ({ subjectId }) => {
 				subjectId,
 			};
 
-			const { data } = axios.post("/api/subject/post/create", payload);
+			const { data } = await axios.post("/api/subject/post/create", payload);
 			return data;
 		},
 		onError: () => {
