@@ -7,6 +7,8 @@ import Link from "next/link";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
 import PostVoteClient from "./post-vote/PostVoteClient";
+import { Badge } from "@/components/ui/Badge"
+
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -16,12 +18,12 @@ interface PostProps {
 		votes: Vote[];
 	};
 	votesAmt: number;
-	subjectName: string;
+	subjectAcronym: string;
 	currentVote?: PartialVote;
 	commentAmt: number;
 }
 
-const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentVote, subjectName, commentAmt }) => {
+const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentVote, subjectAcronym, commentAmt }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
 
 	return (
@@ -31,21 +33,25 @@ const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentV
 
 				<div className="w-0 flex-1">
 					<div className="max-h-40 mt-1 text-xs text-gray-500">
-						{subjectName ? (
+						{subjectAcronym ? (
 							<>
 								<a
 									className="underline text-zinc-900 text-sm underline-offset-2"
-									href={`/r/${subjectName}`}>
-									r/{subjectName}
+									href={`/${subjectAcronym}`}>
+									{subjectAcronym}
 								</a>
 								<span className="px-1">•</span>
 							</>
 						) : null}
-						<span>Compartit per {post.author.username}</span> {formatTimeToNow(new Date(post.createdAt))}
+						<span>Compartit per {post.author.name}</span> {formatTimeToNow(new Date(post.createdAt))}
 					</div>
-					<a href={`/r/${subjectName}/post/${post.id}`}>
+					<a href={`/${subjectAcronym}/post/${post.id}`}>
 						<h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">{post.title}</h1>
 					</a>
+					<div className="space-x-2">
+						<Badge>{post.tipus}</Badge>
+						<Badge variant='secondary'>{post.year}</Badge>
+					</div>
 
 					<div
 						className="relative text-sm max-h-40 w-full overflow-clip"
@@ -61,7 +67,7 @@ const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentV
 
 			<div className="bg-gray-50 z-20 text-sm px-4 py-4 sm:px-6">
 				<Link
-					href={`/r/${subjectName}/post/${post.id}`}
+					href={`/${subjectAcronym}/post/${post.id}`}
 					className="w-fit flex items-center gap-2">
 					<MessageSquare className="h-4 w-4" /> {commentAmt} comments
 				</Link>

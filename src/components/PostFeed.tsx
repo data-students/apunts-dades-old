@@ -70,7 +70,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectName }) => {
 							<Post
 								post={post}
 								commentAmt={post.comments.length}
-								subjectName={post.subject.name}
+								subjectAcronym={post.subject.acronym}
 								votesAmt={votesAmt}
 								currentVote={currentVote}
 							/>
@@ -82,7 +82,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectName }) => {
 							key={post.id}
 							post={post}
 							commentAmt={post.comments.length}
-							subjectName={post.subject.name}
+							subjectAcronym={post.subject.acronym}
 							votesAmt={votesAmt}
 							currentVote={currentVote}
 						/>
