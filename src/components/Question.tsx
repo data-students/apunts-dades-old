@@ -19,9 +19,10 @@ interface QuestionProps {
 	subjectName: string;
 	currentVote?: PartialVote;
 	answerAmt: number;
+	subjectAcronym: string;
 }
 
-const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVote: _currentVote, subjectName, answerAmt }) => {
+const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVote: _currentVote, subjectName, answerAmt, subjectAcronym}) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
 
 	return (
@@ -43,7 +44,7 @@ const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVot
 						) : null}
 						<span>Compartit per {question.author.username}</span> {formatTimeToNow(new Date(question.createdAt))}
 					</div>
-					<a href={`/${subjectName}/q/${question.id}`}>
+					<a href={`/${subjectAcronym}/q/${question.id}`}>
 						<h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">{question.title}</h1>
 					</a>
 

@@ -73,6 +73,7 @@ const QuestionFeed: FC<QuestionFeedProps> = ({ initialQuestions, subjectName }) 
 								subjectName={question.subject.name}
 								votesAmt={votesAmt}
 								currentVote={currentVote}
+								subjectAcronym={question.subject.acronym}
 							/>
 						</li>
 					);
@@ -85,6 +86,7 @@ const QuestionFeed: FC<QuestionFeedProps> = ({ initialQuestions, subjectName }) 
 							subjectName={question.subject.name}
 							votesAmt={votesAmt}
 							currentVote={currentVote}
+							subjectAcronym={question.subject.acronym}
 						/>
 					);
 				}

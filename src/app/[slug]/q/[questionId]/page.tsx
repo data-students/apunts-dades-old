@@ -4,48 +4,39 @@ import { db } from "@/lib/db";
 import MiniCreateQuestion from "@/components/MiniCreateQuestion";
 import QuestionFeed from "@/components/QuestionFeed";
 import { notFound } from "next/navigation";
+import { AnswersView } from "@/components/AnswersView";
 
 interface PageProps {
-  params: {
-    slug: string;
-  };
+    params: {
+        slug: string;
+    };
 }
 
 const page = async ({ params }: PageProps) => {
-  const { slug } = params;
-  const session = await getAuthSession();
-  const subject = await db.subject.findFirst({
-    where: { acronym: slug },
-    include: {
-      questions: {
+    const { slug } = params;
+    // const session = await getAuthSession();
+    const subject = await db.subject.findFirst({
+        where: { acronym: slug },
         include: {
-          author: true,
-          votes: true,
-          subject: true,
-          answers: true,
+            questions: {
+                include: {
+                    author: true,
+                    votes: true,
+                    subject: true,
+                    answers: true,
+                },
+                take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+            },
         },
-        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
-      },
-    },
-  });
+    });
 
-  if (!subject) return notFound();
+    if (!subject) return notFound();
 
-  return (
-    <>
-      <h1 className="text-3xl md:text-4xl h-14">
-        <span className="font-bold">{subject.acronym} Questions:</span>
-      </h1>
-
-      <MiniCreateQuestion session={session} subjectId={subject.id} />
-
-      {/* TODO: Show posts in user feed */}
-      <QuestionFeed
-        initialQuestions={subject.questions}
-        subjectName={subject.name}
-      />
-    </>
-  );
+    return (
+        <div>
+            <AnswersView questionId = {"123"}/>
+        </div>
+    );
 };
 
 export default page;
