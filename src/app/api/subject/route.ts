@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json()
-        const { name, acronym } = SubjectValidator.parse(body)
+        const { name, acronym, semester } = SubjectValidator.parse(body)
 
         const subjectExists = await db.subject.findFirst({
             where: {
@@ -32,6 +32,7 @@ export async function POST(req: Request) {
                 name,
                 acronym,
                 creatorId: session.user.id,
+                semester
             },
         })
 

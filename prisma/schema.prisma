@@ -46,6 +46,8 @@ model User {
 
   username String? @unique
 
+  generacio Int @default(2020) // TODO: fer això fresquito
+
   image           String?
   accounts        Account[]
   sessions        Session[]
@@ -57,15 +59,6 @@ model User {
   subscriptions   Subscription[]
 }
 
-model Semester {
-  id   String @id @default(cuid())
-  name String @unique // e.g. Q1, Q2, ..., Q7, GCED, OPT
-
-  subjects Subject[]
-
-  @@index([name])
-}
-
 model Subject {
   id         String    @id @default(cuid())
   name       String    @unique
@@ -74,8 +67,7 @@ model Subject {
   updatedAt  DateTime  @updatedAt
   creator    User      @relation("CreatedBy", fields: [creatorId], references: [id])
   creatorId  String
-  semester   Semester? @relation(fields: [semesterId], references: [id]) // TODO: remove the optional
-  semesterId String?
+  semester   SemesterType
 
   subscribers Subscription[]
 
@@ -108,6 +100,8 @@ model Post {
 
   comments Comment[]
   votes    Vote[]
+  tipus   TipusType
+  year    Int
 }
 
 model Comment {
@@ -132,6 +126,26 @@ model Comment {
 enum VoteType {
   UP
   DOWN
+}
+
+enum TipusType {
+  apunts
+  examens
+  exercicis
+  diapositives
+  altres
+}
+
+enum SemesterType {
+  Q1
+  Q2
+  Q3
+  Q4
+  Q5
+  Q6
+  Q7
+  Q8
+  ALTRES
 }
 
 model Vote {

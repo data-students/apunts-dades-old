@@ -9,4 +9,12 @@ export const PostValidator = z.object({
 	content: z.any(),
 });
 
+export const ApuntsPostValidator = z.object({
+	pdf: z.any(),
+	title: z.string(),
+	assignatura: z.string().min(2).max(5),
+	tipus: z.string(),
+});
+
 export type PostCreationRequest = z.infer<typeof PostValidator>;
+export type ApuntsPostCreationRequest = z.infer<typeof ApuntsPostValidator>;

@@ -13,6 +13,7 @@ import { useCustomToast } from "@/hooks/use-custom-toast";
 const Page = () => {
 	const [name, setName] = useState<string>("");
 	const [acronym, setAcronym] = useState<string>("");
+	const [semester, setsemester] = useState<string>("");
 	const router = useRouter();
 	const { loginToast } = useCustomToast();
 
@@ -21,6 +22,7 @@ const Page = () => {
 			const payload: CreateSubjectPayload = {
 				name: name,
 				acronym: acronym,
+				semester: semester,
 			};
 
 			const { data } = await axios.post("/api/subject", payload);
@@ -86,6 +88,14 @@ const Page = () => {
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 							className="pl-12"
+						/>
+					</div>
+					<div className="relative my-2">
+						<p className="absolute text-sm left-2 w-8 inset-y-0 grid place-items-center text-zinc-400">semester/</p>
+						<Input
+							value={semester}
+							onChange={(e) => setsemester(e.target.value)}
+							className="pl-20"
 						/>
 					</div>
 				</div>
