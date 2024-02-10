@@ -32,24 +32,24 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 
 				<Input
 					readOnly
-					onClick={() => router.push(pathname + "/submit")}
+					onClick={() => router.push("/submit")}
 					placeholder="Comparteix els teus apunts"
 				/>
 
 				<Button
-					onClick={() => router.push(pathname + "/submit")}
+					onClick={() => router.push("/submit")}
 					variant="ghost">
 					<ImageIcon className="text-zinc-600" />
 				</Button>
 
 				<Button
-					onClick={() => router.push(pathname + "/submit")}
+					onClick={() => router.push("/submit")}
 					variant="ghost">
 					<FileIcon className="text-zinc-600" />
 				</Button>
 
 				<Button
-					onClick={() => router.push(pathname + "/submit")}
+					onClick={() => router.push("/submit")}
 					variant="ghost">
 					<Link2 className="text-zinc-600" />
 				</Button>

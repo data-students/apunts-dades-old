@@ -2,7 +2,7 @@ import Link from "next/link";
 import { toast } from "./use-toast";
 import { buttonVariants } from "@/components/ui/Button";
 
-export const useCustomToast = () => {
+export const useCustomToasts = () => {
 	const loginToast = () => {
 		const { dismiss } = toast({
 			title: "Inici de sessió necessari.",

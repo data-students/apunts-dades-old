@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { useCustomToast } from "@/hooks/use-custom-toast";
+import { useCustomToasts } from "@/hooks/use-custom-toasts";
 
 interface SubscribeLeaveToggleProps {
 	subjectId: string;
@@ -16,7 +16,7 @@ interface SubscribeLeaveToggleProps {
 }
 
 const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({ subjectId, subjectName, isSubscribed }) => {
-	const { loginToast } = useCustomToast();
+	const { loginToast } = useCustomToasts();
 	const router = useRouter();
 
 	const { mutate: subscribe, isLoading: isSubLoading } = useMutation({

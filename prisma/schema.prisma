@@ -60,14 +60,14 @@ model User {
 }
 
 model Subject {
-  id         String    @id @default(cuid())
-  name       String    @unique
-  acronym    String    @unique
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  creator    User      @relation("CreatedBy", fields: [creatorId], references: [id])
-  creatorId  String
-  semester   SemesterType
+  id        String       @id @default(cuid())
+  name      String       @unique
+  acronym   String       @unique
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  creator   User         @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId String
+  semester  SemesterType
 
   subscribers Subscription[]
 
@@ -87,7 +87,7 @@ model Subscription {
 
 model Post {
   id        String   @id @default(cuid())
-  title     String?
+  title     String
   content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -100,8 +100,8 @@ model Post {
 
   comments Comment[]
   votes    Vote[]
-  tipus   TipusType?
-  year    Int?
+  tipus    TipusType
+  year     Int
 }
 
 model Comment {
