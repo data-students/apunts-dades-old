@@ -57,32 +57,43 @@ model User {
   votes           Vote[]
   createdSubjects Subject[]      @relation("CreatedBy")
   subscriptions   Subscription[]
+  questions       Question[]
+  Answer          Answer[]
 }
 
 model Subject {
-  id         String    @id @default(cuid())
-  name       String    @unique
-  acronym    String    @unique
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  creator    User      @relation("CreatedBy", fields: [creatorId], references: [id])
-  creatorId  String
-  semester   SemesterType
+  id        String       @id @default(cuid())
+  name      String       @unique
+  acronym   String       @unique
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  creator   User         @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId String
+  semester  SemesterType
 
   subscribers Subscription[]
 
-  posts Post[]
+  posts     Post[]
+  questions Question[]
 
   @@index([name, acronym])
 }
 
-model Subscription {
-  user      User    @relation(fields: [userId], references: [id])
-  userId    String
-  subject   Subject @relation(fields: [subjectId], references: [id])
-  subjectId String
+model Question {
+  id        String   @id @default(cuid())
+  title     String
+  content   Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@id([userId, subjectId])
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  subjectId String?
+
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+
+  answers   Answer[]
+  votes     Vote[]
 }
 
 model Post {
@@ -100,8 +111,26 @@ model Post {
 
   comments Comment[]
   votes    Vote[]
-  tipus   TipusType?
-  year    Int?
+  tipus    TipusType?
+  year     Int?
+}
+
+model Answer {
+  id        String   @id @default(cuid())
+  title    String
+  content   String
+  createdAt DateTime @default(now())
+
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  votes    Vote[]
+  answerId String?
+
+  accepted Boolean @default(false)
 }
 
 model Comment {
@@ -122,6 +151,17 @@ model Comment {
   votes     CommentVote[]
   commentId String?
 }
+
+
+model Subscription {
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  subjectId String
+
+  @@id([userId, subjectId])
+}
+
 
 enum VoteType {
   UP
@@ -154,8 +194,12 @@ model Vote {
   post   Post   @relation(fields: [postId], references: [id])
   postId String
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+  Answer     Answer?   @relation(fields: [answerId], references: [id])
+  answerId   String?
 
   @@id([userId, postId])
 }
