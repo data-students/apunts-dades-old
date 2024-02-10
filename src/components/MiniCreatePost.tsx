@@ -4,8 +4,9 @@ import { Session } from "next-auth";
 import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import UserAvatar from "./UserAvatar";
+import Link from "next/link";
 import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
+import { Button, buttonVariants } from "./ui/Button";
 import { FileIcon, ImageIcon, Link2 } from "lucide-react";
 
 interface MiniCreatePostProps {
@@ -37,7 +38,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 					placeholder="Comparteix els teus apunts"
 				/>
 
-				<Button
+				{/* <Button
 					onClick={() => router.push(parentPathname + "/submit")}
 					variant="ghost">
 					<ImageIcon className="text-zinc-600" />
@@ -53,7 +54,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 					onClick={() => router.push(parentPathname + "/submit")}
 					variant="ghost">
 					<Link2 className="text-zinc-600" />
-				</Button>
+				</Button> */}
 			</div>
 		</li>
 	);

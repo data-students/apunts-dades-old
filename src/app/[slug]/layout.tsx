@@ -17,6 +17,11 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 					votes: true,
 				},
 			},
+			questions: {
+				include: {
+					answers: true,
+				},
+			},
 		},
 	});
 
@@ -41,6 +46,30 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 		where: {
 			subject: {
 				acronym: slug,
+			},
+		},
+	});
+
+	const mostRecentPostYear = subject.posts.reduce((acc, post) => {
+		if (post.year > acc) return post.year;
+		return acc;
+	}, 0);
+
+	const questionCount = await db.question.count({
+		where: {
+			subject: {
+				acronym: slug,
+			},
+		},
+	});
+
+	const unAnsweredQuestionCount = await db.question.count({
+		where: {
+			subject: {
+				acronym: slug,
+			},
+			answers: {
+				none: {},
 			},
 		},
 	});
@@ -77,15 +106,19 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 							</div>
 							<div className="flex justify-between gap-x-4 py-3">
 								<dt className="text-gray-500">Quadrimestre</dt>
-								<dd className="text-gray-700">
-									{
-										subject.semester ? subject.semester?.name : "GCED" // TODO: Cal fer els trimestres obligatoris (això inclou el form de creació de subjectes)
-									}
-								</dd>
+								<dd className="text-gray-700">{subject.semester}</dd>
 							</div>
 							<div className="flex justify-between gap-x-4 py-3">
-								<dt className="text-gray-500">Subscripció</dt>
-								<dd className="text-gray-700">{isSubscribed ? "Subscrit" : "No subscrit"}</dd>
+								<dt className="text-gray-500">Apunts més recents</dt>
+								<dd className="text-gray-700">{mostRecentPostYear}</dd>
+							</div>
+							<div className="flex justify-between gap-x-4 py-3">
+								<dt className="text-gray-500">Preguntes</dt>
+								<dd className="text-gray-700">{questionCount}</dd>
+							</div>
+							<div className="flex justify-between gap-x-4 py-3">
+								<dt className="text-gray-500">Preguntes sense respondre</dt>
+								<dd className="text-gray-700">{unAnsweredQuestionCount}</dd>
 							</div>
 							{subject.creatorId === session?.user?.id ? ( // TODO: Check if user is admin
 								<div className="flex justify-between gap-x-4 py-3">
@@ -102,9 +135,15 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 							) : null}
 
 							<Link
-								href={`${slug}/submit`}
-								className={buttonVariants({ variant: "outline", className: "w-full mb-6" })}>
+								href={"/submit"}
+								className={buttonVariants({ variant: "outline", className: "w-full mb-2" })}>
 								Comparteix Apunts
+							</Link>
+
+							<Link
+								href={`/${slug}/q/submit`}
+								className={buttonVariants({ variant: "outline", className: "w-full mb-6" })}>
+								Llança una pregunta
 							</Link>
 						</dl>
 					</div>
