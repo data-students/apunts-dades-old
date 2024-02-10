@@ -87,8 +87,8 @@ model Subscription {
 
 model Post {
   id        String   @id @default(cuid())
-  title     String
-  content   Json?
+  title     String?
+  content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -100,8 +100,8 @@ model Post {
 
   comments Comment[]
   votes    Vote[]
-  tipus   TipusType
-  year    Int
+  tipus   TipusType?
+  year    Int?
 }
 
 model Comment {

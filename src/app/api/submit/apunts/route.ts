@@ -30,11 +30,22 @@ export async function POST(req: Request) {
         const semester = subject.semester;
         //parse the number in the second char of the semester if the first one is Q
         const semesterNumber = semester[0] === 'Q' ? parseInt(semester[1]) : 8;
-        const year = session.user.generacio + Math.floor((semesterNumber - 1) / 2);
+        if (typeof session.user.generacio !== 'number') {
+            console.log(session)
+            console.log(typeof session.user.generacio)
+            console.log(session.user.generacio)
+            console.log("USER ID")
+            console.log(session.user.id)
+            console.log("user session")
+            console.log(session.user)
+            return new Response('Invalid generacio', { status: 409 });
+        }
+        const year: number = session.user.generacio + Math.floor((semesterNumber - 1) / 2);
 
         if (!['apunts', 'examens', 'exercicis', 'diapositives', 'altres'].includes(tipus)) {
             return new Response('Invalid tipus', { status: 422 });
         }
+
         await db.post.create({
             data: {
                 title: title,
@@ -52,6 +63,6 @@ export async function POST(req: Request) {
             return new Response(error.message, { status: 422 });
         }
         console.log(error);
-        return new Response(error.message, { status: 500 });
+        return new Response(error.message, { status: 409 });
 	}
 }
