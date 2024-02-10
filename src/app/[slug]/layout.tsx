@@ -102,7 +102,7 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 							) : null}
 
 							<Link
-								href={`r/${slug}/submit`}
+								href={`${slug}/submit`}
 								className={buttonVariants({ variant: "outline", className: "w-full mb-6" })}>
 								Comparteix Apunts
 							</Link>
