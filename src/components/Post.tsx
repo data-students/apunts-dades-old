@@ -4,11 +4,11 @@ import { formatTimeToNow } from "@/lib/utils";
 import { Post, User, Vote } from "@prisma/client";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
+import { buttonVariants } from "@/components/ui/Button";
 import { FC, useRef } from "react";
-import EditorOutput from "./EditorOutput";
 import PostVoteClient from "./post-vote/PostVoteClient";
-import { Badge } from "@/components/ui/Badge"
-
+import { Badge } from "@/components/ui/Badge";
+import { useRouter } from "next/navigation";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -25,6 +25,8 @@ interface PostProps {
 
 const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentVote, subjectAcronym, commentAmt }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
+
+	const router = useRouter();
 
 	return (
 		<div className="rounded-md bg-white shadow">
@@ -50,13 +52,21 @@ const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentV
 					</a>
 					<div className="space-x-2">
 						<Badge>{post.tipus}</Badge>
-						<Badge variant='secondary'>{post.year}</Badge>
+						<Badge variant="secondary">{post.year}</Badge>
 					</div>
 
 					<div
 						className="relative text-sm max-h-40 w-full overflow-clip"
 						ref={pRef}>
-						<EditorOutput content={post.content} />
+						{post.content && post.content.endsWith(".pdf") ? (
+							<Link
+								className={buttonVariants({
+									className: "w-full mt-4 mb-6",
+								})}
+								href={post.content}>
+								Visualitza els Apunts
+							</Link>
+						) : null}
 						{pRef.current?.clientHeight === 160 ? (
 							// blur bottom if content is too long
 							<div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
