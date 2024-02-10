@@ -15,6 +15,7 @@ interface MiniCreatePostProps {
 const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 	const router = useRouter();
 	const pathname = usePathname();
+	const parentPathname = pathname.split("/").slice(0, -1).join("/");
 
 	return (
 		<li className="overflow-hidden rounded-md bg-white shadow">
@@ -32,24 +33,24 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 
 				<Input
 					readOnly
-					onClick={() => router.push("/submit")}
+					onClick={() => router.push(parentPathname + "/submit")}
 					placeholder="Comparteix els teus apunts"
 				/>
 
 				<Button
-					onClick={() => router.push("/submit")}
+					onClick={() => router.push(parentPathname + "/submit")}
 					variant="ghost">
 					<ImageIcon className="text-zinc-600" />
 				</Button>
 
 				<Button
-					onClick={() => router.push("/submit")}
+					onClick={() => router.push(parentPathname + "/submit")}
 					variant="ghost">
 					<FileIcon className="text-zinc-600" />
 				</Button>
 
 				<Button
-					onClick={() => router.push("/submit")}
+					onClick={() => router.push(parentPathname + "/submit")}
 					variant="ghost">
 					<Link2 className="text-zinc-600" />
 				</Button>

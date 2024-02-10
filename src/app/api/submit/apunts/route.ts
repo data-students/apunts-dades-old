@@ -30,13 +30,6 @@ export async function POST(req: Request) {
 		//parse the number in the second char of the semester if the first one is Q
 		const semesterNumber = semester[0] === "Q" ? parseInt(semester[1]) : 8;
 		if (typeof session.user.generacio !== "number") {
-			console.log(session);
-			console.log(typeof session.user.generacio);
-			console.log(session.user.generacio);
-			console.log("USER ID");
-			console.log(session.user.id);
-			console.log("user session");
-			console.log(session.user);
 			return new Response("Invalid generacio", { status: 409 });
 		}
 		const year: number = session.user.generacio + Math.floor((semesterNumber - 1) / 2);
@@ -55,13 +48,11 @@ export async function POST(req: Request) {
 				year: year,
 			},
 		});
-
-		return new Response("OK", { status: 200 });
+		return new Response(JSON.stringify(subject.acronym), { status: 201 });
 	} catch (error) {
 		if (error instanceof z.ZodError) {
 			return new Response(error.message, { status: 422 });
 		}
-		console.log(error);
 		return new Response(error.message, { status: 409 });
 	}
 }

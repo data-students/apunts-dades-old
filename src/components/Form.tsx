@@ -54,10 +54,9 @@ export function ProfileForm() {
 				variant: "destructive",
 			});
 		},
-		onSuccess: () => {
-			const newPathname = pathname.split("/").slice(0, -1).join("/");
+		onSuccess: (subjectAcronym) => {
+			const newPathname = pathname.replace("/submit", `/${subjectAcronym}`);
 			router.push(newPathname);
-
 			router.refresh();
 
 			return toast({
