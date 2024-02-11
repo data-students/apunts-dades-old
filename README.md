@@ -11,3 +11,6 @@
 - Que si no estàs logged in no veus res.
 - Avís Legal, Política de Cookies i Política de Privacitat.
 - Fer que el component del layout s'amagui.
+- Crear credencials AED.
+- Canviar el Logo del pa de motlle.
+
