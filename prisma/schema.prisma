@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,8 +21,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -39,15 +35,12 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-
-  username String? @unique
-
-  generacio Int @default(2020) // TODO: fer això fresquito
-
+  id              String         @id @default(cuid())
+  name            String?
+  email           String?        @unique
+  emailVerified   DateTime?
+  username        String?        @unique
+  generacio       Int            @default(2020)
   image           String?
   accounts        Account[]
   sessions        Session[]
@@ -64,103 +57,127 @@ model User {
 }
 
 model Subject {
-  id        String       @id @default(cuid())
-  name      String       @unique
-  acronym   String       @unique
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  creator   User         @relation("CreatedBy", fields: [creatorId], references: [id])
-  creatorId String
-  semester  SemesterType
-
+  id          String         @id @default(cuid())
+  name        String         @unique
+  acronym     String         @unique
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  creatorId   String
+  semester    SemesterType
+  creator     User           @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
-
-  posts     Post[]
-  questions Question[]
+  posts       Post[]
+  questions   Question[]
 
   @@index([name, acronym])
 }
 
 model Question {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   title     String
   content   Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  subject   Subject? @relation(fields: [subjectId], references: [id])
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
   subjectId String?
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  answers Answer[]
-  votes   QuestionVote[]
+  authorId  String
+  subject   Subject?       @relation(fields: [subjectId], references: [id])
+  author    User           @relation(fields: [authorId], references: [id])
+  answers   Answer[]
+  votes     QuestionVote[]
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        String     @id @default(cuid())
   title     String
   content   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  subject   Subject @relation(fields: [subjectId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   subjectId String
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  comments Comment[]
-  votes    PostVote[]
-  tipus    TipusType
-  year     Int
+  authorId  String
+  tipus     TipusType
+  year      Int
+  subject   Subject    @relation(fields: [subjectId], references: [id])
+  author    User       @relation(fields: [authorId], references: [id])
+  comments  Comment[]
+  votes     PostVote[]
 }
 
 model Answer {
-  id        String   @id @default(cuid())
-  title     String
-  content   String
-  createdAt DateTime @default(now())
-
-  question   Question @relation(fields: [questionId], references: [id])
+  id         String       @id @default(cuid())
+  title      String
+  content    String
+  createdAt  DateTime     @default(now())
   questionId String
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  votes    AnswerVote[]
-  answerId String?
-
-  accepted Boolean @default(false)
+  authorId   String
+  answerId   String?
+  accepted   Boolean      @default(false)
+  question   Question     @relation(fields: [questionId], references: [id])
+  author     User         @relation(fields: [authorId], references: [id])
+  votes      AnswerVote[]
 }
 
 model Comment {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   text      String
-  createdAt DateTime @default(now())
-
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
-
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt DateTime      @default(now())
+  postId    String
+  authorId  String
   replyToId String?
-  replies   Comment[] @relation("ReplyTo")
-
-  votes     CommentVote[]
   commentId String?
+  post      Post          @relation(fields: [postId], references: [id])
+  author    User          @relation(fields: [authorId], references: [id])
+  replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Comment[]     @relation("ReplyTo")
+  votes     CommentVote[]
 }
 
 model Subscription {
-  user      User    @relation(fields: [userId], references: [id])
   userId    String
-  subject   Subject @relation(fields: [subjectId], references: [id])
   subjectId String
+  user      User    @relation(fields: [userId], references: [id])
+  subject   Subject @relation(fields: [subjectId], references: [id])
 
   @@id([userId, subjectId])
+}
+
+model PostVote {
+  type   VoteType
+  postId String
+  userId String
+  post   Post     @relation(fields: [postId], references: [id])
+  user   User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, postId])
+}
+
+model CommentVote {
+  type      VoteType
+  commentId String
+  userId    String
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, commentId])
+}
+
+model QuestionVote {
+  type       VoteType
+  questionId String
+  userId     String
+  question   Question @relation(fields: [questionId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, questionId])
+}
+
+model AnswerVote {
+  type     VoteType
+  answerId String
+  userId   String
+  answer   Answer   @relation(fields: [answerId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, answerId])
 }
 
 enum VoteType {
@@ -186,52 +203,4 @@ enum SemesterType {
   Q7
   Q8
   ALTRES
-}
-
-model PostVote {
-  type VoteType
-
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  @@id([userId, postId])
-}
-
-model CommentVote {
-  type VoteType
-
-  comment   Comment @relation(fields: [commentId], references: [id])
-  commentId String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  @@id([userId, commentId])
-}
-
-model QuestionVote {
-  type VoteType
-
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  @@id([userId, questionId])
-}
-
-model AnswerVote {
-  type VoteType
-
-  answer   Answer @relation(fields: [answerId], references: [id])
-  answerId String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  @@id([userId, answerId])
 }

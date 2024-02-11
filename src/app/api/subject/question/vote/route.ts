@@ -151,6 +151,6 @@ export async function PATCH(req: Request) {
 			return new Response(error.message, { status: 400 });
 		}
 
-		return new Response("Could not vote at this time. Please try later", { status: 500 });
+		return new Response(error.message, { status: 500 });
 	}
 }

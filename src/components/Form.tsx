@@ -55,8 +55,7 @@ export function ProfileForm() {
 			});
 		},
 		onSuccess: (subjectAcronym) => {
-			const newPathname = pathname.replace("/submit", `/${subjectAcronym}`);
-			router.push(newPathname);
+			router.push(`/${subjectAcronym}`);
 			router.refresh();
 
 			return toast({

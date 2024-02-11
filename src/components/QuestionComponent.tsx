@@ -1,20 +1,20 @@
 "use client";
 
 import { formatTimeToNow } from "@/lib/utils";
-import { Question, User, Vote } from "@prisma/client";
+import { Question, User, QuestionVote } from "@prisma/client";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC, useRef } from "react";
-import EditorOutput from "@/components/EditorOutput";
+import EditorOutput from "./EditorOutput";
 import QuestionVoteClient from "./votes/QuestionVoteClient";
 import { useRouter } from "next/navigation";
 
-type PartialVote = Pick<Vote, "type">;
+type PartialVote = Pick<QuestionVote, "type">;
 
 interface QuestionProps {
 	question: Question & {
 		author: User;
-		votes: Vote[];
+		votes: QuestionVote[];
 	};
 	votesAmt: number;
 	subjectName: string;
@@ -23,7 +23,7 @@ interface QuestionProps {
 	subjectAcronym: string;
 }
 
-const QuestionComponent: FC<QuestionProps> = ({
+const Question: FC<QuestionProps> = ({
 	question,
 	votesAmt: _votesAmt,
 	currentVote: _currentVote,
@@ -84,4 +84,4 @@ const QuestionComponent: FC<QuestionProps> = ({
 		</div>
 	);
 };
-export default QuestionComponent;
+export default Question;
