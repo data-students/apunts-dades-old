@@ -8,6 +8,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FC, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
+import AnswerComponent from "@/components/AnswerComponent";
 
 interface AnswerFeedProps {
 	initialAnswers: ExtendedAnswer[];
@@ -66,9 +67,8 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName }) => {
 						<li
 							key={answer.id}
 							ref={ref}>
-							<Answer
+							<AnswerComponent
 								answer={answer}
-								answerAmt={answer.answers.length}
 								subjectName={answer.subject.name}
 								votesAmt={votesAmt}
 								currentVote={currentVote}
@@ -78,7 +78,7 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName }) => {
 					);
 				} else {
 					return (
-						<Answer
+						<AnswerComponent
 							key={answer.id}
 							answer={answer}
 							answerAmt={answer.answers.length}
