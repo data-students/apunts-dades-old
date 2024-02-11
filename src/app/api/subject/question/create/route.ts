@@ -15,23 +15,12 @@ export async function POST(req: Request) {
 
 		const { title, subjectId, content } = QuestionValidator.parse(body);
 
-		const subscriptionExists = await db.subscription.findFirst({
-			where: {
-				subjectId,
-				userId: session.user.id,
-			},
-		});
-
-		if (!subscriptionExists) {
-			return new Response("Subscription required", { status: 400 });
-		}
-
 		const createdQuestion = await db.question.create({
 			data: {
-                title: title,
+				title: title,
 				content: content,
 				authorId: session.user.id,
-                subjectId: subjectId,
+				subjectId: subjectId,
 			},
 		});
 
@@ -42,7 +31,7 @@ export async function POST(req: Request) {
 		if (error instanceof z.ZodError) {
 			return new Response(error.message, { status: 422 });
 		}
-        console.log(error);
+		console.log(error);
 		return new Response("Could not create post, please try again", { status: 500 });
 	}
 }

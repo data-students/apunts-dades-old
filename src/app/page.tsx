@@ -1,16 +1,53 @@
+import CustomFeed from "@/components/CustomFeed";
 import { buttonVariants } from "@/components/ui/Button";
+import { getAuthSession } from "@/lib/auth";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function Home() {
+import { db } from "@/lib/db";
+import { BookIcon } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
+import { cn } from "@/lib/utils";
+
+export default async function Home() {
+	const session = await getAuthSession();
+
+	const subjects = await db.subject.findMany({
+		select: {
+			acronym: true,
+			name: true,
+			semester: true,
+		},
+	});
+
+	function semesterColor(semester: string) {
+		switch (semester) {
+			case "Q1":
+				return "bg-emerald-100";
+			case "Q2":
+				return "bg-rose-100";
+			case "Q3":
+				return "bg-cyan-100";
+			case "Q4":
+				return "bg-amber-100";
+			case "Q5":
+				return "bg-violet-100";
+			case "Q6":
+				return "bg-blue-100";
+			default:
+				return "bg-gray-100";
+		}
+	}
+
 	return (
 		<>
 			<h1 className="font-bold text-3xl md:text-4xl">El teu espai</h1>
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
-				{/* Feed */}
+				{/* Feed
+				{session ? <CustomFeed /> : null} */}
 
 				{/* subjects info */}
-				<div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
+				{/* <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last mb-4">
 					<div className="bg-emerald-100 px-6 py-4">
 						<p className="font-semibold py-3 flex items-center gap-1.5">
 							<HomeIcon className="w-4 h-4" />
@@ -34,7 +71,30 @@ export default function Home() {
 							Crea una assignatura
 						</Link>
 					</div>
-				</div>
+				</div> */}
+				{subjects.map((subject, index) => {
+					return (
+						<div>
+							<Link
+								className="w-full mt-4 mb-6"
+								href={`/${subject.acronym}`}>
+								<div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
+									<div className={cn("px-6 py-2", semesterColor(subject.semester))}>
+										<p className="font-semibold py-1 flex items-center gap-1.5">
+											<BookIcon className="w-4 h-4" />
+											{subject.name}
+										</p>
+									</div>
+
+									<div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6 space-x-2">
+										<Badge variant="outline">{subject.semester}</Badge>
+										<Badge variant="outline">{subject.acronym}</Badge>
+									</div>
+								</div>
+							</Link>
+						</div>
+					);
+				})}
 			</div>
 		</>
 	);
