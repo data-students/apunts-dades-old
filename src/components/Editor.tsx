@@ -28,7 +28,9 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
     resolver: zodResolver(QuestionValidator),
     defaultValues: {
       subjectId,
-      title: `${contentType === "question" ? "Pregunta" : "Resposta"} ${new Date().toLocaleDateString()}`,
+      title: `${
+        contentType === "question" ? "Pregunta" : "Resposta"
+      } ${new Date().toLocaleDateString()}`,
       content: null,
     },
   });
@@ -116,47 +118,47 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
     }
   }, [isMounted, initializeEditor]);
 
-const { mutate: createQuestion } = useMutation({
-	mutationFn: async ({
-		title,
-		content,
-		subjectId,
-	}: QuestionCreationRequest) => {
-		const payload: QuestionCreationRequest = {
-			title,
-			content,
-			subjectId,
-		};
+  const { mutate: createQuestion } = useMutation({
+    mutationFn: async ({
+      title,
+      content,
+      subjectId,
+    }: QuestionCreationRequest) => {
+      const payload: QuestionCreationRequest = {
+        title,
+        content,
+        subjectId,
+      };
 
-		const { data } = await axios.post(
-			`/api/subject/${contentType}/create`,
-			payload
-		);
-		return data;
-	},
-	onError: () => {
-		toast({
-			title: "Alguna cosa no ha anat bé",
-			description: `No s'ha pogut crear la ${
-				contentType === "question" ? "pregunta" : "reposta"
-			}. Torna-ho a provar més tard.`,
-			variant: "destructive",
-		});
-	},
-	onSuccess: (data) => {
-		// return new Response(JSON.stringify(createdQuestionId), { status: 201 });
-		const questionId = data as string;
-		const newPathname = pathname.replace("/q", `/q/${questionId}`);
-		router.push(newPathname);
-		router.refresh();
+      const { data } = await axios.post(
+        `/api/subject/${contentType}/create`,
+        payload
+      );
+      return data;
+    },
+    onError: () => {
+      toast({
+        title: "Alguna cosa no ha anat bé",
+        description: `No s'ha pogut crear la ${
+          contentType === "question" ? "pregunta" : "reposta"
+        }. Torna-ho a provar més tard.`,
+        variant: "destructive",
+      });
+    },
+    onSuccess: (data) => {
+      // return new Response(JSON.stringify(createdQuestionId), { status: 201 });
+      const questionId = data as string;
+      const newPathname = pathname.replace("/q", `/q/${questionId}`);
+      router.push(newPathname);
+      router.refresh();
 
-		return toast({
-			description: `La teva ${
-				contentType === "question" ? "pregunta" : "reposta"
-			} s'ha creat correctament`,
-		});
-	},
-});
+      return toast({
+        description: `La teva ${
+          contentType === "question" ? "pregunta" : "reposta"
+        } s'ha creat correctament`,
+      });
+    },
+  });
 
   async function onSubmit(data: QuestionCreationRequest) {
     const blocks = await ref.current?.save();
@@ -175,15 +177,14 @@ const { mutate: createQuestion } = useMutation({
   }
 
   const { ref: titleRef, ...rest } = register("title");
-
   return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200 h-full">
       <form
         id="subject-question-form"
-        className="w-fit"
+        className="w-fit h-full"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="prose prose-stone dark:prose-invert">
+        <div className="prose prose-stone dark:prose-invert h-full">
           <TextareaAutosize
             ref={(e) => {
               titleRef(e);
@@ -191,10 +192,9 @@ const { mutate: createQuestion } = useMutation({
               _titleRef.current = e;
             }}
             placeholder="Títol"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-xl font-bold focus:outline-none h-12"
           />
-
-          <div id="editor" className="min-h-[500px]"></div>
+          <div id="editor" className="min-h-[500px] h-full"></div>
         </div>
       </form>
     </div>

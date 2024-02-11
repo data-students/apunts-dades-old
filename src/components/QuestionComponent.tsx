@@ -5,7 +5,7 @@ import { Question, User, Vote } from "@prisma/client";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC, useRef } from "react";
-import EditorOutput from "./EditorOutput";
+import EditorOutput from "@/components/EditorOutput";
 import QuestionVoteClient from "./post-vote/PostVoteClient";
 
 type PartialVote = Pick<Vote, "type">;
@@ -22,7 +22,7 @@ interface QuestionProps {
 	subjectAcronym: string;
 }
 
-const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVote: _currentVote, subjectName, answerAmt, subjectAcronym}) => {
+const QuestionComponent: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVote: _currentVote, subjectName, answerAmt, subjectAcronym}) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
 
 	return (
@@ -70,4 +70,4 @@ const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVot
 		</div>
 	);
 };
-export default Question;
+export default QuestionComponent;
