@@ -5,7 +5,7 @@ import { Question, User, Vote } from "@prisma/client";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC, useRef } from "react";
-import EditorOutput from "./EditorOutput";
+import EditorOutput from "@/components/EditorOutput";
 import QuestionVoteClient from "./votes/QuestionVoteClient";
 import { useRouter } from "next/navigation";
 
@@ -23,7 +23,7 @@ interface QuestionProps {
 	subjectAcronym: string;
 }
 
-const Question: FC<QuestionProps> = ({
+const QuestionComponent: FC<QuestionProps> = ({
 	question,
 	votesAmt: _votesAmt,
 	currentVote: _currentVote,
