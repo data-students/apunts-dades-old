@@ -15,17 +15,6 @@ export async function POST(req: Request) {
 
 		const { subjectId, title, content } = PostValidator.parse(body);
 
-		const subscriptionExists = await db.subscription.findFirst({
-			where: {
-				subjectId,
-				userId: session.user.id,
-			},
-		});
-
-		if (!subscriptionExists) {
-			return new Response("Subscription required", { status: 400 });
-		}
-
 		await db.post.create({
 			data: {
 				subjectId,
