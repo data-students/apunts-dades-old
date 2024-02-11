@@ -1,15 +1,15 @@
-import { Post, Subject, Vote, User, Comment, Question, Answer } from "@prisma/client";
+import { Post, Subject, PostVote, QuestionVote, User, Comment, Question, Answer } from "@prisma/client";
 
 export type ExtendedPost = Post & {
 	subject: Subject;
-	votes: Vote[];
+	votes: PostVote[];
 	author: User;
 	comments: Comment[];
 };
 
 export type ExtendedQuestion = Question & {
 	subject: Subject;
-	votes: Vote[];
+	votes: QuestionVote[];
 	author: User;
 	answers: Answer[];
 };

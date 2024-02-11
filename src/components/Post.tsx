@@ -1,21 +1,21 @@
 "use client";
 
 import { formatTimeToNow } from "@/lib/utils";
-import { Post, User, Vote } from "@prisma/client";
+import { Post, User, PostVote } from "@prisma/client";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/Button";
 import { FC, useRef } from "react";
-import PostVoteClient from "./post-vote/PostVoteClient";
+import PostVoteClient from "./votes/PostVoteClient";
 import { Badge } from "@/components/ui/Badge";
 import { useRouter } from "next/navigation";
 
-type PartialVote = Pick<Vote, "type">;
+type PartialVote = Pick<PostVote, "type">;
 
 interface PostProps {
 	post: Post & {
 		author: User;
-		votes: Vote[];
+		votes: PostVote[];
 	};
 	votesAmt: number;
 	subjectAcronym: string;

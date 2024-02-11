@@ -1,8 +1,8 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redis } from "@/lib/redis";
-import { PostVoteValidator } from "@/lib/validators/vote";
-import { CachedPost } from "@/types/redis";
+import { QuestionVoteValidator } from "@/lib/validators/vote";
+import { CachedQuestion } from "@/types/redis";
 import { z } from "zod";
 
 const CACHE_AFTER_UPVOTES = 1;
@@ -11,7 +11,7 @@ export async function PATCH(req: Request) {
 	try {
 		const body = await req.json();
 
-		const { postId, voteType } = PostVoteValidator.parse(body);
+		const { questionId, voteType } = QuestionVoteValidator.parse(body);
 
 		const session = await getAuthSession();
 
@@ -19,17 +19,17 @@ export async function PATCH(req: Request) {
 			return new Response("Unauthorized", { status: 401 });
 		}
 
-		// check if user has already voted on this post
-		const existingVote = await db.postVote.findFirst({
+		// check if user has already voted on this question
+		const existingVote = await db.questionVote.findFirst({
 			where: {
 				userId: session.user.id,
-				postId,
+				questionId,
 			},
 		});
 
-		const post = await db.post.findUnique({
+		const question = await db.question.findUnique({
 			where: {
-				id: postId,
+				id: questionId,
 			},
 			include: {
 				author: true,
@@ -37,50 +37,51 @@ export async function PATCH(req: Request) {
 			},
 		});
 
-		if (!post) {
-			return new Response("Post not found", { status: 404 });
+		if (!question) {
+			return new Response("Question not found", { status: 404 });
 		}
 
 		if (existingVote) {
 			// if vote type is the same as existing vote, delete the vote
 			if (existingVote.type === voteType) {
-				await db.postVote.delete({
+				await db.questionVote.delete({
 					where: {
-						userId_postId: {
-							postId,
+						userId_questionId: {
+							questionId,
 							userId: session.user.id,
 						},
 					},
 				});
 
 				// Recount the votes
-				const votesAmt = post.votes.reduce((acc, vote) => {
+				const votesAmt = question.votes.reduce((acc, vote) => {
 					if (vote.type === "UP") return acc + 1;
 					if (vote.type === "DOWN") return acc - 1;
 					return acc;
 				}, 0);
 
 				if (votesAmt >= CACHE_AFTER_UPVOTES) {
-					const cachePayload: CachedPost = {
-						authorUsername: post.author.username ?? "",
-						content: post.content,
-						id: post.id,
-						title: post.title,
+					const cachePayload: CachedQuestion = {
+						authorUsername: question.author.username ?? "",
+						content: question.content,
+						id: question.id,
+						title: question.title,
 						currentVote: null,
-						createdAt: post.createdAt,
+						createdAt: question.createdAt,
+						accepted: question.accepted,
 					};
 
-					await redis.hset(`post:${postId}`, cachePayload); // Store the post data as a hash
+					await redis.hset(`question:${questionId}`, cachePayload); // Store the question data as a hash
 				}
 
 				return new Response("OK");
 			}
 
 			// if vote type is different, update the vote
-			await db.postVote.update({
+			await db.questionVote.update({
 				where: {
-					userId_postId: {
-						postId,
+					userId_questionId: {
+						questionId,
 						userId: session.user.id,
 					},
 				},
@@ -90,55 +91,57 @@ export async function PATCH(req: Request) {
 			});
 
 			// Recount the votes
-			const votesAmt = post.votes.reduce((acc, vote) => {
+			const votesAmt = question.votes.reduce((acc, vote) => {
 				if (vote.type === "UP") return acc + 1;
 				if (vote.type === "DOWN") return acc - 1;
 				return acc;
 			}, 0);
 
 			if (votesAmt >= CACHE_AFTER_UPVOTES) {
-				const cachePayload: CachedPost = {
-					authorUsername: post.author.username ?? "",
-					content: post.content,
-					id: post.id,
-					title: post.title,
+				const cachePayload: CachedQuestion = {
+					authorUsername: question.author.username ?? "",
+					content: question.content,
+					id: question.id,
+					title: question.title,
 					currentVote: voteType,
-					createdAt: post.createdAt,
+					createdAt: question.createdAt,
+					accepted: question.accepted,
 				};
 
-				await redis.hset(`post:${postId}`, cachePayload); // Store the post data as a hash
+				await redis.hset(`question:${questionId}`, cachePayload); // Store the question data as a hash
 			}
 
 			return new Response("OK");
 		}
 
 		// if no existing vote, create a new vote
-		await db.postVote.create({
+		await db.questionVote.create({
 			data: {
 				type: voteType,
 				userId: session.user.id,
-				postId,
+				questionId,
 			},
 		});
 
 		// Recount the votes
-		const votesAmt = post.votes.reduce((acc, vote) => {
+		const votesAmt = question.votes.reduce((acc, vote) => {
 			if (vote.type === "UP") return acc + 1;
 			if (vote.type === "DOWN") return acc - 1;
 			return acc;
 		}, 0);
 
 		if (votesAmt >= CACHE_AFTER_UPVOTES) {
-			const cachePayload: CachedPost = {
-				authorUsername: post.author.username ?? "",
-				content: JSON.stringify(post.content),
-				id: post.id,
-				title: post.title,
+			const cachePayload: CachedQuestion = {
+				authorUsername: question.author.username ?? "",
+				content: JSON.stringify(question.content),
+				id: question.id,
+				title: question.title,
 				currentVote: voteType,
-				createdAt: post.createdAt,
+				createdAt: question.createdAt,
+				accepted: question.accepted,
 			};
 
-			await redis.hset(`post:${postId}`, cachePayload); // Store the post data as a hash
+			await redis.hset(`question:${questionId}`, cachePayload); // Store the question data as a hash
 		}
 
 		return new Response("OK");

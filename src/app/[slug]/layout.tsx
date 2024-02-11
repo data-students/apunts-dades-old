@@ -141,7 +141,7 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 							</Link>
 
 							<Link
-								href={`/${slug}/q/submit`}
+								href={`/${slug}/q`}
 								className={buttonVariants({ variant: "outline", className: "w-full mb-6" })}>
 								Llança una pregunta
 							</Link>

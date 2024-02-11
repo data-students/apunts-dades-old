@@ -6,7 +6,8 @@ import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
-import QuestionVoteClient from "./post-vote/PostVoteClient";
+import QuestionVoteClient from "./votes/QuestionVoteClient";
+import { useRouter } from "next/navigation";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -22,13 +23,26 @@ interface QuestionProps {
 	subjectAcronym: string;
 }
 
-const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVote: _currentVote, subjectName, answerAmt, subjectAcronym}) => {
+const Question: FC<QuestionProps> = ({
+	question,
+	votesAmt: _votesAmt,
+	currentVote: _currentVote,
+	subjectName,
+	answerAmt,
+	subjectAcronym,
+}) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
+
+	const router = useRouter();
 
 	return (
 		<div className="rounded-md bg-white shadow">
 			<div className="px-6 py-4 flex justify-between">
-				{/* TODO: <PostVoteClient/> */}
+				<QuestionVoteClient
+					initialVotesAmt={_votesAmt}
+					questionId={question.id}
+					initialVote={_currentVote?.type}
+				/>
 
 				<div className="w-0 flex-1">
 					<div className="max-h-40 mt-1 text-xs text-gray-500">
@@ -36,13 +50,13 @@ const Question: FC<QuestionProps> = ({ question, votesAmt: _votesAmt, currentVot
 							<>
 								<a
 									className="underline text-zinc-900 text-sm underline-offset-2"
-									href={`/${subjectName}`}>
-									{subjectName}
+									href={`/${subjectAcronym}`}>
+									{subjectAcronym}
 								</a>
 								<span className="px-1">•</span>
 							</>
 						) : null}
-						<span>Compartit per {question.author.username}</span> {formatTimeToNow(new Date(question.createdAt))}
+						<span>Compartit per {question.author.name}</span> {formatTimeToNow(new Date(question.createdAt))}
 					</div>
 					<a href={`/${subjectAcronym}/q/${question.id}`}>
 						<h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">{question.title}</h1>

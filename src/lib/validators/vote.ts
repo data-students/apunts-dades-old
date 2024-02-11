@@ -13,3 +13,17 @@ export const CommentVoteValidator = z.object({
 });
 
 export type CommentVoteRequest = z.infer<typeof CommentVoteValidator>;
+
+export const QuestionVoteValidator = z.object({
+	questionId: z.string(),
+	voteType: z.enum(["UP", "DOWN"]),
+});
+
+export type QuestionVoteRequest = z.infer<typeof QuestionVoteValidator>;
+
+export const AnswerVoteValidator = z.object({
+	answerId: z.string(),
+	voteType: z.enum(["UP", "DOWN"]),
+});
+
+export type AnswerVoteRequest = z.infer<typeof AnswerVoteValidator>;
