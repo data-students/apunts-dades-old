@@ -13,3 +13,8 @@ export type ExtendedQuestion = Question & {
 	author: User;
 	answers: Answer[];
 };
+
+export type ExtendedAnswer = Answer & {
+	subject: Subject;
+	votes: Vote[];
+};

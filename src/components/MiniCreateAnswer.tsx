@@ -6,11 +6,11 @@ import { FC } from "react";
 import UserAvatar from "./UserAvatar";
 import Editor from "@/components/Editor";
 
-interface MiniCreateQuestionProps {
+interface MiniCreateAnswer {
   session: Session | null;
   subjectId: string;
 }
-const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
+const MiniCreateAnswer: FC<MiniCreateAnswer> = ({
   session,
   subjectId,
 }) => {
@@ -30,7 +30,7 @@ const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
           {/* form */}
           <div className="flex-grow">
             <div className="h-full">
-              <Editor subjectId={subjectId} contentType={"question"}/>
+              <Editor subjectId={subjectId} contentType={"answer"}/>
             </div>
           </div>
         </div>
@@ -45,4 +45,4 @@ const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
   );
 };
 
-export default MiniCreateQuestion;
+export default MiniCreateAnswer;

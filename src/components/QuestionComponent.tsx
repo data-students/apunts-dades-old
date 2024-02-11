@@ -84,4 +84,4 @@ const Question: FC<QuestionProps> = ({
 		</div>
 	);
 };
-export default Question;
+export default QuestionComponent;
