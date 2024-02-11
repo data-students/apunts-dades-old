@@ -13,4 +13,4 @@
 - Fer que el component del layout s'amagui.
 - Crear credencials AED.
 - Canviar el Logo del pa de motlle.
-
+- Confeti quan penges apunts
