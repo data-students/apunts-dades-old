@@ -15,6 +15,7 @@ export type ExtendedQuestion = Question & {
 };
 
 export type ExtendedAnswer = Answer & {
-	subject: Subject;
+	question: Question;
 	votes: Vote[];
+	author: User;
 };

@@ -2,12 +2,9 @@
 
 import { formatTimeToNow } from "@/lib/utils";
 import { Answer, User, AnswerVote } from "@prisma/client";
-import { MessageSquare } from "lucide-react";
-import Link from "next/link";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
-import AnswerVoteClient from "./votes/AnswerVoteClient";
-import { useRouter } from "next/navigation";
+// import AnswerVoteClient from "./votes/AnswerVoteClient";
 
 type PartialVote = Pick<AnswerVote, "type">;
 
@@ -19,8 +16,8 @@ interface AnswerProps {
 	votesAmt: number;
 	subjectName: string;
 	currentVote?: PartialVote;
-	answerAmt: number;
 	subjectAcronym: string;
+	questionId: string;
 }
 
 const AnswerComponent: FC<AnswerProps> = ({
@@ -28,21 +25,19 @@ const AnswerComponent: FC<AnswerProps> = ({
 	votesAmt: _votesAmt,
 	currentVote: _currentVote,
 	subjectName,
-	answerAmt,
 	subjectAcronym,
+	questionId,
 }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
-
-	const router = useRouter();
 
 	return (
 		<div className="rounded-md bg-white shadow">
 			<div className="px-6 py-4 flex justify-between">
-				<AnswerVoteClient
+				{/* <AnswerVoteClient
 					initialVotesAmt={_votesAmt}
 					answerId={answer.id}
 					initialVote={_currentVote?.type}
-				/>
+				/> */}
 
 				<div className="w-0 flex-1">
 					<div className="max-h-40 mt-1 text-xs text-gray-500">
@@ -58,7 +53,7 @@ const AnswerComponent: FC<AnswerProps> = ({
 						) : null}
 						<span>Compartit per {answer.author.name}</span> {formatTimeToNow(new Date(answer.createdAt))}
 					</div>
-					<a href={`/${subjectAcronym}/q/${answer.id}`}>
+					<a href={`/${subjectAcronym}/q/${questionId}`}>
 						<h1 className="text-lg font-semibold py-2 leading-6 text-gray-900">{answer.title}</h1>
 					</a>
 
@@ -72,14 +67,6 @@ const AnswerComponent: FC<AnswerProps> = ({
 						) : null}
 					</div>
 				</div>
-			</div>
-
-			<div className="bg-gray-50 z-20 text-sm px-4 py-4 sm:px-6">
-				<Link
-					href={`/${subjectName}/q/${answer.id}`}
-					className="w-fit flex items-center gap-2">
-					<MessageSquare className="h-4 w-4" /> {answerAmt} answers
-				</Link>
 			</div>
 		</div>
 	);

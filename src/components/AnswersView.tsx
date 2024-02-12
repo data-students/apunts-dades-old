@@ -33,11 +33,11 @@ export const AnswersView: FC<AnswersViewProps> = ({ question }) => {
         />
       </div>
       <div className="mt-4">
-        <MiniCreateAnswer session={session} subjectId={question.subject.id} />
+        <MiniCreateAnswer session={session} subjectId={question.subject.id} questionId={question.id}/>
       </div>
-      {/* <div>
-        <AnswerFeed initialAnswers={answers} />
-      </div> */}
+      <div>
+        <AnswerFeed initialAnswers={answers} subjectAcronym={question.subject.acronym} subjectName={question.subject.name} questionId={question.id}/>
+      </div>
     </div>
   );
 };

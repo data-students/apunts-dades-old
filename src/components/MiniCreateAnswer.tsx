@@ -9,10 +9,12 @@ import Editor from "@/components/Editor";
 interface MiniCreateAnswer {
   session: Session | null;
   subjectId: string;
+  questionId: string;
 }
 const MiniCreateAnswer: FC<MiniCreateAnswer> = ({
   session,
   subjectId,
+  questionId,
 }) => {
   return (
     <div className="overflow-hidden rounded-md bg-white shadow">
@@ -30,7 +32,7 @@ const MiniCreateAnswer: FC<MiniCreateAnswer> = ({
           {/* form */}
           <div className="flex-grow">
             <div className="h-full">
-              <Editor subjectId={subjectId} contentType={"answer"}/>
+              <Editor subjectId={subjectId} contentType={"answer"} questionId={questionId}/>
             </div>
           </div>
         </div>

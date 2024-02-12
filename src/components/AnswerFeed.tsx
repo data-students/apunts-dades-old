@@ -12,10 +12,12 @@ import AnswerComponent from "@/components/AnswerComponent";
 
 interface AnswerFeedProps {
 	initialAnswers: ExtendedAnswer[];
-	subjectName?: string;
+	subjectName: string;
+	subjectAcronym: string;
+	questionId: string;
 }
 
-const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName }) => {
+const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectAcronym, questionId }) => {
 	const lastAnswerRef = useRef<HTMLElement>(null);
 	const { ref, entry } = useIntersection({
 		root: lastAnswerRef.current,
@@ -27,9 +29,9 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName }) => {
 		["infinite-query"],
 		async ({ pageParam = 1 }) => {
 			const query =
-				`/api/q?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-				(!!subjectName ? `&subjectName=${subjectName}` : "");
-
+				`/api/a?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
+				(!!subjectName ? `&subjectName=${subjectName}` : "") +
+				(!!questionId ? `&questionId=${questionId}` : "");
 			const { data } = await axios.get(query);
 			return data as ExtendedAnswer[];
 		},
@@ -68,24 +70,25 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName }) => {
 							key={answer.id}
 							ref={ref}>
 							<AnswerComponent
+								subjectName={subjectName}
+								subjectAcronym={subjectAcronym}
 								answer={answer}
-								subjectName={answer.subject.name}
 								votesAmt={votesAmt}
 								currentVote={currentVote}
-								subjectAcronym={answer.subject.acronym}
+								questionId={questionId}
 							/>
 						</li>
 					);
 				} else {
 					return (
 						<AnswerComponent
+							subjectName={subjectName}
+							subjectAcronym={subjectAcronym}
 							key={answer.id}
 							answer={answer}
-							answerAmt={answer.answers.length}
-							subjectName={answer.subject.name}
 							votesAmt={votesAmt}
 							currentVote={currentVote}
-							subjectAcronym={answer.subject.acronym}
+							questionId={questionId}
 						/>
 					);
 				}
