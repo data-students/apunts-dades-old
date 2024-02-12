@@ -29,7 +29,7 @@ const CommentFeed: FC<CommentFeedProps> = ({ initialComments, subjectName, subje
 		["infinite-query"],
 		async ({ pageParam = 1 }) => {
 			const query =
-				`/api/c?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
+				`/api/comments?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
 				(!!subjectName ? `&subjectName=${subjectName}` : "") +
 				(!!postId ? `&postId=${postId}` : "");
 			const { data } = await axios.get(query);

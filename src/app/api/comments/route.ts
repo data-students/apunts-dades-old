@@ -23,18 +23,18 @@ export async function GET(req: Request) {
 	}
 
 	try {
-		const { limit, page, subjectName, questionId } = z
+		const { limit, page, subjectName, postId } = z
 			.object({
 				limit: z.string(),
 				page: z.string(),
 				subjectName: z.string().nullish().optional(),
-                questionId: z.string().nullish().optional(),
+                postId: z.string().nullish().optional(),
 			})
 			.parse({
 				subjectName: url.searchParams.get("subjectName"),
 				limit: url.searchParams.get("limit"),
 				page: url.searchParams.get("page"),
-                questionId: url.searchParams.get("questionId"),
+                postId: url.searchParams.get("postId"),
 			});
 
 		let whereClause = {};
@@ -54,15 +54,15 @@ export async function GET(req: Request) {
 				},
 			};
 		}
-        if (questionId) {
+        if (postId) {
             whereClause = {
-                question: {
-                    id: questionId,
+                post: {
+                    id: postId,
                 },
             };
         }
 
-        const answers = await db.answer.findMany({
+        const comments = await db.comment.findMany({
             take: parseInt(limit),
             skip: (parseInt(page) - 1) * parseInt(limit), // skip should start from 0 for page 1
             orderBy: {
@@ -71,12 +71,12 @@ export async function GET(req: Request) {
             include: {
                 votes: true,
                 author: true,
-                question: true,
+                post: true,
             },
             where: whereClause,
         });
-		return new Response(JSON.stringify(answers));
+		return new Response(JSON.stringify(comments));
 	} catch (error) {
-		return new Response("Could not fetch answers", { status: 500 });
+		return new Response("Could not fetch comments", { status: 500 });
 	}
 }

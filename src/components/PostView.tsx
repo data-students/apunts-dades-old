@@ -31,14 +31,14 @@ export const PostView: FC<PostViewProps> = ({ post }) => {
       <div className="mt-4">
         <MiniCreateComment session={session} postId={post.id} />
       </div>
-      {/* <div>
+      <div className="mt-4">
         <CommentFeed
           initialComments={comments}
           subjectAcronym={post.subject.acronym}
           subjectName={post.subject.name}
           postId={post.id}
         />
-      </div> */}
+      </div>
     </div>
   );
 };
