@@ -9,6 +9,11 @@ export const PostValidator = z.object({
 	content: z.any(),
 });
 
+export const CommentValidator = z.object({
+	content: z.string().min(1).max(2048),
+	postId: z.string(),
+});
+
 export const ApuntsPostValidator = z.object({
 	pdf: z.any(),
 	title: z.string(),

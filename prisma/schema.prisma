@@ -118,7 +118,7 @@ model Answer {
 
 model Comment {
   id        String        @id @default(cuid())
-  text      String
+  content      String
   createdAt DateTime      @default(now())
   postId    String
   authorId  String

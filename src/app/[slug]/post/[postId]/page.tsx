@@ -1,26 +1,26 @@
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { AnswersView } from "@/components/QuestionView";
+import { PostView } from "@/components/PostView";
 
 interface PageProps {
   params: {
     slug: string;
-    questionId: string;
+    postId: string;
   };
 }
 
 const page = async ({ params }: PageProps) => {
-  const { slug, questionId } = params;
-  const question = await db.question.findFirst({
-    where: { id: questionId, subject: { acronym: slug } },
+  const { slug, postId } = params;
+  const post = await db.post.findFirst({
+    where: { id: postId, subject: { acronym: slug } },
     include: {
       author: true,
       votes: true,
       subject: true,
-      answers: {
+      comments: {
         include: {
-          question: true,
+          post: true,
           votes: true,
           author: true,
         },
@@ -28,10 +28,10 @@ const page = async ({ params }: PageProps) => {
       },
     },
   });
-  if (!question) return notFound();
+  if (!post) return notFound();
   return (
     <div>
-      <AnswersView question={question} />
+      <PostView post={post} />
     </div>
   );
 };
