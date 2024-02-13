@@ -62,13 +62,12 @@ export async function PATCH(req: Request) {
 
 				if (votesAmt >= CACHE_AFTER_UPVOTES) {
 					const cachePayload: CachedQuestion = {
-						authorUsername: question.author.username ?? "",
-						content: question.content,
+						authorName: question.author.name ?? "",
+						content: JSON.stringify(question.content),
 						id: question.id,
 						title: question.title,
 						currentVote: null,
 						createdAt: question.createdAt,
-						accepted: question.accepted,
 					};
 
 					await redis.hset(`question:${questionId}`, cachePayload); // Store the question data as a hash
@@ -99,13 +98,12 @@ export async function PATCH(req: Request) {
 
 			if (votesAmt >= CACHE_AFTER_UPVOTES) {
 				const cachePayload: CachedQuestion = {
-					authorUsername: question.author.username ?? "",
-					content: question.content,
+					authorName: question.author.name ?? "",
+					content: JSON.stringify(question.content),
 					id: question.id,
 					title: question.title,
 					currentVote: voteType,
 					createdAt: question.createdAt,
-					accepted: question.accepted,
 				};
 
 				await redis.hset(`question:${questionId}`, cachePayload); // Store the question data as a hash
@@ -132,13 +130,12 @@ export async function PATCH(req: Request) {
 
 		if (votesAmt >= CACHE_AFTER_UPVOTES) {
 			const cachePayload: CachedQuestion = {
-				authorUsername: question.author.username ?? "",
+				authorName: question.author.name ?? "",
 				content: JSON.stringify(question.content),
 				id: question.id,
 				title: question.title,
 				currentVote: voteType,
 				createdAt: question.createdAt,
-				accepted: question.accepted,
 			};
 
 			await redis.hset(`question:${questionId}`, cachePayload); // Store the question data as a hash
@@ -151,6 +148,6 @@ export async function PATCH(req: Request) {
 			return new Response(error.message, { status: 400 });
 		}
 
-		return new Response(error.message, { status: 500 });
+		return new Response("Internal Server Error", { status: 500 });
 	}
 }
