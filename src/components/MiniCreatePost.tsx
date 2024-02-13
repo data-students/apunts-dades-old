@@ -34,7 +34,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 
 				<Input
 					readOnly
-					onClick={() => router.push(parentPathname + "/submit")}
+					onClick={() => router.push(pathname + "/submit")}
 					placeholder="Comparteix els teus apunts"
 				/>
 

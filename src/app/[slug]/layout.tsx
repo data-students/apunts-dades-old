@@ -90,14 +90,14 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 				</a>
 
 				<a
-					href={`${slug}/`}
+					href={`/${slug}/`}
 					className={buttonVariants({ variant: "ghost" })}>
 					<FileTextIcon className="h-4 w-4 mr-2" />
 					Apunts
 				</a>
 
 				<a
-					href={`${slug}/q/`}
+					href={`/${slug}/q/`}
 					className={buttonVariants({ variant: "ghost" })}>
 					<FileQuestionIcon className="h-4 w-4 mr-2" />
 					Preguntes
