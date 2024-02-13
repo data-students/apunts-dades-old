@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import {
   QuestionCreationRequest,
   QuestionValidator,
+  AnswerCreationRequest,
+  AnswerValidator,
 } from "@/lib/validators/question";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type EditorJS from "@editorjs/editorjs";
@@ -17,21 +19,23 @@ import { usePathname, useRouter } from "next/navigation";
 interface EditorProps {
   subjectId: string;
   contentType: "question" | "answer";
+  questionId?: string;
 }
 
-const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
+const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<QuestionCreationRequest>({
-    resolver: zodResolver(QuestionValidator),
+  } = useForm<QuestionCreationRequest | AnswerCreationRequest>({
+    resolver: zodResolver(contentType === "question" ? QuestionValidator : AnswerValidator),
     defaultValues: {
       subjectId,
       title: `${
         contentType === "question" ? "Pregunta" : "Resposta"
       } ${new Date().toLocaleDateString()}`,
       content: null,
+      questionId: questionId || "", // Add questionId as a value in the form
     },
   });
 
@@ -91,7 +95,7 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
     if (Object.keys(errors).length) {
       for (const [_key, value] of Object.entries(errors)) {
         toast({
-          title: "Alguna cosa no ha anat bé",
+          title: "Alguna cosa no ha anat bé...",
           description: (value as { message: string }).message,
           variant: "destructive",
         });
@@ -118,25 +122,26 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
     }
   }, [isMounted, initializeEditor]);
 
-  const { mutate: createQuestion } = useMutation({
+  const { mutate: createContent } = useMutation({
     mutationFn: async ({
       title,
       content,
       subjectId,
-    }: QuestionCreationRequest) => {
-      const payload: QuestionCreationRequest = {
+    }: QuestionCreationRequest | AnswerCreationRequest) => {
+      const payload: QuestionCreationRequest | AnswerCreationRequest = {
         title,
         content,
         subjectId,
+        ...(contentType === "answer" && { questionId: questionId }),
       };
-
+      const apiPath = contentType === "question" ? "/api/subject/question/create" : "/api/subject/answer/create";
       const { data } = await axios.post(
-        `/api/subject/${contentType}/create`,
+        apiPath,
         payload
       );
       return data;
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         title: "Alguna cosa no ha anat bé",
         description: `No s'ha pogut crear la ${
@@ -147,9 +152,11 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
     },
     onSuccess: (data) => {
       // return new Response(JSON.stringify(createdQuestionId), { status: 201 });
-      const questionId = data as string;
-      const newPathname = pathname.replace("/q", `/q/${questionId}`);
-      router.push(newPathname);
+      if (contentType === "question") {
+        const questionId = data as string;
+        const newPathname = pathname.replace("/q", `/q/${questionId}`);
+        router.push(newPathname);
+      }
       router.refresh();
 
       return toast({
@@ -160,16 +167,16 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType }) => {
     },
   });
 
-  async function onSubmit(data: QuestionCreationRequest) {
+  async function onSubmit() {
     const blocks = await ref.current?.save();
     const title = (await _titleRef.current?.value) as string;
-    const payload: QuestionCreationRequest = {
+    const payload: QuestionCreationRequest | AnswerCreationRequest = {
       title: title,
       content: blocks,
-      subjectId,
+      subjectId: subjectId,
+      ...(contentType === "answer" && { questionId: questionId }),
     };
-
-    createQuestion(payload);
+    createContent(payload);
   }
 
   if (!isMounted) {

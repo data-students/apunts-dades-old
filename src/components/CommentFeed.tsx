@@ -1,26 +1,26 @@
 "use client";
 
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
-import { ExtendedAnswer } from "@/types/db";
+import { ExtendedComment } from "@/types/db";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { FC, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
-import AnswerComponent from "@/components/AnswerComponent";
+import CommentComponent from "@/components/CommentComponent";
 
-interface AnswerFeedProps {
-	initialAnswers: ExtendedAnswer[];
+interface CommentFeedProps {
+	initialComments: ExtendedComment[];
 	subjectName: string;
 	subjectAcronym: string;
-	questionId: string;
+	postId: string;
 }
 
-const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectAcronym, questionId }) => {
-	const lastAnswerRef = useRef<HTMLElement>(null);
+const CommentFeed: FC<CommentFeedProps> = ({ initialComments, subjectName, subjectAcronym, postId }) => {
+	const lastCommentRef = useRef<HTMLElement>(null);
 	const { ref, entry } = useIntersection({
-		root: lastAnswerRef.current,
+		root: lastCommentRef.current,
 		threshold: 1,
 	});
 	const { data: session } = useSession();
@@ -29,66 +29,66 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectA
 		["infinite-query"],
 		async ({ pageParam = 1 }) => {
 			const query =
-				`/api/a?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
+				`/api/comments?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
 				(!!subjectName ? `&subjectName=${subjectName}` : "") +
-				(!!questionId ? `&questionId=${questionId}` : "");
+				(!!postId ? `&postId=${postId}` : "");
 			const { data } = await axios.get(query);
-			return data as ExtendedAnswer[];
+			return data as ExtendedComment[];
 		},
 
 		{
 			getNextPageParam: (_, pages) => {
 				return pages.length + 1;
 			},
-			initialData: { pages: [initialAnswers], pageParams: [1] },
+			initialData: { pages: [initialComments], pageParams: [1] },
 		}
 	);
 
 	useEffect(() => {
 		if (entry?.isIntersecting) {
-			fetchNextPage(); // Load more answers when the last answer comes into view
+			fetchNextPage(); // Load more comments when the last comment comes into view
 		}
 	}, [entry, fetchNextPage]);
 
-	const answers = data?.pages.flatMap((page) => page) ?? initialAnswers;
+	const comments = data?.pages.flatMap((page) => page) ?? initialComments;
 
 	return (
 		<ul className="flex flex-col col-span-2 space-y-6">
-			{answers.map((answer, index) => {
-				const votesAmt = answer.votes.reduce((acc, vote) => {
+			{comments.map((comment, index) => {
+				const votesAmt = comment.votes.reduce((acc, vote) => {
 					if (vote.type === "UP") return acc + 1;
 					if (vote.type === "DOWN") return acc - 1;
 					return acc;
 				}, 0);
 
-				const currentVote = answer.votes.find((vote) => vote.userId === session?.user.id);
+				const currentVote = comment.votes.find((vote) => vote.userId === session?.user.id);
 
-				if (index === answers.length - 1) {
-					// Add a ref to the last answer in the list
+				if (index === comments.length - 1) {
+					// Add a ref to the last comment in the list
 					return (
 						<li
-							key={answer.id}
+							key={comment.id}
 							ref={ref}>
-							<AnswerComponent
+							<CommentComponent
 								subjectName={subjectName}
 								subjectAcronym={subjectAcronym}
-								answer={answer}
+								comment={comment}
 								votesAmt={votesAmt}
 								currentVote={currentVote}
-								questionId={questionId}
+								postId={postId}
 							/>
 						</li>
 					);
 				} else {
 					return (
-						<AnswerComponent
+						<CommentComponent
 							subjectName={subjectName}
 							subjectAcronym={subjectAcronym}
-							key={answer.id}
-							answer={answer}
+							key={comment.id}
+							comment={comment}
 							votesAmt={votesAmt}
 							currentVote={currentVote}
-							questionId={questionId}
+							postId={postId}
 						/>
 					);
 				}
@@ -103,4 +103,4 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectA
 	);
 };
 
-export default AnswerFeed;
+export default CommentFeed;

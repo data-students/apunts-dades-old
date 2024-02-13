@@ -105,7 +105,7 @@ model Post {
 model Answer {
   id         String       @id @default(cuid())
   title      String
-  content    String
+  content    Json?
   createdAt  DateTime     @default(now())
   questionId String
   authorId   String
@@ -118,7 +118,7 @@ model Answer {
 
 model Comment {
   id        String        @id @default(cuid())
-  text      String
+  content      String
   createdAt DateTime      @default(now())
   postId    String
   authorId  String
