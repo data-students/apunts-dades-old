@@ -28,13 +28,16 @@ const Navbar = async () => {
 				{/* search bar */}
 
 				{session && session.user ? (
-					<UserAccountNav user={session.user} />
+						<UserAccountNav user={session.user} />
 				) : (
-					<Link
-						href="/sign-in"
-						className={buttonVariants()}>
-						Sign In
-					</Link>
+					<div>
+						<Link href="/sign-in" className={buttonVariants()}>
+							Sign In
+						</Link>
+						<Link href="/accountrequest" className={`${buttonVariants()} ml-2`}>
+							Account Request
+						</Link>
+					</div>
 				)}
 			</div>
 		</div>
