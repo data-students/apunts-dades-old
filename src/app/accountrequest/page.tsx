@@ -6,6 +6,7 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 interface PageProps {}
 
@@ -118,7 +119,9 @@ const Page: FC<PageProps> = ({}) => {
           htmlFor="terms"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-2"
         >
-          Accept terms and conditions
+          <Link href="/privacyandterms" className="text-blue-500">
+            Accepta la Política de Privacitat i Termes de Servei
+          </Link>
         </label>
       </div>
       <Button onClick={handleSubmit} className="mt-6">
