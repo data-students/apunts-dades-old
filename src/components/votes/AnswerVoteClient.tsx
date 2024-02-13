@@ -76,7 +76,7 @@ const AnswerVoteClient = ({ answerId, initialVotesAmt, initialVote }: AnswerVote
 		},
 	});
 
-	const debouncedVote = debounce(vote, 1000);
+	const debouncedVote = debounce(vote, 1000, { leading: true, trailing: false });
 
 	return (
 		<div className="flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">

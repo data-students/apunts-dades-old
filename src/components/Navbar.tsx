@@ -14,7 +14,7 @@ const Navbar = async () => {
 				<Link
 					href="/"
 					className="flex gap-2 items-center">
-					<Icons.logo className="w-8 h-8 sm:h-6 sm:w-6" />
+					<Icons.logo className="w-10 h-10 sm:h-6 sm:w-6" />
 					{/* <Image // TODO: Hauria de ser un SVG tal i com està implementat Icons.logo
 						src="/aed.png"
 						width={1000}
