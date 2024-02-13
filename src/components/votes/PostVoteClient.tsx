@@ -11,6 +11,7 @@ import { toast } from "../../hooks/use-toast";
 import { Button } from "../ui/Button";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import debounce from "lodash.debounce";
 
 interface PostVoteClientProps {
 	postId: string;
@@ -72,11 +73,13 @@ const PostVoteClient = ({ postId, initialVotesAmt, initialVote }: PostVoteClient
 		},
 	});
 
+	const debouncedVote = debounce(vote, 1000);
+
 	return (
 		<div className="flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
 			{/* upvote */}
 			<Button
-				onClick={() => vote("UP")}
+				onClick={() => debouncedVote("UP")}
 				size="sm"
 				variant="ghost"
 				aria-label="upvote">
@@ -92,7 +95,7 @@ const PostVoteClient = ({ postId, initialVotesAmt, initialVote }: PostVoteClient
 
 			{/* downvote */}
 			<Button
-				onClick={() => vote("DOWN")}
+				onClick={() => debouncedVote("DOWN")}
 				size="sm"
 				className={cn({
 					"text-emerald-500": currentVote === "DOWN",
