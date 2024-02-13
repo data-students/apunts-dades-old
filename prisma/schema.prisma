@@ -118,12 +118,12 @@ model Answer {
 
 model Comment {
   id        String        @id @default(cuid())
-  content      String
   createdAt DateTime      @default(now())
   postId    String
   authorId  String
   replyToId String?
   commentId String?
+  content   String
   post      Post          @relation(fields: [postId], references: [id])
   author    User          @relation(fields: [authorId], references: [id])
   replyTo   Comment?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)

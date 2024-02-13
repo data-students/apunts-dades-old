@@ -1,4 +1,4 @@
-import { PostVote, QuestionVote } from "@prisma/client";
+import { PostVote, QuestionVote, AnswerVote, CommentVote } from "@prisma/client";
 
 export type CachedPost = {
 	id: string;
@@ -6,6 +6,15 @@ export type CachedPost = {
 	authorName: string;
 	content: string;
 	currentVote: PostVote["type"] | null;
+	createdAt: Date;
+};
+
+export type CachedComment = {
+	id: string;
+	title: string;
+	authorName: string;
+	content: string;
+	currentVote: CommentVote["type"] | null;
 	createdAt: Date;
 };
 
@@ -23,7 +32,6 @@ export type CachedAnswer = {
 	title: string;
 	authorName: string;
 	content: string;
-	accepted: boolean;
-	currentVote: QuestionVote["type"] | null;
+	currentVote: AnswerVote["type"] | null;
 	createdAt: Date;
 };

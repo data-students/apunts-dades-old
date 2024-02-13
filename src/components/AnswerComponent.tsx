@@ -4,7 +4,7 @@ import { formatTimeToNow } from "@/lib/utils";
 import { Answer, User, AnswerVote } from "@prisma/client";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
-// import AnswerVoteClient from "./votes/AnswerVoteClient";
+import AnswerVoteClient from "./votes/AnswerVoteClient";
 
 type PartialVote = Pick<AnswerVote, "type">;
 
@@ -33,11 +33,11 @@ const AnswerComponent: FC<AnswerProps> = ({
 	return (
 		<div className="rounded-md bg-white shadow">
 			<div className="px-6 py-4 flex justify-between">
-				{/* <AnswerVoteClient
+				<AnswerVoteClient
 					initialVotesAmt={_votesAmt}
 					answerId={answer.id}
 					initialVote={_currentVote?.type}
-				/> */}
+				/>
 
 				<div className="w-0 flex-1">
 					<div className="max-h-40 mt-1 text-xs text-gray-500">
