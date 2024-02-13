@@ -102,6 +102,7 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 					<FileQuestionIcon className="h-4 w-4 mr-2" />
 					Preguntes
 				</a>
+
 				<TooltipProvider>
 					<Tooltip>
 						<TooltipTrigger>
@@ -183,9 +184,7 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 				</TooltipProvider>
 
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
-					<div className="flex flex-col col-span-2 space-y-6">{children}</div>
-
-					{/* info sidebar */}
+					<div className="flex flex-col col-span-3 space-y-6">{children}</div>
 				</div>
 			</div>
 		</div>
