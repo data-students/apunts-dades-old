@@ -11,7 +11,6 @@ export type CachedPost = {
 
 export type CachedComment = {
 	id: string;
-	title: string;
 	authorName: string;
 	content: string;
 	currentVote: CommentVote["type"] | null;

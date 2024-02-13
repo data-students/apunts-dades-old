@@ -4,7 +4,7 @@ import { formatTimeToNow } from "@/lib/utils";
 import { Comment, User, CommentVote } from "@prisma/client";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
-// import CommentVoteClient from "./votes/CommentVoteClient";
+import CommentVoteClient from "./votes/CommentVoteClient";
 
 type PartialVote = Pick<CommentVote, "type">;
 
@@ -33,11 +33,11 @@ const CommentComponent: FC<CommentProps> = ({
 	return (
 		<div className="rounded-md bg-white shadow">
 			<div className="px-6 py-4 flex justify-between">
-				{/* <CommentVoteClient
+				<CommentVoteClient
 					initialVotesAmt={_votesAmt}
 					commentId={comment.id}
 					initialVote={_currentVote?.type}
-				/> */}
+				/>
 
 				<div className="w-0 flex-1">
 					<div className="max-h-40 mt-1 text-xs text-gray-500">
