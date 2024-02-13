@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { db } from "@/lib/db";
 import { BookIcon } from "lucide-react";
+import { HeartIcon, HeartPulseIcon } from "lucide-react"
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,18 @@ export default async function Home() {
 			semester: true,
 		},
 	});
+
+	const subscription = !session?.user
+    ? undefined
+    : await db.subscription.findFirst({
+        where: {
+          userId: session.user.id, // Suponiendo que session.user tiene la propiedad id
+          subjectId: subjects.id,
+        },
+      });
+
+  	const isSubscribed = !!subscription;
+	const ColorClass = isSubscribed ? 'text-red-500' : 'text-black';
 
 	function semesterColor(semester: string) {
 		switch (semester) {
@@ -38,6 +51,7 @@ export default async function Home() {
 				return "bg-gray-100";
 		}
 	}
+
 
 	return (
 		<>
@@ -83,6 +97,9 @@ export default async function Home() {
 										<p className="font-semibold py-1 flex items-center gap-1.5">
 											<BookIcon className="w-4 h-4" />
 											{subject.name}
+											<HeartIcon className={cn("h-5 w-5", ColorClass)} />
+
+											
 										</p>
 									</div>
 
