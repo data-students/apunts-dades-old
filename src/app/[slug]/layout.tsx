@@ -2,6 +2,7 @@ import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { HomeIcon, FileQuestionIcon, FileTextIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -81,7 +82,26 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 		<div className="sm:container max-w-7xl mx-auto h-full pt-12">
 			<div>
 				{/* TODO: Button to take us back */}
-				<Button />
+				<a
+					href={"/"}
+					className={buttonVariants({ variant: "ghost" })}>
+					<HomeIcon className="h-4 w-4 mr-2" />
+					Inici
+				</a>
+
+				<a
+					href={`${slug}/`}
+					className={buttonVariants({ variant: "ghost" })}>
+					<FileTextIcon className="h-4 w-4 mr-2" />
+					Apunts
+				</a>
+
+				<a
+					href={`${slug}/q/`}
+					className={buttonVariants({ variant: "ghost" })}>
+					<FileQuestionIcon className="h-4 w-4 mr-2" />
+					Preguntes
+				</a>
 
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
 					<div className="flex flex-col col-span-2 space-y-6">{children}</div>

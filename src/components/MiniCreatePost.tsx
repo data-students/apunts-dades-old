@@ -19,7 +19,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 	const parentPathname = pathname.split("/").slice(0, -1).join("/");
 
 	return (
-		<li className="overflow-hidden rounded-md bg-white shadow">
+		<div className="overflow-hidden rounded-md bg-white shadow">
 			<div className="h-full px-6 py-4 flex justify-between gap-6">
 				<div className="relative">
 					<UserAvatar
@@ -56,7 +56,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 					<Link2 className="text-zinc-600" />
 				</Button> */}
 			</div>
-		</li>
+		</div>
 	);
 };
 

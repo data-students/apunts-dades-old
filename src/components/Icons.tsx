@@ -11,7 +11,7 @@ export const Icons = {
 			y="0px"
 			width="100%"
 			viewBox="0 0 192 192"
-			enable-background="new 0 0 192 192">
+			enableBackground="new 0 0 192 192">
 			<path
 				fill="#000000"
 				opacity="1.000000"
