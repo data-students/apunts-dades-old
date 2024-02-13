@@ -5,6 +5,7 @@ import { Combobox } from "@/components/Combobox";
 import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface PageProps {}
 
@@ -44,8 +45,18 @@ const Page: FC<PageProps> = ({}) => {
     undefined
   );
   const [email, setEmail] = useState<string>("");
+  const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const handleSubmit = () => {
+    if (!isSelected) {
+      toast({
+        title: "Accept Privacy and Terms of Service",
+        description: "Please accept the privacy and terms of service.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     axios
       .post("/api/accountrequest", { email, selectedYear })
       .then((response) => {
@@ -91,7 +102,26 @@ const Page: FC<PageProps> = ({}) => {
         value={selectedYear}
         setValue={setSelectedYear}
       />
-      <Button onClick={handleSubmit} className="mt-4">
+      <div className="mt-6">
+        <Checkbox
+          checked={isSelected}
+          onCheckedChange={(checked) => {
+            if (checked === "indeterminate") {
+              setIsSelected(false);
+            } else {
+              setIsSelected(checked);
+            }
+          }}
+          id="terms"
+        />
+        <label
+          htmlFor="terms"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-2"
+        >
+          Accept terms and conditions
+        </label>
+      </div>
+      <Button onClick={handleSubmit} className="mt-6">
         Submit
       </Button>
     </div>
