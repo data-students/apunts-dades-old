@@ -56,6 +56,14 @@ model User {
   answerVotes     AnswerVote[]
 }
 
+model UserRequest {
+  requestId String @id @default(cuid())
+  userid        String
+  email     String
+  generacio       Int            @default(2020)
+  createdAt DateTime @default(now())
+}
+
 model Subject {
   id          String         @id @default(cuid())
   name        String         @unique
