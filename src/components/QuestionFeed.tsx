@@ -12,10 +12,10 @@ import { useSession } from "next-auth/react";
 
 interface QuestionFeedProps {
 	initialQuestions: ExtendedQuestion[];
-	subjectName?: string;
+	subjectAcronym?: string;
 }
 
-const QuestionFeed: FC<QuestionFeedProps> = ({ initialQuestions, subjectName }) => {
+const QuestionFeed: FC<QuestionFeedProps> = ({ initialQuestions, subjectAcronym }) => {
 	const lastQuestionRef = useRef<HTMLElement>(null);
 	const { ref, entry } = useIntersection({
 		root: lastQuestionRef.current,
@@ -28,7 +28,7 @@ const QuestionFeed: FC<QuestionFeedProps> = ({ initialQuestions, subjectName }) 
 		async ({ pageParam = 1 }) => {
 			const query =
 				`/api/q?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-				(!!subjectName ? `&subjectName=${subjectName}` : "");
+				(!!subjectAcronym ? `&subjectAcronym=${subjectAcronym}` : "");
 
 			const { data } = await axios.get(query);
 			return data as ExtendedQuestion[];

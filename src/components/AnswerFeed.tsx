@@ -30,7 +30,7 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectA
 		async ({ pageParam = 1 }) => {
 			const query =
 				`/api/a?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-				(!!subjectName ? `&subjectName=${subjectName}` : "") +
+				(!!subjectAcronym ? `&subjectAcronym=${subjectAcronym}` : "") +
 				(!!questionId ? `&questionId=${questionId}` : "");
 			const { data } = await axios.get(query);
 			return data as ExtendedAnswer[];

@@ -23,26 +23,26 @@ export async function GET(req: Request) {
 	}
 
 	try {
-		const { limit, page, subjectName, postId } = z
+		const { limit, page, subjectAcronym, postId } = z
 			.object({
 				limit: z.string(),
 				page: z.string(),
-				subjectName: z.string().nullish().optional(),
-                postId: z.string().nullish().optional(),
+				subjectAcronym: z.string().nullish().optional(),
+				postId: z.string().nullish().optional(),
 			})
 			.parse({
-				subjectName: url.searchParams.get("subjectName"),
+				subjectAcronym: url.searchParams.get("subjectAcronym"),
 				limit: url.searchParams.get("limit"),
 				page: url.searchParams.get("page"),
-                postId: url.searchParams.get("postId"),
+				postId: url.searchParams.get("postId"),
 			});
 
 		let whereClause = {};
 
-		if (subjectName) {
+		if (subjectAcronym) {
 			whereClause = {
 				subject: {
-					name: subjectName,
+					acronym: subjectAcronym,
 				},
 			};
 		} else if (session) {
@@ -54,27 +54,27 @@ export async function GET(req: Request) {
 				},
 			};
 		}
-        if (postId) {
-            whereClause = {
-                post: {
-                    id: postId,
-                },
-            };
-        }
+		if (postId) {
+			whereClause = {
+				post: {
+					id: postId,
+				},
+			};
+		}
 
-        const comments = await db.comment.findMany({
-            take: parseInt(limit),
-            skip: (parseInt(page) - 1) * parseInt(limit), // skip should start from 0 for page 1
-            orderBy: {
-                createdAt: "desc",
-            },
-            include: {
-                votes: true,
-                author: true,
-                post: true,
-            },
-            where: whereClause,
-        });
+		const comments = await db.comment.findMany({
+			take: parseInt(limit),
+			skip: (parseInt(page) - 1) * parseInt(limit), // skip should start from 0 for page 1
+			orderBy: {
+				createdAt: "desc",
+			},
+			include: {
+				votes: true,
+				author: true,
+				post: true,
+			},
+			where: whereClause,
+		});
 		return new Response(JSON.stringify(comments));
 	} catch (error) {
 		return new Response("Could not fetch comments", { status: 500 });

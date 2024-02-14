@@ -12,10 +12,10 @@ import { useSession } from "next-auth/react";
 
 interface PostFeedProps {
 	initialPosts: ExtendedPost[];
-	subjectName?: string;
+	subjectAcronym?: string;
 }
 
-const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectName }) => {
+const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectAcronym }) => {
 	const lastPostRef = useRef<HTMLElement>(null);
 	const { ref, entry } = useIntersection({
 		root: lastPostRef.current,
@@ -28,7 +28,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectName }) => {
 		async ({ pageParam = 1 }) => {
 			const query =
 				`/api/posts?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-				(!!subjectName ? `&subjectName=${subjectName}` : "");
+				(!!subjectAcronym ? `&subjectAcronym=${subjectAcronym}` : "");
 
 			const { data } = await axios.get(query);
 			return data as ExtendedPost[];

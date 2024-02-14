@@ -30,7 +30,7 @@ const CommentFeed: FC<CommentFeedProps> = ({ initialComments, subjectName, subje
 		async ({ pageParam = 1 }) => {
 			const query =
 				`/api/comments?limit=${INFINITE_SCROLL_PAGINATION_RESULTS}&page=${pageParam}` +
-				(!!subjectName ? `&subjectName=${subjectName}` : "") +
+				(!!subjectAcronym ? `&subjectAcronym=${subjectAcronym}` : "") +
 				(!!postId ? `&postId=${postId}` : "");
 			const { data } = await axios.get(query);
 			return data as ExtendedComment[];

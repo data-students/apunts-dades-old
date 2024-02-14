@@ -23,24 +23,24 @@ export async function GET(req: Request) {
 	}
 
 	try {
-		const { limit, page, subjectName } = z
+		const { limit, page, subjectAcronym } = z
 			.object({
 				limit: z.string(),
 				page: z.string(),
-				subjectName: z.string().nullish().optional(),
+				subjectAcronym: z.string().nullish().optional(),
 			})
 			.parse({
-				subjectName: url.searchParams.get("subjectName"),
+				subjectAcronym: url.searchParams.get("subjectAcronym"),
 				limit: url.searchParams.get("limit"),
 				page: url.searchParams.get("page"),
 			});
 
 		let whereClause = {};
 
-		if (subjectName) {
+		if (subjectAcronym) {
 			whereClause = {
 				subject: {
-					name: subjectName,
+					acronym: subjectAcronym,
 				},
 			};
 		} else if (session) {
@@ -63,7 +63,7 @@ export async function GET(req: Request) {
 				subject: true,
 				votes: true,
 				author: true,
-                answers: true,
+				answers: true,
 			},
 			where: whereClause,
 		});

@@ -46,7 +46,7 @@ const page = async ({ params }: PageProps) => {
 			{/* TODO: Show posts in user feed */}
 			<PostFeed
 				initialPosts={subject.posts}
-				subjectName={subject.name}
+				subjectAcronym={subject.acronym}
 			/>
 		</>
 	);

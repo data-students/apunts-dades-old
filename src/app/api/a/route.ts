@@ -23,26 +23,26 @@ export async function GET(req: Request) {
 	}
 
 	try {
-		const { limit, page, subjectName, questionId } = z
+		const { limit, page, subjectAcronym, questionId } = z
 			.object({
 				limit: z.string(),
 				page: z.string(),
-				subjectName: z.string().nullish().optional(),
-                questionId: z.string().nullish().optional(),
+				subjectAcronym: z.string().nullish().optional(),
+				questionId: z.string().nullish().optional(),
 			})
 			.parse({
-				subjectName: url.searchParams.get("subjectName"),
+				subjectAcronym: url.searchParams.get("subjectAcronym"),
 				limit: url.searchParams.get("limit"),
 				page: url.searchParams.get("page"),
-                questionId: url.searchParams.get("questionId"),
+				questionId: url.searchParams.get("questionId"),
 			});
 
 		let whereClause = {};
 
-		if (subjectName) {
+		if (subjectAcronym) {
 			whereClause = {
 				subject: {
-					name: subjectName,
+					acronym: subjectAcronym,
 				},
 			};
 		} else if (session) {
@@ -54,27 +54,27 @@ export async function GET(req: Request) {
 				},
 			};
 		}
-        if (questionId) {
-            whereClause = {
-                question: {
-                    id: questionId,
-                },
-            };
-        }
+		if (questionId) {
+			whereClause = {
+				question: {
+					id: questionId,
+				},
+			};
+		}
 
-        const answers = await db.answer.findMany({
-            take: parseInt(limit),
-            skip: (parseInt(page) - 1) * parseInt(limit), // skip should start from 0 for page 1
-            orderBy: {
-                createdAt: "desc",
-            },
-            include: {
-                votes: true,
-                author: true,
-                question: true,
-            },
-            where: whereClause,
-        });
+		const answers = await db.answer.findMany({
+			take: parseInt(limit),
+			skip: (parseInt(page) - 1) * parseInt(limit), // skip should start from 0 for page 1
+			orderBy: {
+				createdAt: "desc",
+			},
+			include: {
+				votes: true,
+				author: true,
+				question: true,
+			},
+			where: whereClause,
+		});
 		return new Response(JSON.stringify(answers));
 	} catch (error) {
 		return new Response("Could not fetch answers", { status: 500 });
