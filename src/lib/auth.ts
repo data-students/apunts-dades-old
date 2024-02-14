@@ -19,6 +19,19 @@ export const authOptions: NextAuthOptions = {
 		}),
 	],
 	callbacks: {
+		async signIn(params) {
+			const { profile } = params;
+			const allowedEmail = await db.user.findFirst({
+				where: {
+					email: profile.email,
+				},
+			});
+			if (!allowedEmail) {
+				return false;
+			}
+			return true;
+		},
+
 		async session({ token, session }) {
 			if (token) {
 				session.user.id = token.id;
