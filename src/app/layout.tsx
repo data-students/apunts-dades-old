@@ -13,7 +13,7 @@ export const metadata = {
 
 const inter = Inter({ subsets: ["latin"] }); // TODO: Fer servir la font de l'AED
 
-export default function RootLayout({ children, authModal }: { children: React.ReactNode; authModal: React.ReactNode }) {
+function RootLayout({ children, authModal }: { children: React.ReactNode; authModal: React.ReactNode }) {
 	return (
 		<html
 			lang="en"
@@ -33,3 +33,5 @@ export default function RootLayout({ children, authModal }: { children: React.Re
 		</html>
 	);
 }
+
+export default RootLayout;
