@@ -12,14 +12,13 @@ export async function POST(req: Request) {
 		}
 
 		const body = await req.json();
-        console.log(body);
 
 		const { content, postId } = CommentValidator.parse(body);
 
 		await db.comment.create({
 			data: {
 				content: content,
-                postId: postId,
+				postId: postId,
 				authorId: session.user.id,
 			},
 		});

@@ -82,7 +82,6 @@ export function ProfileForm() {
 			assignatura: data.assignatura,
 			tipus: data.tipus,
 		};
-		console.log(payload);
 
 		createApuntsPost(payload);
 	}
@@ -406,7 +405,6 @@ export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string })
 			assignatura: subjectAcronym,
 			tipus: data.tipus,
 		};
-		console.log(payload);
 
 		createApuntsPost(payload);
 	}

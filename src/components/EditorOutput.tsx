@@ -26,7 +26,6 @@ const style = {
 };
 
 const EditorOutput: FC<EditorOutputProps> = ({ content }) => {
-	console.log(content);
 	return (
 		<Output
 			style={style}

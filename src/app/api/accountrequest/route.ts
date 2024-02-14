@@ -12,7 +12,6 @@ export async function POST(req: Request) {
 		}
 
 		const body = await req.json();
-		console.log(body);
 		const { email, selectedYear } = AccountRequestValidator.parse(body);
 
 		// check if a request for the same email already exists
@@ -28,7 +27,7 @@ export async function POST(req: Request) {
 		await db.userRequest.create({
 			data: {
 				userid: session.user.id,
-				email:email,
+				email: email,
 				generacio: parseInt(selectedYear),
 			},
 		});

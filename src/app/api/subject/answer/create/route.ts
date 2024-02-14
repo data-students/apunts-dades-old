@@ -19,16 +19,15 @@ export async function POST(req: Request) {
 			data: {
 				title: title,
 				content: content,
-                questionId: questionId,
+				questionId: questionId,
 				authorId: session.user.id,
 			},
 		});
-        return new Response("Answer created", { status: 201 });
+		return new Response("Answer created", { status: 201 });
 	} catch (error) {
 		if (error instanceof z.ZodError) {
 			return new Response(error.message, { status: 422 });
 		}
-		console.log(error);
 		return new Response("Could not create post, please try again", { status: 500 });
 	}
 }
