@@ -26,6 +26,9 @@ const page = async ({ params }: PageProps) => {
 					comments: true,
 					subject: true,
 				},
+				orderBy: {
+					createdAt: "desc",
+				},
 
 				take: INFINITE_SCROLL_PAGINATION_RESULTS,
 			},

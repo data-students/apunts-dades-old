@@ -24,6 +24,9 @@ const page = async ({ params }: PageProps) => {
 					subject: true,
 					answers: true,
 				},
+				orderBy: {
+					createdAt: "desc",
+				},
 				take: INFINITE_SCROLL_PAGINATION_RESULTS,
 			},
 		},
