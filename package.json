@@ -69,6 +69,7 @@
     "react-hook-form": "^7.50.1",
     "react-pdf": "^7.7.0",
     "react-textarea-autosize": "^8.4.1",
+    "readline-sync": "^1.4.10",
     "server-only": "^0.0.1",
     "sharp": "^0.32.1",
     "tailwind-merge": "^1.12.0",
