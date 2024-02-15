@@ -93,9 +93,9 @@ model Question {
   content   Json?
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
-  subjectId String?
+  subjectId String
   authorId  String
-  subject   Subject?       @relation(fields: [subjectId], references: [id])
+  subject   Subject       @relation(fields: [subjectId], references: [id])
   author    User           @relation(fields: [authorId], references: [id])
   answers   Answer[]
   votes     QuestionVote[]
