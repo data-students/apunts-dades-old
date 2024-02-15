@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
 	callbacks: {
 		async signIn(params) {
 			const { profile } = params;
-			const allowedEmail = await db.user.findFirst({
+			const allowedEmail = await db.AuthorizedUsers.findFirst({
 				where: {
 					email: profile.email,
 				},
