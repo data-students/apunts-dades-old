@@ -6,10 +6,11 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ req, token }) => {
-        if (req.nextUrl.pathname.includes('/accountrequest')){
+        if (req.nextUrl.pathname && req.nextUrl.pathname.includes('/accountrequest')){
           return false
         }
         if (
+          req.nextUrl.pathname &&
           req.nextUrl.pathname.startsWith('/') &&
           !req.nextUrl.pathname.startsWith('/sign-in') &&
           token === null
