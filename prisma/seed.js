@@ -49,6 +49,7 @@ async function main() {
 	const AuthorizedUsers = await prisma.authorizedUsers.createMany({
 		data: [
 			{ email: "pau.matas@estudiantat.upc.edu", generacio: 2019 },
+			{ email: "aina.luis@estudiantat.upc.edu", generacio: 2020 },
 			{ email: "pol.puigdemont@estudiantat.upc.edu", generacio: 2020 },
 		],
 		skipDuplicates: true,
