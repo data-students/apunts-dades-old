@@ -65,6 +65,12 @@ model UserRequest {
   verified Boolean @default(false)
 }
 
+model AuthorizedUsers {
+  email String @id
+  generacio Int
+  createdAt DateTime @default(now())
+}
+
 model Subject {
   id          String         @id @default(cuid())
   name        String         @unique
