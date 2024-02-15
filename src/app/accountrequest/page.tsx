@@ -47,10 +47,10 @@ const Page: FC<PageProps> = ({}) => {
 	const [isSelected, setIsSelected] = useState<boolean>(false);
 
 	const handleSubmit = () => {
-		if (!isSelected) {
+		if (!email.endsWith("@estudiantat.upc.edu")) {
 			toast({
-				title: "Accept Privacy and Terms of Service",
-				description: "Please accept the privacy and terms of service.",
+				title: "Invalid Email",
+				description: "Please use your UPC email.",
 				variant: "destructive",
 			});
 			return;
@@ -126,7 +126,8 @@ const Page: FC<PageProps> = ({}) => {
 			</div>
 			<Button
 				onClick={handleSubmit}
-				className="mt-6">
+				className="mt-6"
+				disabled={!isSelected}>
 				Submit
 			</Button>
 		</div>
