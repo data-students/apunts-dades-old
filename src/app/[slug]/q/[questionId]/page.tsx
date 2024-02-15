@@ -32,9 +32,22 @@ const page = async ({ params }: PageProps) => {
 		},
 	});
 	if (!question || question.subject === null) return notFound();
+	const answers = await db.answer.findMany({
+		where: {
+			questionId: questionId,
+		},
+		include: {
+			question: true,
+			votes: true,
+			author: true,
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+	});
 	return (
 		<div>
-			<AnswersView question={question} />
+			<AnswersView question={question} answers={answers}/>
 		</div>
 	);
 };

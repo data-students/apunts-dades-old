@@ -21,9 +21,9 @@ export const authOptions: NextAuthOptions = {
 	callbacks: {
 		async signIn(params) {
 			const { profile } = params;
-			const allowedEmail = await db.AuthorizedUsers.findFirst({
+			const allowedEmail = await db.authorizedUsers.findFirst({
 				where: {
-					email: profile.email,
+					email: profile?.email,
 				},
 			});
 			if (!allowedEmail) {
@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
 				session.user.email = token.email;
 				session.user.image = token.picture;
 				session.user.username = token.username;
-				session.user.generacio = token.generacio;
+				session.user.generacio = token.generacio as string;
 			}
 
 			return session;

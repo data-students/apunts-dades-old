@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 
 import { Button } from "@/components/ui/Button";
@@ -203,40 +203,6 @@ export function ProfileForm() {
 			label: "Altres",
 		},
 	];
-	const anys = [
-		{
-			value: "17",
-			label: "2017",
-		},
-		{
-			value: "18",
-			label: "2018",
-		},
-		{
-			value: "19",
-			label: "2019",
-		},
-		{
-			value: "20",
-			label: "2020",
-		},
-		{
-			value: "21",
-			label: "2021",
-		},
-		{
-			value: "22",
-			label: "2022",
-		},
-		{
-			value: "23",
-			label: "2023",
-		},
-		{
-			value: "24",
-			label: "2024",
-		},
-	];
 	const tipus = [
 		{
 			value: "apunts",
@@ -367,7 +333,6 @@ export function ProfileForm() {
 export default ProfileForm;
 
 export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string }) => {
-	const pathname = usePathname();
 	const router = useRouter();
 
 	const { mutate: createApuntsPost } = useMutation({
@@ -410,40 +375,6 @@ export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string })
 		createApuntsPost(payload);
 	}
 	// ------------------------------
-	const anys = [
-		{
-			value: "17",
-			label: "2017",
-		},
-		{
-			value: "18",
-			label: "2018",
-		},
-		{
-			value: "19",
-			label: "2019",
-		},
-		{
-			value: "20",
-			label: "2020",
-		},
-		{
-			value: "21",
-			label: "2021",
-		},
-		{
-			value: "22",
-			label: "2022",
-		},
-		{
-			value: "23",
-			label: "2023",
-		},
-		{
-			value: "24",
-			label: "2024",
-		},
-	];
 	const tipus = [
 		{
 			value: "apunts",

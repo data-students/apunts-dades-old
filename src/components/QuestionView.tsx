@@ -1,16 +1,17 @@
 "use client";
 import { FC } from "react";
 import QuestionComponent from "@/components/QuestionComponent";
-import { ExtendedQuestion } from "@/types/db";
+import { ExtendedQuestion, ExtendedAnswer } from "@/types/db";
 import { useSession } from "next-auth/react";
 import MiniCreateAnswer from "@/components/MiniCreateAnswer";
 import AnswerFeed from "@/components/AnswerFeed";
 
 interface AnswersViewProps {
   question: ExtendedQuestion;
+  answers: ExtendedAnswer[];
 }
 
-export const AnswersView: FC<AnswersViewProps> = ({ question }) => {
+export const AnswersView: FC<AnswersViewProps> = ({ question, answers }) => {
   const { data: session } = useSession();
   const votesAmt = question.votes.length;
   const answerAmt = question.answers.length;
@@ -19,7 +20,6 @@ export const AnswersView: FC<AnswersViewProps> = ({ question }) => {
   const currentVote = question.votes.find(
     (vote) => vote.userId === session?.user?.id
   );
-    const answers = question.answers;
   return (
     <div>
       <div>
