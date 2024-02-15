@@ -19,3 +19,8 @@ export type ExtendedAnswer = Answer & {
 	votes: Vote[];
 	author: User;
 };
+
+export type ExtendedComment = Comment & {
+	votes: Vote[];
+	author: User;
+};

@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
+const UserAuthForm: FC<UserAuthFormProps> = ({ className }) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const { toast } = useToast();
 

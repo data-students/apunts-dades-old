@@ -19,7 +19,7 @@ export const ourFileRouter = {
 			// Whatever is returned here is accessible in onUploadComplete as `metadata`
 			return { userId: user.id };
 		})
-		.onUploadComplete(async ({ metadata, file }) => {}),
+		.onUploadComplete(async ({}) => {}),
 
 	// Another FileRoute (made by myself, not by the library)
 	fileUploader: f({
@@ -31,7 +31,7 @@ export const ourFileRouter = {
 			if (!user) throw new UploadThingError({ code: "FORBIDDEN" });
 			return { userId: user.id };
 		})
-		.onUploadComplete(async ({ metadata, file }) => {}),
+		.onUploadComplete(async ({}) => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

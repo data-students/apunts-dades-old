@@ -3,7 +3,7 @@
 import { formatTimeToNow } from "@/lib/utils";
 import { Comment, User, CommentVote } from "@prisma/client";
 import { FC, useRef } from "react";
-import EditorOutput from "./EditorOutput";
+// import EditorOutput from "./EditorOutput";
 import CommentVoteClient from "./votes/CommentVoteClient";
 
 type PartialVote = Pick<CommentVote, "type">;
@@ -26,7 +26,6 @@ const CommentComponent: FC<CommentProps> = ({
 	currentVote: _currentVote,
 	subjectName,
 	subjectAcronym,
-	postId,
 }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
 

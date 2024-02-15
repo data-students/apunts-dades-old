@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
@@ -17,9 +15,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover"
-export function Combobox({ options, value, setValue }) {
-  const [open, setOpen] = React.useState(false);
 
+export interface Option {
+  value: string;
+  label: string;
+}
+export function Combobox({ options, value, setValue }: { options: Option[], value: string, setValue: Function}) {
+  const [open, setOpen] = React.useState(false);
   return (
     <div>
     <Popover open={open} onOpenChange={setOpen}>

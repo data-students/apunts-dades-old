@@ -40,7 +40,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({ subjectId, subjec
 				variant: "destructive",
 			});
 		},
-		onSuccess: (data) => {
+		onSuccess: ({}) => {
 			startTransition(() => {
 				router.refresh();
 			});
@@ -77,7 +77,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({ subjectId, subjec
 				variant: "destructive",
 			});
 		},
-		onSuccess: (data) => {
+		onSuccess: ({}) => {
 			startTransition(() => {
 				router.refresh();
 			});

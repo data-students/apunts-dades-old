@@ -1,5 +1,5 @@
 import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle";
-import { Button, buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { HomeIcon, FileQuestionIcon, FileTextIcon, InfoIcon } from "lucide-react";

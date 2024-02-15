@@ -1,17 +1,17 @@
-import CustomFeed from "@/components/CustomFeed";
+// import CustomFeed from "@/components/CustomFeed";
 import { buttonVariants } from "@/components/ui/Button";
-import { getAuthSession } from "@/lib/auth";
+// import { getAuthSession } from "@/lib/auth";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 
 import { db } from "@/lib/db";
 import { BookIcon } from "lucide-react";
-import { HeartIcon, HeartPulseIcon } from "lucide-react";
+// import { HeartIcon, HeartPulseIcon } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 
 export default async function Home() {
-	const session = await getAuthSession();
+	// const session = await getAuthSession();
 
 	const subjects = await db.subject.findMany({
 		select: {
@@ -72,8 +72,8 @@ export default async function Home() {
 					<div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
 						<div className="flex justify-between gap-x-4 py-3">
 							<p className="text-zinc-500">
-								La teva pàgina d'Apunts de Dades. Accedeix aquí per a veure els apunts de les assignatures que
-								t'interessen.
+								La teva pàgina d Apunts de Dades. Accedeix aquí per a veure els apunts de les assignatures que
+								t interessen.
 							</p>
 						</div>
 
@@ -86,6 +86,24 @@ export default async function Home() {
 						</Link>
 					</div>
 				</div> */}
+				<div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last mb-4">
+					<div className="bg-emerald-100 px-6 py-4">
+						<p className="font-semibold py-3 flex items-center gap-1.5">
+							<HomeIcon className="w-4 h-4" />
+							Inici
+						</p>
+					</div>
+
+					<div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+						<Link
+							className={buttonVariants({
+								className: "w-full mt-4 mb-6",
+							})}
+							href="/submit">
+							Penja Apunts
+						</Link>
+					</div>
+				</div>
 				{subjects.map((subject, index) => {
 					return (
 						<Link

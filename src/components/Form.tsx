@@ -1,6 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -43,7 +43,6 @@ const smallFormSchema = z.object({
 //   })
 
 export function ProfileForm() {
-	const pathname = usePathname();
 	const router = useRouter();
 
 	const { mutate: createApuntsPost } = useMutation({
@@ -264,7 +263,7 @@ export function ProfileForm() {
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit(onSubmit)}
+				onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
 				className="space-y-8">
 				<FormField
 					control={form.control}
@@ -278,7 +277,9 @@ export function ProfileForm() {
 										id="pdf-file"
 										type="file"
 										onChange={(e) => {
-											field.onChange(e.target.files[0]);
+											if (e.target.files) {
+												field.onChange(e.target.files[0]);
+											}
 										}}
 									/>
 								</div>
@@ -469,7 +470,7 @@ export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string })
 	return (
 		<Form {...form}>
 			<form
-				onSubmit={form.handleSubmit(onSubmit)}
+				onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
 				className="space-y-8">
 				<FormField
 					control={form.control}
@@ -483,7 +484,9 @@ export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string })
 										id="pdf-file"
 										type="file"
 										onChange={(e) => {
-											field.onChange(e.target.files[0]);
+											if (e.target.files) {
+												field.onChange(e.target.files[0]);
+											}
 										}}
 									/>
 								</div>

@@ -2,7 +2,6 @@ import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { AnswersView } from "@/components/QuestionView";
-import { ExtendedQuestion } from "@/types/db";
 
 interface PageProps {
 	params: {

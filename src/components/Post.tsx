@@ -8,7 +8,6 @@ import { buttonVariants } from "@/components/ui/Button";
 import { FC, useRef } from "react";
 import PostVoteClient from "./votes/PostVoteClient";
 import { Badge } from "@/components/ui/Badge";
-import { useRouter } from "next/navigation";
 
 type PartialVote = Pick<PostVote, "type">;
 
@@ -25,8 +24,6 @@ interface PostProps {
 
 const Post: FC<PostProps> = ({ post, votesAmt: _votesAmt, currentVote: _currentVote, subjectAcronym, commentAmt }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
-
-	const router = useRouter();
 
 	return (
 		<div className="rounded-md bg-white shadow">

@@ -28,14 +28,14 @@ const MiniCreateComment: FC<MiniCreateComment> = ({
       });
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: ({}) => {
       // Handle success and show toast
       toast({
         description: `Comment created successfully`,
       });
       // You can add any additional handling specific to your needs here
     },
-    onError: (error) => {
+    onError: ({}) => {
       // Handle error if needed
     },
   });

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
 import QuestionVoteClient from "./votes/QuestionVoteClient";
-import { useRouter } from "next/navigation";
 
 type PartialVote = Pick<QuestionVote, "type">;
 
@@ -32,8 +31,6 @@ const QuestionComponent: FC<QuestionProps> = ({
 	subjectAcronym,
 }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
-
-	const router = useRouter();
 
 	return (
 		<div className="rounded-md bg-white shadow">

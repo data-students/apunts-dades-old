@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
 		const body = await req.json();
 
-		const { title, subjectId, content, questionId } = AnswerValidator.parse(body);
+		const { title, content, questionId } = AnswerValidator.parse(body);
 
 		await db.answer.create({
 			data: {

@@ -4,10 +4,7 @@ import { Session } from "next-auth";
 import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import UserAvatar from "./UserAvatar";
-import Link from "next/link";
 import { Input } from "./ui/Input";
-import { Button, buttonVariants } from "./ui/Button";
-import { FileIcon, ImageIcon, Link2 } from "lucide-react";
 
 interface MiniCreatePostProps {
 	session: Session | null;
@@ -16,7 +13,6 @@ interface MiniCreatePostProps {
 const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const parentPathname = pathname.split("/").slice(0, -1).join("/");
 
 	return (
 		<div className="overflow-hidden rounded-md bg-white shadow">

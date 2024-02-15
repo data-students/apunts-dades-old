@@ -11,7 +11,6 @@ import { toast } from "../../hooks/use-toast";
 import { Button } from "../ui/Button";
 import { ArrowBigDown, ArrowBigUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import debounce from "lodash.debounce";
 
 interface AnswerVoteClientProps {

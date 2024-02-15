@@ -36,7 +36,6 @@ export async function POST(req: Request) {
 		if (error instanceof z.ZodError) {
 			return new Response(error.message, { status: 422 });
 		}
-		console.error(error);
 		return new Response("Something went wrong", { status: 500 });
 	}
 }

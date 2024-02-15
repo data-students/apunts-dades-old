@@ -31,10 +31,22 @@ const page = async ({ params }: PageProps) => {
 			},
 		},
 	});
+	const comments = await db.comment.findMany({
+		where: {
+			postId: postId,
+		},
+		include: {
+			author: true,
+			votes: true,
+		},
+		orderBy: {
+			createdAt: "asc",
+		},
+	});
 	if (!post) return notFound();
 	return (
 		<div>
-			<PostView post={post} />
+			<PostView post={post} comments={comments} />
 		</div>
 	);
 };

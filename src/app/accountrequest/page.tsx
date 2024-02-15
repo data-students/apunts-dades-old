@@ -58,7 +58,7 @@ const Page: FC<PageProps> = ({}) => {
 
 		axios
 			.post("/api/accountrequest", { email, selectedYear })
-			.then((response) => {
+			.then(({}) => {
 				toast({
 					description: `La teva sol·licitud s'ha creat correctament`,
 				});
@@ -99,7 +99,7 @@ const Page: FC<PageProps> = ({}) => {
 			<h2 className="mb-2 mt-4">Generació</h2>
 			<Combobox
 				options={generation}
-				value={selectedYear}
+				value={selectedYear ?? ""}
 				setValue={setSelectedYear}
 			/>
 			<div className="mt-6">

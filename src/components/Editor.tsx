@@ -141,7 +141,7 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
       );
       return data;
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "Alguna cosa no ha anat bé",
         description: `No s'ha pogut crear la ${
