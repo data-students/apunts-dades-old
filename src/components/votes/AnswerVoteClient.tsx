@@ -41,8 +41,6 @@ const AnswerVoteClient = ({ answerId, initialVotesAmt, initialVote }: AnswerVote
 			await axios.patch("/api/subject/answer/vote", payload);
 		},
 		onError: (err, voteType) => {
-			const router = useRouter();
-
 			if (voteType === "UP") setVotesAmt((prev) => prev - 1);
 			else setVotesAmt((prev) => prev + 1);
 
