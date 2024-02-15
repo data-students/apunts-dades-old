@@ -25,7 +25,7 @@ async function processUserRequests() {
     console.log(`User: ${userName}`);
 
     // Check if a user with the same email already exists
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.authorizedUsers.findUnique({
       where: {
         email: userRequest.email,
       },
@@ -41,13 +41,11 @@ async function processUserRequests() {
 
     if (response.toLowerCase() === 'a') {
       // Create a new user with the corresponding details
-      await prisma.user.create({
+      await prisma.authorizedUsers.create({
         data: {
-          id: userRequest.userid,
           email: userRequest.email,
           generacio: userRequest.generacio,
-          emailVerified: new Date(),
-          username: userName,
+          createdAt: new Date(),
         },
       });
 
