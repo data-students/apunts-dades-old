@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { db } from "@/lib/db";
 import { BookIcon } from "lucide-react";
-import { HeartIcon, HeartPulseIcon } from "lucide-react"
+import { HeartIcon, HeartPulseIcon } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
 
@@ -22,16 +22,16 @@ export default async function Home() {
 	});
 
 	const subscription = !session?.user
-    ? undefined
-    : await db.subscription.findFirst({
-        where: {
-          userId: session.user.id, // Suponiendo que session.user tiene la propiedad id
-          subjectId: subjects.id,
-        },
-      });
+		? undefined
+		: await db.subscription.findFirst({
+				where: {
+					userId: session.user.id, // Suponiendo que session.user tiene la propiedad id
+					subjectId: subjects.id,
+				},
+		  });
 
-  	const isSubscribed = !!subscription;
-	const ColorClass = isSubscribed ? 'text-red-500' : 'text-black';
+	const isSubscribed = !!subscription;
+	const ColorClass = isSubscribed ? "text-red-500" : "text-black";
 
 	function semesterColor(semester: string) {
 		switch (semester) {
@@ -51,7 +51,6 @@ export default async function Home() {
 				return "bg-gray-100";
 		}
 	}
-
 
 	return (
 		<>
@@ -88,28 +87,25 @@ export default async function Home() {
 				</div> */}
 				{subjects.map((subject, index) => {
 					return (
-						<div>
-							<Link
-								className="w-full mt-4 mb-6"
-								href={`/${subject.acronym}`}>
-								<div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-									<div className={cn("px-6 py-2", semesterColor(subject.semester))}>
-										<p className="font-semibold py-1 flex items-center gap-1.5">
-											<BookIcon className="w-4 h-4" />
-											{subject.name}
-											<HeartIcon className={cn("h-5 w-5", ColorClass)} />
-
-											
-										</p>
-									</div>
-
-									<div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6 space-x-2">
-										<Badge variant="outline">{subject.semester}</Badge>
-										<Badge variant="outline">{subject.acronym}</Badge>
-									</div>
+						<Link
+							key={index}
+							className="w-full mt-4 mb-6"
+							href={`/${subject.acronym}`}>
+							<div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
+								<div className={cn("px-6 py-2", semesterColor(subject.semester))}>
+									<p className="font-semibold py-1 flex items-center gap-1.5">
+										<BookIcon className="w-4 h-4" />
+										{subject.name}
+										<HeartIcon className={cn("h-5 w-5", ColorClass)} />
+									</p>
 								</div>
-							</Link>
-						</div>
+
+								<div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6 space-x-2">
+									<Badge variant="outline">{subject.semester}</Badge>
+									<Badge variant="outline">{subject.acronym}</Badge>
+								</div>
+							</div>
+						</Link>
 					);
 				})}
 			</div>
