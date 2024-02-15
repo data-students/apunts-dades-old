@@ -146,13 +146,13 @@ const Layout = async ({ children, params: { slug } }: { children: React.ReactNod
 										<dt className="text-gray-500">Preguntes sense respondre</dt>
 										<dd className="text-gray-700">{unAnsweredQuestionCount}</dd>
 									</div>
-									{subject.creatorId === session?.user?.id ? ( // TODO: Check if user is admin
+									{subject.creatorId === session?.user?.id ? (
 										<div className="flex justify-between gap-x-4 py-3">
 											<p className="text-gray-500">Pots editar aquesta assignatura</p>
 										</div>
 									) : null}
 
-									{subject.creatorId !== session?.user?.id ? ( // TODO: Hem de fer que els admins estiguin subscrits a tots els subjectes
+									{subject.creatorId !== session?.user?.id ? (
 										<SubscribeLeaveToggle
 											subjectId={subject.id}
 											subjectName={subject.name}

@@ -46,7 +46,6 @@ const page = async ({ params }: PageProps) => {
 
 			<MiniCreatePost session={session} />
 
-			{/* TODO: Show posts in user feed */}
 			<PostFeed
 				initialPosts={subject.posts}
 				subjectAcronym={subject.acronym}
