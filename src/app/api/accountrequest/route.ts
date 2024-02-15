@@ -37,6 +37,6 @@ export async function POST(req: Request) {
 			return new Response(error.message, { status: 422 });
 		}
 		console.error(error);
-		return new Response(error.message, { status: 500 });
+		return new Response("Something went wrong", { status: 500 });
 	}
 }

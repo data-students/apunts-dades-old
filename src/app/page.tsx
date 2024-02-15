@@ -15,23 +15,24 @@ export default async function Home() {
 
 	const subjects = await db.subject.findMany({
 		select: {
+			id: true,
 			acronym: true,
 			name: true,
 			semester: true,
 		},
 	});
 
-	const subscription = !session?.user
-		? undefined
-		: await db.subscription.findFirst({
-				where: {
-					userId: session.user.id, // Suponiendo que session.user tiene la propiedad id
-					subjectId: subjects.id,
-				},
-		  });
+	// const subscription = !session?.user
+	// 	? undefined
+	// 	: await db.subscription.findFirst({
+	// 			where: {
+	// 				userId: session.user.id,
+	// 				subjectId: subjects.id,
+	// 			},
+	// 	  });
 
-	const isSubscribed = !!subscription;
-	const ColorClass = isSubscribed ? "text-red-500" : "text-black";
+	// const isSubscribed = !!subscription;
+	// const ColorClass = isSubscribed ? "text-red-500" : "text-black";
 
 	function semesterColor(semester: string) {
 		switch (semester) {
@@ -96,7 +97,7 @@ export default async function Home() {
 									<p className="font-semibold py-1 flex items-center gap-1.5">
 										<BookIcon className="w-4 h-4" />
 										{subject.name}
-										<HeartIcon className={cn("h-5 w-5", ColorClass)} />
+										{/* <HeartIcon className={cn("h-5 w-5", ColorClass)} /> */}
 									</p>
 								</div>
 

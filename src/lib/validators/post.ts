@@ -7,6 +7,8 @@ export const PostValidator = z.object({
 		.max(128, { message: "Title must be at most 128 characters long" }),
 	subjectId: z.string(),
 	content: z.any(),
+	tipus: z.string(),
+	year: z.number(),
 });
 
 export const CommentValidator = z.object({

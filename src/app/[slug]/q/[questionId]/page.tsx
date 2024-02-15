@@ -2,6 +2,7 @@ import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { AnswersView } from "@/components/QuestionView";
+import { ExtendedQuestion } from "@/types/db";
 
 interface PageProps {
 	params: {
@@ -15,9 +16,9 @@ const page = async ({ params }: PageProps) => {
 	const question = await db.question.findFirst({
 		where: { id: questionId, subject: { acronym: slug } },
 		include: {
-			author: true,
-			votes: true,
 			subject: true,
+			votes: true,
+			author: true,
 			answers: {
 				include: {
 					question: true,
@@ -31,7 +32,7 @@ const page = async ({ params }: PageProps) => {
 			},
 		},
 	});
-	if (!question) return notFound();
+	if (!question || question.subject === null) return notFound();
 	return (
 		<div>
 			<AnswersView question={question} />

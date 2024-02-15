@@ -54,7 +54,7 @@ export function ProfileForm() {
 				assignatura,
 				tipus,
 			};
-			const { data } = await axios.post("/api/submit/apunts", payload);
+			const { data } = await axios.post("/api/subject/post/create", payload);
 			return data;
 		},
 		onError: () => {
@@ -377,7 +377,7 @@ export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string })
 				assignatura,
 				tipus,
 			};
-			const { data } = await axios.post("/api/submit/apunts", payload);
+			const { data } = await axios.post("/api/subject/post/create", payload);
 			return data;
 		},
 		onError: () => {

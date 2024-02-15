@@ -63,7 +63,7 @@ export async function PATCH(req: Request) {
 				if (votesAmt >= CACHE_AFTER_UPVOTES) {
 					const cachePayload: CachedPost = {
 						authorName: post.author.name ?? "",
-						content: post.content,
+						content: post.content ?? "",
 						id: post.id,
 						title: post.title,
 						currentVote: null,
@@ -99,7 +99,7 @@ export async function PATCH(req: Request) {
 			if (votesAmt >= CACHE_AFTER_UPVOTES) {
 				const cachePayload: CachedPost = {
 					authorName: post.author.name ?? "",
-					content: post.content,
+					content: post.content ?? "",
 					id: post.id,
 					title: post.title,
 					currentVote: voteType,
@@ -131,7 +131,7 @@ export async function PATCH(req: Request) {
 		if (votesAmt >= CACHE_AFTER_UPVOTES) {
 			const cachePayload: CachedPost = {
 				authorName: post.author.name ?? "",
-				content: post.content,
+				content: post.content ?? "",
 				id: post.id,
 				title: post.title,
 				currentVote: voteType,

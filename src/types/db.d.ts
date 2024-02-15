@@ -8,7 +8,7 @@ export type ExtendedPost = Post & {
 };
 
 export type ExtendedQuestion = Question & {
-	subject: Subject;
+	subject: Subject | null;
 	votes: QuestionVote[];
 	author: User;
 	answers: Answer[];
