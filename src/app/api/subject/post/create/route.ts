@@ -16,7 +16,6 @@ export async function POST(req: Request) {
 
 		const { pdf, title, assignatura, tipus } = ApuntsPostValidator.parse(body);
 
-		// TODO: calcular el curs de la assignatura
 		const subject = await db.subject.findFirst({
 			where: {
 				acronym: assignatura.toUpperCase(),
@@ -28,7 +27,6 @@ export async function POST(req: Request) {
 		}
 
 		const semester = subject.semester;
-		//parse the number in the second char of the semester if the first one is Q
 		const semesterNumber = semester[0] === "Q" ? parseInt(semester[1]) : 8;
 		if (typeof session.user.generacio !== "number") {
 			return new Response("Invalid generacio", { status: 409 });
