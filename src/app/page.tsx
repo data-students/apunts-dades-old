@@ -88,7 +88,7 @@ export default async function Home() {
 				</div> */}
 				<div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first mb-4">
 					<div className="bg-pink-100 px-6 py-4">
-						<p className="font-semibold py-3 flex items-center gap-1.5">
+						<p className="</div>font-semibold py-3 flex items-center gap-1.5">
 							<HomeIcon className="w-4 h-4" />
 							Inici
 						</p>
@@ -104,6 +104,9 @@ export default async function Home() {
 						</Link>
 					</div>
 				</div>
+			</div>
+
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
 				{subjects.map((subject, index) => {
 					return (
 						<Link
