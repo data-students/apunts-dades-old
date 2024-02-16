@@ -6,9 +6,6 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ req, token }) => {
-        if (req.nextUrl.pathname && req.nextUrl.pathname.includes('/accountrequest')){
-          return false
-        }
         if (
           req.nextUrl.pathname &&
           req.nextUrl.pathname.startsWith('/') &&
