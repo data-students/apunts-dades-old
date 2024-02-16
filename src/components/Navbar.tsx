@@ -26,9 +26,6 @@ const Navbar = async () => {
 						<Link href="/sign-in" className={buttonVariants()}>
 							Sign In
 						</Link>
-						<Link href="/accountrequest" className={`${buttonVariants()} ml-2`}>
-							Account Request
-						</Link>
 					</div>
 				)}
 			</div>
