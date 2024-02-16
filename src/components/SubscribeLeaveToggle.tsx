@@ -50,7 +50,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({ subjectId, subjec
 
 			return toast({
 				title: `T'has subscrit als apunts ${subjectArticle}${subjectName}!`,
-				description: "Ara rebràs notificacions quan es publiquin apunts.", // TODO: Això és mentida per ara
+				description: "",
 			});
 		},
 	});
@@ -87,7 +87,7 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({ subjectId, subjec
 
 			return toast({
 				title: `Has donat de baixa la teva subscripció als apunts ${subjectArticle}${subjectName}!`,
-				description: "Deixaràs de rebre notificacions quan es publiquin apunts.", // TODO: Això és mentida per ara
+				description: "",
 			});
 		},
 	});
