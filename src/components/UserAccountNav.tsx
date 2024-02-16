@@ -46,10 +46,6 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
 				</DropdownMenuItem>
 
 				<DropdownMenuItem asChild>
-					<Link href="/settings">Preferències</Link>
-				</DropdownMenuItem>
-
-				<DropdownMenuItem asChild>
 					<Link href="/privacyandterms">Privacitat i Termes de Servei</Link>
 				</DropdownMenuItem>
 
