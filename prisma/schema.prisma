@@ -56,15 +56,6 @@ model User {
   answerVotes     AnswerVote[]
 }
 
-model UserRequest {
-  requestId String @id @default(cuid())
-  userid        String
-  email     String
-  generacio       Int            @default(2020)
-  createdAt DateTime @default(now())
-  verified Boolean @default(false)
-}
-
 model AuthorizedUsers {
   email String @id
   generacio Int
