@@ -65,9 +65,14 @@ export async function GET(req: Request) {
 		const answers = await db.answer.findMany({
 			take: parseInt(limit),
 			skip: (parseInt(page) - 1) * parseInt(limit), // skip should start from 0 for page 1
-			orderBy: {
-				createdAt: "desc",
-			},
+			orderBy: [
+				{
+					accepted: "desc",
+				},
+				{
+					createdAt: "asc",
+				},
+			],
 			include: {
 				votes: true,
 				author: true,

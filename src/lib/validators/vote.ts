@@ -27,3 +27,10 @@ export const AnswerVoteValidator = z.object({
 });
 
 export type AnswerVoteRequest = z.infer<typeof AnswerVoteValidator>;
+
+export const AnswerAcceptedValidator = z.object({
+	answerId: z.string(),
+	accepted: z.boolean(),
+});
+
+export type AnswerAcceptedRequest = z.infer<typeof AnswerAcceptedValidator>;
