@@ -23,7 +23,7 @@ export const ourFileRouter = {
 
 	// Another FileRoute (made by myself, not by the library)
 	fileUploader: f({
-		pdf: { maxFileCount: 5 },
+		pdf: { maxFileCount: 1, maxFileSize: "128MB" },
 		text: { maxFileCount: 5 },
 	})
 		.middleware(async (req) => {
