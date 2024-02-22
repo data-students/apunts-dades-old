@@ -324,7 +324,11 @@ export function ProfileForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Submit</Button>
+				<Button
+					type="submit"
+					isLoading={form.formState.isSubmitting}>
+					Submit
+				</Button>
 			</form>
 		</Form>
 	);
@@ -479,7 +483,11 @@ export const SmallProfileForm = ({ subjectAcronym }: { subjectAcronym: string })
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Submit</Button>
+				<Button
+					type="submit"
+					isLoading={form.formState.isSubmitting}>
+					Submit
+				</Button>
 			</form>
 		</Form>
 	);
