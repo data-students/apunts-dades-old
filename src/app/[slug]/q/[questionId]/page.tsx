@@ -41,13 +41,21 @@ const page = async ({ params }: PageProps) => {
 			votes: true,
 			author: true,
 		},
-		orderBy: {
-			createdAt: "asc",
-		},
+		orderBy: [
+			{
+				accepted: "desc",
+			},
+			{
+				createdAt: "asc",
+			},
+		],
 	});
 	return (
 		<div>
-			<AnswersView question={question} answers={answers}/>
+			<AnswersView
+				question={question}
+				answers={answers}
+			/>
 		</div>
 	);
 };

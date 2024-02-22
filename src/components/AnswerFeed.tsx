@@ -76,6 +76,7 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectA
 								votesAmt={votesAmt}
 								currentVote={currentVote}
 								questionId={questionId}
+								questionAuthorId={answer.question.authorId}
 							/>
 						</li>
 					);
@@ -89,6 +90,7 @@ const AnswerFeed: FC<AnswerFeedProps> = ({ initialAnswers, subjectName, subjectA
 							votesAmt={votesAmt}
 							currentVote={currentVote}
 							questionId={questionId}
+							questionAuthorId={answer.question.authorId}
 						/>
 					);
 				}

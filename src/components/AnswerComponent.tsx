@@ -5,6 +5,7 @@ import { Answer, User, AnswerVote } from "@prisma/client";
 import { FC, useRef } from "react";
 import EditorOutput from "./EditorOutput";
 import AnswerVoteClient from "./votes/AnswerVoteClient";
+import AnswerAcceptClient from "./votes/AnswerAcceptClient";
 
 type PartialVote = Pick<AnswerVote, "type">;
 
@@ -18,6 +19,7 @@ interface AnswerProps {
 	currentVote?: PartialVote;
 	subjectAcronym: string;
 	questionId: string;
+	questionAuthorId: string;
 }
 
 const AnswerComponent: FC<AnswerProps> = ({
@@ -27,17 +29,27 @@ const AnswerComponent: FC<AnswerProps> = ({
 	subjectName,
 	subjectAcronym,
 	questionId,
+	questionAuthorId,
 }) => {
 	const pRef = useRef<HTMLParagraphElement>(null);
 
 	return (
-		<div className="rounded-md bg-white shadow">
+		<div className="rounded-md bg-white shadow my-2">
 			<div className="px-6 py-4 flex justify-between">
-				<AnswerVoteClient
-					initialVotesAmt={_votesAmt}
-					answerId={answer.id}
-					initialVote={_currentVote?.type}
-				/>
+				<div className="h-auto flex flex-col">
+					<AnswerAcceptClient
+						questionAuthorId={questionAuthorId}
+						initialAccepted={answer.accepted}
+						answerId={answer.id}
+						answer={answer}
+					/>
+
+					<AnswerVoteClient
+						initialVotesAmt={_votesAmt}
+						answerId={answer.id}
+						initialVote={_currentVote?.type}
+					/>
+				</div>
 
 				<div className="w-0 flex-1">
 					<div className="max-h-40 mt-1 text-xs text-gray-500">
