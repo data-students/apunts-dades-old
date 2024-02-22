@@ -1,0 +1,12 @@
+name: Assign Vercel Preview
+
+on:
+  deployment_status:
+
+jobs:
+  bar:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update Vercel Preview
+        run: vercel alias set ${{ github.event.deployment_status.target_url }} preview.apunts-dades.cat --token=${{ secrets.VERCEL_TOKEN }} --scope puigdes-projects
