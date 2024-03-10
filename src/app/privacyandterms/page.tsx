@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC } from "react"
 
 interface PageProps {}
 
@@ -148,7 +148,7 @@ const Page: FC<PageProps> = ({}) => {
         acceptance of the updated terms.
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

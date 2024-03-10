@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const PostValidator = z.object({
   title: z
@@ -9,12 +9,12 @@ export const PostValidator = z.object({
   content: z.any(),
   tipus: z.string(),
   year: z.number(),
-});
+})
 
 export const CommentValidator = z.object({
   content: z.string().min(1).max(2048),
   postId: z.string(),
-});
+})
 
 export const ApuntsPostValidator = z.object({
   pdf: z.any(),
@@ -22,7 +22,7 @@ export const ApuntsPostValidator = z.object({
   assignatura: z.string().min(2).max(5),
   tipus: z.string(),
   anonim: z.boolean(),
-});
+})
 
-export type PostCreationRequest = z.infer<typeof PostValidator>;
-export type ApuntsPostCreationRequest = z.infer<typeof ApuntsPostValidator>;
+export type PostCreationRequest = z.infer<typeof PostValidator>
+export type ApuntsPostCreationRequest = z.infer<typeof ApuntsPostValidator>

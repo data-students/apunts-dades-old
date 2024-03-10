@@ -1,13 +1,13 @@
-"use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
+"use client"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { z } from "zod"
+import { useMutation } from "@tanstack/react-query"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import { toast } from "@/hooks/use-toast"
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button"
 import {
   Form,
   FormControl,
@@ -16,12 +16,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
-import { Combobox } from "@/components/Combobox";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ApuntsPostCreationRequest } from "@/lib/validators/post";
-import { uploadFiles } from "@/lib/uploadthing";
+} from "@/components/ui/Form"
+import { Input } from "@/components/ui/Input"
+import { Combobox } from "@/components/Combobox"
+import { Checkbox } from "@/components/ui/checkbox"
+import { ApuntsPostCreationRequest } from "@/lib/validators/post"
+import { uploadFiles } from "@/lib/uploadthing"
 
 const formSchema = z.object({
   pdf: z.any(),
@@ -35,7 +35,7 @@ const formSchema = z.object({
     required_error: "Selecciona un tipus.",
   }),
   anonim: z.boolean().default(false).optional(),
-});
+})
 
 const smallFormSchema = z.object({
   pdf: z.any(),
@@ -46,7 +46,7 @@ const smallFormSchema = z.object({
     required_error: "Selecciona un tipus.",
   }),
   anonim: z.boolean().default(false).optional(),
-});
+})
 
 // export function ComboboxForm() {
 //   const form = useForm<z.infer<typeof FormSchema>>({
@@ -54,7 +54,7 @@ const smallFormSchema = z.object({
 //   })
 
 export function ProfileForm() {
-  const router = useRouter();
+  const router = useRouter()
 
   const { mutate: createApuntsPost } = useMutation({
     mutationFn: async ({
@@ -70,40 +70,40 @@ export function ProfileForm() {
         assignatura,
         tipus,
         anonim,
-      };
-      const { data } = await axios.post("/api/subject/post/create", payload);
-      return data;
+      }
+      const { data } = await axios.post("/api/subject/post/create", payload)
+      return data
     },
     onError: () => {
       toast({
         title: "Alguna cosa no ha anat bé",
         description: "No s'ha pogut crear el post. Torna-ho a provar més tard.",
         variant: "destructive",
-      });
+      })
     },
     onSuccess: (subjectAcronym) => {
-      router.push(`/${subjectAcronym}`);
-      router.refresh();
+      router.push(`/${subjectAcronym}`)
+      router.refresh()
 
       return toast({
         description: "El teu post s'ha creat correctament",
-      });
+      })
     },
-  });
+  })
   const form = useForm({
     resolver: zodResolver(formSchema),
-  });
+  })
   async function onSubmit(data: ApuntsPostCreationRequest) {
-    const [res] = await uploadFiles([data.pdf], "fileUploader");
+    const [res] = await uploadFiles([data.pdf], "fileUploader")
     const payload: ApuntsPostCreationRequest = {
       pdf: res.fileUrl,
       title: data.title,
       assignatura: data.assignatura,
       tipus: data.tipus,
       anonim: data.anonim,
-    };
+    }
 
-    createApuntsPost(payload);
+    createApuntsPost(payload)
   }
   // ------------------------------
   const assignatures = [
@@ -223,7 +223,7 @@ export function ProfileForm() {
       value: "altres",
       label: "Altres",
     },
-  ];
+  ]
   const tipus = [
     {
       value: "apunts",
@@ -245,7 +245,7 @@ export function ProfileForm() {
       value: "altres",
       label: "Altres",
     },
-  ];
+  ]
   // ------------------------------
   return (
     <Form {...form}>
@@ -266,7 +266,7 @@ export function ProfileForm() {
                     type="file"
                     onChange={(e) => {
                       if (e.target.files) {
-                        field.onChange(e.target.files[0]);
+                        field.onChange(e.target.files[0])
                       }
                     }}
                   />
@@ -372,17 +372,17 @@ export function ProfileForm() {
         </Button>
       </form>
     </Form>
-  );
+  )
 }
 
-export default ProfileForm;
+export default ProfileForm
 
 export const SmallProfileForm = ({
   subjectAcronym,
 }: {
-  subjectAcronym: string;
+  subjectAcronym: string
 }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const { mutate: createApuntsPost } = useMutation({
     mutationFn: async ({
@@ -398,39 +398,39 @@ export const SmallProfileForm = ({
         assignatura,
         tipus,
         anonim,
-      };
-      const { data } = await axios.post("/api/subject/post/create", payload);
-      return data;
+      }
+      const { data } = await axios.post("/api/subject/post/create", payload)
+      return data
     },
     onError: () => {
       toast({
         title: "Alguna cosa no ha anat bé",
         description: "No s'ha pogut crear el post. Torna-ho a provar més tard.",
         variant: "destructive",
-      });
+      })
     },
     onSuccess: (subjectAcronym) => {
-      router.push(`/${subjectAcronym}`);
-      router.refresh();
+      router.push(`/${subjectAcronym}`)
+      router.refresh()
 
       return toast({
         description: "El teu post s'ha creat correctament",
-      });
+      })
     },
-  });
+  })
   const form = useForm({
     resolver: zodResolver(smallFormSchema),
-  });
+  })
   async function onSubmit(data: ApuntsPostCreationRequest) {
-    const [res] = await uploadFiles([data.pdf], "fileUploader");
+    const [res] = await uploadFiles([data.pdf], "fileUploader")
     const payload: ApuntsPostCreationRequest = {
       pdf: res.fileUrl,
       title: data.title,
       assignatura: subjectAcronym,
       tipus: data.tipus,
       anonim: data.anonim,
-    };
-    createApuntsPost(payload);
+    }
+    createApuntsPost(payload)
   }
   // ------------------------------
   const tipus = [
@@ -454,7 +454,7 @@ export const SmallProfileForm = ({
       value: "altres",
       label: "Altres",
     },
-  ];
+  ]
   // ------------------------------
   return (
     <Form {...form}>
@@ -475,7 +475,7 @@ export const SmallProfileForm = ({
                     type="file"
                     onChange={(e) => {
                       if (e.target.files) {
-                        field.onChange(e.target.files[0]);
+                        field.onChange(e.target.files[0])
                       }
                     }}
                   />
@@ -564,5 +564,5 @@ export const SmallProfileForm = ({
         </Button>
       </form>
     </Form>
-  );
-};
+  )
+}

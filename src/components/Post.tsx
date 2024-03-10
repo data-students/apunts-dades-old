@@ -1,25 +1,25 @@
-"use client";
+"use client"
 
-import { formatTimeToNow } from "@/lib/utils";
-import { Post, User, PostVote } from "@prisma/client";
-import { MessageSquare } from "lucide-react";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/Button";
-import { FC, useRef } from "react";
-import PostVoteClient from "./votes/PostVoteClient";
-import { Badge } from "@/components/ui/Badge";
+import { formatTimeToNow } from "@/lib/utils"
+import { Post, User, PostVote } from "@prisma/client"
+import { MessageSquare } from "lucide-react"
+import Link from "next/link"
+import { buttonVariants } from "@/components/ui/Button"
+import { FC, useRef } from "react"
+import PostVoteClient from "./votes/PostVoteClient"
+import { Badge } from "@/components/ui/Badge"
 
-type PartialVote = Pick<PostVote, "type">;
+type PartialVote = Pick<PostVote, "type">
 
 interface PostProps {
   post: Post & {
-    author: User;
-    votes: PostVote[];
-  };
-  votesAmt: number;
-  subjectAcronym: string;
-  currentVote?: PartialVote;
-  commentAmt: number;
+    author: User
+    votes: PostVote[]
+  }
+  votesAmt: number
+  subjectAcronym: string
+  currentVote?: PartialVote
+  commentAmt: number
 }
 
 const Post: FC<PostProps> = ({
@@ -29,7 +29,7 @@ const Post: FC<PostProps> = ({
   subjectAcronym,
   commentAmt,
 }) => {
-  const pRef = useRef<HTMLParagraphElement>(null);
+  const pRef = useRef<HTMLParagraphElement>(null)
 
   return (
     <div className="rounded-md bg-white shadow">
@@ -99,6 +99,6 @@ const Post: FC<PostProps> = ({
         </Link>
       </div>
     </div>
-  );
-};
-export default Post;
+  )
+}
+export default Post

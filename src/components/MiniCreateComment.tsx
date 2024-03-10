@@ -1,23 +1,20 @@
-"use client";
+"use client"
 
-import { Session } from "next-auth";
-import { Button } from "@/components/ui/Button";
-import { FC, useState } from "react";
-import UserAvatar from "./UserAvatar";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "@/hooks/use-toast";
+import { Session } from "next-auth"
+import { Button } from "@/components/ui/Button"
+import { FC, useState } from "react"
+import UserAvatar from "./UserAvatar"
+import axios from "axios"
+import { useMutation } from "@tanstack/react-query"
+import { toast } from "@/hooks/use-toast"
 
 interface MiniCreateComment {
-  session: Session | null;
-  postId: string;
+  session: Session | null
+  postId: string
 }
 
-const MiniCreateComment: FC<MiniCreateComment> = ({
-  session,
-  postId,
-}) => {
-  const [content, setContent] = useState("");
+const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
+  const [content, setContent] = useState("")
 
   // Define the mutation function using useMutation hook
   const { mutate: createComment } = useMutation({
@@ -25,25 +22,25 @@ const MiniCreateComment: FC<MiniCreateComment> = ({
       const { data } = await axios.post("/api/subject/comment/create", {
         content: content,
         postId,
-      });
-      return data;
+      })
+      return data
     },
     onSuccess: ({}) => {
       // Handle success and show toast
       toast({
         description: `Comment created successfully`,
-      });
+      })
       // You can add any additional handling specific to your needs here
     },
     onError: ({}) => {
       // Handle error if needed
     },
-  });
+  })
 
   const handleSubmit = async () => {
     // Call the mutate function to initiate the mutation
-    createComment();
-  };
+    createComment()
+  }
 
   return (
     <div className="overflow-hidden rounded-md bg-white shadow">
@@ -83,7 +80,7 @@ const MiniCreateComment: FC<MiniCreateComment> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MiniCreateComment;
+export default MiniCreateComment

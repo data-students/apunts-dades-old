@@ -9,7 +9,8 @@
     "build": "prisma db push && prisma db seed && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "format": "prettier --write ."
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -86,6 +87,7 @@
   "devDependencies": {
     "@types/editorjs__header": "^2.6.0",
     "@types/lodash.debounce": "^4.0.7",
+    "prettier": "^3.2.5",
     "prisma": "^5.9.1"
   }
 }
