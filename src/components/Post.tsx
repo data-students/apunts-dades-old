@@ -54,7 +54,7 @@ const Post: FC<PostProps> = ({
               </>
             ) : null}
             <span>
-              Compartit per {post.isAnonymous ? "Anonymous" : post.author.name}
+              Compartit per {post.isAnonymous ? "Anònim" : post.author.name}
             </span>{" "}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
