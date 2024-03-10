@@ -92,7 +92,6 @@ export function ProfileForm() {
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { anonim: false },
   });
   async function onSubmit(data: ApuntsPostCreationRequest) {
     const [res] = await uploadFiles([data.pdf], "fileUploader");
@@ -421,7 +420,6 @@ export const SmallProfileForm = ({
   });
   const form = useForm({
     resolver: zodResolver(smallFormSchema),
-    defaultValues: { anonim: false },
   });
   async function onSubmit(data: ApuntsPostCreationRequest) {
     const [res] = await uploadFiles([data.pdf], "fileUploader");
