@@ -1,0 +1,13 @@
+name: Pre-commit Checks
+
+on:
+  pull_request:
+    paths:
+      - '**/*.{js,jsx,ts,tsx,json,css,scss,md}'
+
+jobs:
+  pre-commit-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Prettier
+        run: yarn format-check
