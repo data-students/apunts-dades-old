@@ -57,7 +57,7 @@ model User {
 }
 
 model AuthorizedUsers {
-  email String @id
+  email     String   @id
   generacio Int
   createdAt DateTime @default(now())
 }
@@ -86,26 +86,27 @@ model Question {
   updatedAt DateTime       @updatedAt
   subjectId String
   authorId  String
-  subject   Subject       @relation(fields: [subjectId], references: [id])
+  subject   Subject        @relation(fields: [subjectId], references: [id])
   author    User           @relation(fields: [authorId], references: [id])
   answers   Answer[]
   votes     QuestionVote[]
 }
 
 model Post {
-  id        String     @id @default(cuid())
-  title     String
-  content   String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  subjectId String
-  authorId  String
-  tipus     TipusType
-  year      Int
-  subject   Subject    @relation(fields: [subjectId], references: [id])
-  author    User       @relation(fields: [authorId], references: [id])
-  comments  Comment[]
-  votes     PostVote[]
+  id          String     @id @default(cuid())
+  title       String
+  content     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  subjectId   String
+  authorId    String
+  tipus       TipusType
+  year        Int
+  isAnonymous Boolean    @default(false)
+  subject     Subject    @relation(fields: [subjectId], references: [id])
+  author      User       @relation(fields: [authorId], references: [id])
+  comments    Comment[]
+  votes       PostVote[]
 }
 
 model Answer {

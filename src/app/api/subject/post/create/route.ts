@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
 		const body = await req.json();
 
-		const { pdf, title, assignatura, tipus } = ApuntsPostValidator.parse(body);
+		const { pdf, title, assignatura, tipus, anonim } = ApuntsPostValidator.parse(body);
 
 		const subject = await db.subject.findFirst({
 			where: {
@@ -36,7 +36,6 @@ export async function POST(req: Request) {
 		if (!["apunts", "examens", "exercicis", "diapositives", "altres"].includes(tipus)) {
 			return new Response("Invalid tipus", { status: 422 });
 		}
-
 		await db.post.create({
 			data: {
 				title: title,
@@ -45,6 +44,7 @@ export async function POST(req: Request) {
 				authorId: session.user.id,
 				tipus: tipus as TipusType,
 				year: year,
+                isAnonymous: anonim,
 			},
 		});
 		return new Response(JSON.stringify(subject.acronym), { status: 201 });
