@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import { Session } from "next-auth";
-import { Button } from "@/components/ui/Button";
-import { FC } from "react";
-import UserAvatar from "./UserAvatar";
-import Editor from "@/components/Editor";
+import { Session } from "next-auth"
+import { Button } from "@/components/ui/Button"
+import { FC } from "react"
+import UserAvatar from "./UserAvatar"
+import Editor from "@/components/Editor"
 
 interface MiniCreateQuestionProps {
-  session: Session | null;
-  subjectId: string;
+  session: Session | null
+  subjectId: string
 }
 const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
   session,
@@ -30,19 +30,23 @@ const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
           {/* form */}
           <div className="flex-grow">
             <div className="h-full">
-              <Editor subjectId={subjectId} contentType={"question"}/>
+              <Editor subjectId={subjectId} contentType={"question"} />
             </div>
           </div>
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit" className="w-full sm:w-auto mt-2" form="subject-question-form">
+          <Button
+            type="submit"
+            className="w-full sm:w-auto mt-2"
+            form="subject-question-form"
+          >
             Compartir
           </Button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MiniCreateQuestion;
+export default MiniCreateQuestion

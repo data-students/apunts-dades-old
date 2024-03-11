@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { ProfileForm } from "@/components/Form";
+import { FC } from "react"
+import { ProfileForm } from "@/components/Form"
 
 interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
-	return <ProfileForm />;
-};
+  return <ProfileForm />
+}
 
-export default page;
+export default page

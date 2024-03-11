@@ -1,22 +1,22 @@
-"use client";
-import { FC } from "react";
-import { ExtendedPost, ExtendedComment } from "@/types/db";
-import { useSession } from "next-auth/react";
-import MiniCreateComment from "@/components/MiniCreateComment";
-import CommentFeed from "@/components/CommentFeed";
-import Post from "@/components/Post";
+"use client"
+import { FC } from "react"
+import { ExtendedPost, ExtendedComment } from "@/types/db"
+import { useSession } from "next-auth/react"
+import MiniCreateComment from "@/components/MiniCreateComment"
+import CommentFeed from "@/components/CommentFeed"
+import Post from "@/components/Post"
 
 interface PostViewProps {
-    post: ExtendedPost;
-    comments: ExtendedComment[];
+  post: ExtendedPost
+  comments: ExtendedComment[]
 }
 
 export const PostView: FC<PostViewProps> = ({ post, comments }) => {
-  const { data: session } = useSession();
-  const votesAmt = post.votes.length;
+  const { data: session } = useSession()
+  const votesAmt = post.votes.length
   const currentVote = post.votes.find(
-    (vote) => vote.userId === session?.user?.id
-  );
+    (vote) => vote.userId === session?.user?.id,
+  )
   return (
     <div>
       <div>
@@ -40,7 +40,7 @@ export const PostView: FC<PostViewProps> = ({ post, comments }) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PostView;
+export default PostView
