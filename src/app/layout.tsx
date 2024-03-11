@@ -9,6 +9,9 @@ export const metadata = {
   title: "Apunts Dades",
   description:
     "Un forum per a compartir, recomanar i discutir sobre apunts del Grau en Ciència i Enginyeria de Dades (GCED) de la UPC",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 const inter = Inter({ subsets: ["latin"] }) // TODO: Fer servir la font de l'AED
