@@ -184,7 +184,7 @@ const Layout = async ({
                       className: "w-full mb-2",
                     })}
                   >
-                    Comparteix Apunts
+                    Penja Apunts
                   </Link>
 
                   <Link
