@@ -14,7 +14,7 @@ interface AnswersViewProps {
 export const AnswersView: FC<AnswersViewProps> = ({ question, answers }) => {
   const { data: session } = useSession()
   const votesAmt = question.votes.length
-  const answerAmt = question.answers.length
+  const answerAmt = question.answers == null ? 0 : question.answers.length
   const subjectName = question.subject.name
   const subjectAcronym = question.subject.acronym
   const currentVote = question.votes.find(
