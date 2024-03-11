@@ -3,7 +3,7 @@ name: Pre-commit Checks
 on:
   pull_request:
     paths:
-      - '**/*.{js,jsx,ts,tsx,json,css,scss,md}'
+      - "**/*.{js,jsx,ts,tsx,json,css,scss,md}"
 
 jobs:
   pre-commit-checks:

@@ -177,14 +177,15 @@ const Layout = async ({
                     />
                   ) : null}
 
-                    <Link
-                        href={"/submit"}
-                        className={buttonVariants({
-                            variant: "outline",
-                            className: "w-full mb-2",
-                        })}>
-                        Penja Apunts
-                    </Link>
+                  <Link
+                    href={"/submit"}
+                    className={buttonVariants({
+                      variant: "outline",
+                      className: "w-full mb-2",
+                    })}
+                  >
+                    Penja Apunts
+                  </Link>
 
                   <Link
                     href={`/${slug}/q`}
