@@ -10,8 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "format": "prettier --write .",
-    "format-check": "prettier --check ."
+    "format": "prettier --write ."
   },
   "prisma": {
     "seed": "node prisma/seed.js"
