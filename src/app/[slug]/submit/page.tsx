@@ -1,4 +1,4 @@
-import { SmallProfileForm } from "@/components/Form"
+import { ProfileForm } from "@/components/Form"
 import { db } from "@/lib/db"
 import { notFound } from "next/navigation"
 
@@ -26,7 +26,7 @@ const page = async ({ params }: PageProps) => {
         Penja apunts {subjectNameArticle}
         {subject.name}
       </h1>
-      <SmallProfileForm subjectAcronym={slug} />
+      <ProfileForm PreselectedSubject={slug} />
     </>
   )
 }

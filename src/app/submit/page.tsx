@@ -4,7 +4,7 @@ import { ProfileForm } from "@/components/Form"
 interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
-  return <ProfileForm />
+  return <ProfileForm PreselectedSubject={"AllSubjects"} />
 }
 
 export default page
