@@ -72,7 +72,9 @@ const QuestionFeed: FC<QuestionFeedProps> = ({
             <li key={question.id} ref={ref}>
               <QuestionComponent
                 question={question}
-                answerAmt={question.answers == null ? 0 : question.answers.length}
+                answerAmt={
+                  question.answers == null ? 0 : question.answers.length
+                }
                 subjectName={question.subject.name}
                 votesAmt={votesAmt}
                 currentVote={currentVote}
