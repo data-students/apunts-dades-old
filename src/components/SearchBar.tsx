@@ -1,11 +1,11 @@
-'use client'
+"use client"
 
-import { Post, Prisma, Question, Subject } from '@prisma/client'
-import { useQueries } from '@tanstack/react-query'
-import axios from 'axios'
-import debounce from 'lodash.debounce'
-import { usePathname, useRouter } from 'next/navigation'
-import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { Post, Prisma, Question, Subject } from "@prisma/client"
+import { useQueries } from "@tanstack/react-query"
+import axios from "axios"
+import debounce from "lodash.debounce"
+import { usePathname, useRouter } from "next/navigation"
+import { FC, useCallback, useEffect, useRef, useState } from "react"
 
 import {
   Command,
@@ -14,20 +14,20 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/Command'
-import { useOnClickOutside } from '@/hooks/use-on-click-outside'
-import { Users } from 'lucide-react'
+} from "@/components/ui/Command"
+import { useOnClickOutside } from "@/hooks/use-on-click-outside"
+import { Users } from "lucide-react"
 
 interface SearchBarProps {}
 
 const SearchBar: FC<SearchBarProps> = ({}) => {
-  const [input, setInput] = useState<string>('')
+  const [input, setInput] = useState<string>("")
   const pathname = usePathname()
   const commandRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
   useOnClickOutside(commandRef, () => {
-    setInput('')
+    setInput("")
   })
 
   const request = debounce(async () => {
@@ -48,7 +48,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
             _count: Prisma.SubjectCountOutputType
           })[]
         },
-        queryKey: ['search-subject-query'],
+        queryKey: ["search-subject-query"],
         enabled: false,
       },
       {
@@ -57,7 +57,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
           const { data } = await axios.get(`/api/search/post?q=${input}`)
           return data as (Post & { _count: Prisma.PostCountOutputType })[]
         },
-        queryKey: ['search-post-query'],
+        queryKey: ["search-post-query"],
         enabled: false,
       },
       {
@@ -68,13 +68,17 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
             _count: Prisma.QuestionCountOutputType
           })[]
         },
-        queryKey: ['search-question-query'],
+        queryKey: ["search-question-query"],
         enabled: false,
       },
     ],
   })
 
-  const [subjectQueryResultsObjects, postQueryResultsObjects, questionQueryResultsObjects] = queriesResults
+  const [
+    subjectQueryResultsObjects,
+    postQueryResultsObjects,
+    questionQueryResultsObjects,
+  ] = queriesResults
   const subjectQueryResults = subjectQueryResultsObjects.data
   const postQueryResults = postQueryResultsObjects.data
   const questionQueryResults = questionQueryResultsObjects.data
@@ -87,29 +91,31 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   }, [])
 
   useEffect(() => {
-    setInput('')
+    setInput("")
   }, [pathname])
 
   return (
     <Command
       ref={commandRef}
-      className='relative rounded-lg border max-w-lg z-50 overflow-visible'>
+      className="relative rounded-lg border max-w-lg z-50 overflow-visible"
+    >
       <CommandInput
         onValueChange={(text) => {
           setInput(text)
           debounceRequest()
         }}
         value={input}
-        className='outline-none border-none focus:border-none focus:outline-none ring-0'
-        isLoading={isFetching}
-        placeholder='Cerca...'
+        className="outline-none border-none focus:border-none focus:outline-none ring-0"
+        placeholder="Cerca..."
       />
 
       {input.length > 0 && (
-        <CommandList className='absolute bg-white top-full inset-x-0 shadow rounded-b-md'>
-          {isFetched && <CommandEmpty>No s&apos;han trobat resultats.</CommandEmpty>}
+        <CommandList className="absolute bg-white top-full inset-x-0 shadow rounded-b-md">
+          {isFetched && (
+            <CommandEmpty>No s&apos;han trobat resultats.</CommandEmpty>
+          )}
           {(subjectQueryResults?.length ?? 0) > 0 ? (
-            <CommandGroup heading='Assignatures'>
+            <CommandGroup heading="Assignatures">
               {subjectQueryResults?.map((subject) => (
                 <CommandItem
                   onSelect={(e) => {
@@ -117,15 +123,16 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                     router.refresh()
                   }}
                   key={subject.id}
-                  value={subject.acronym}>
-                  <Users className='mr-2 h-4 w-4' />
+                  value={subject.acronym}
+                >
+                  <Users className="mr-2 h-4 w-4" />
                   <a href={`/${subject.acronym}`}>{subject.name}</a>
                 </CommandItem>
               ))}
             </CommandGroup>
           ) : null}
           {(postQueryResults?.length ?? 0) > 0 ? (
-            <CommandGroup heading='Apunts'>
+            <CommandGroup heading="Apunts">
               {postQueryResults?.map((post) => (
                 <CommandItem
                   onSelect={(e) => {
@@ -133,15 +140,18 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                     router.refresh()
                   }}
                   key={post.id}
-                  value={`${post.subject.acronym}/post/${post.id}`}>
-                  <Users className='mr-2 h-4 w-4' />
-                  <a href={`/${post.subject.acronym}/post/${post.id}`}>{post.title}</a>
+                  value={`${post.subject.acronym}/post/${post.id}`}
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  <a href={`/${post.subject.acronym}/post/${post.id}`}>
+                    {post.title}
+                  </a>
                 </CommandItem>
               ))}
             </CommandGroup>
           ) : null}
           {(questionQueryResults?.length ?? 0) > 0 ? (
-            <CommandGroup heading='Preguntes'>
+            <CommandGroup heading="Preguntes">
               {questionQueryResults?.map((question) => (
                 <CommandItem
                   onSelect={(e) => {
@@ -149,9 +159,12 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                     router.refresh()
                   }}
                   key={question.id}
-                  value={`${question.subject.acronym}/q/${question.id}`}>
-                  <Users className='mr-2 h-4 w-4' />
-                  <a href={`/${question.subject.acronym}/q/${question.id}`}>{question.title}</a>
+                  value={`${question.subject.acronym}/q/${question.id}`}
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  <a href={`/${question.subject.acronym}/q/${question.id}`}>
+                    {question.title}
+                  </a>
                 </CommandItem>
               ))}
             </CommandGroup>

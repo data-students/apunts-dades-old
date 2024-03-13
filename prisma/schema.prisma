@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -76,8 +75,8 @@ model Subject {
   posts       Post[]
   questions   Question[]
 
-  @@index([name, acronym])
-  @@fulltext([name])
+  @@index([acronym])
+  @@index([name])
 }
 
 model Question {
@@ -93,7 +92,7 @@ model Question {
   answers   Answer[]
   votes     QuestionVote[]
 
-  @@fulltext([title, content])
+  @@index([title])
 }
 
 model Post {
@@ -112,7 +111,7 @@ model Post {
   comments    Comment[]
   votes       PostVote[]
 
-  @@fulltext([title])
+  @@index([title])
 }
 
 model Answer {

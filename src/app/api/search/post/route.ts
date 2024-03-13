@@ -9,23 +9,12 @@ export async function GET(req: Request) {
   const results = await db.post.findMany({
     where: {
       title: {
-        search: q,
+        contains: q,
       },
     },
     include: {
       _count: true,
-      subject: {
-        select: {
-          acronym: true,
-        },
-      },
-    },
-    orderBy: {
-      _relevance: {
-        fields: ["title"],
-        search: q,
-        sort: "asc",
-      },
+      subject: true,
     },
     take: 5,
   })
