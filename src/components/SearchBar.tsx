@@ -79,9 +79,17 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     postQueryResultsObjects,
     questionQueryResultsObjects,
   ] = queriesResults
-  const subjectQueryResults = subjectQueryResultsObjects.data
-  const postQueryResults = postQueryResultsObjects.data
-  const questionQueryResults = questionQueryResultsObjects.data
+  const subjectQueryResults = subjectQueryResultsObjects.data as (Subject & {
+    _count: Prisma.SubjectCountOutputType
+  })[]
+  const postQueryResults = postQueryResultsObjects.data as (Post & {
+    _count: Prisma.PostCountOutputType
+    subject: Subject
+  })[]
+  const questionQueryResults = questionQueryResultsObjects.data as (Question & {
+    _count: Prisma.QuestionCountOutputType
+    subject: Subject
+  })[]
   const isFetching = queriesResults.some((query) => query.isFetching)
   const isFetched = queriesResults.every((query) => query.isFetched)
   const refetch = useCallback(() => {
