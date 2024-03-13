@@ -7,20 +7,27 @@ export async function GET(req: Request) {
   if (!q) return new Response('Invalid query', { status: 400 })
 
 const results = await db.question.findMany({
-    where: {
-        title: {
-            search: q,
-        },
+  where: {
+    title: {
+      search: q,
     },
-    include: {
-        subject: {
-            select: {
-                acronym: true,
-            },
-        },
-        _count: true,
+  },
+  include: {
+    subject: {
+      select: {
+        acronym: true,
+      },
     },
-    take: 5,
+    _count: true,
+  },
+  orderBy: {
+    _relevance: {
+      fields: ["title"],
+      search: q,
+      sort: "asc",
+    },
+  },
+  take: 5,
 })
 
   return new Response(JSON.stringify(results))

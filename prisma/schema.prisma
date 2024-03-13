@@ -77,6 +77,7 @@ model Subject {
   questions   Question[]
 
   @@index([name, acronym])
+  @@fulltext([name])
 }
 
 model Question {
@@ -92,7 +93,7 @@ model Question {
   answers   Answer[]
   votes     QuestionVote[]
 
-  @@index([title, content])
+  @@fulltext([title, content])
 }
 
 model Post {
@@ -111,7 +112,7 @@ model Post {
   comments    Comment[]
   votes       PostVote[]
 
-  @@index([title])
+  @@fulltext([title])
 }
 
 model Answer {
