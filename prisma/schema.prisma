@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -90,6 +91,8 @@ model Question {
   author    User           @relation(fields: [authorId], references: [id])
   answers   Answer[]
   votes     QuestionVote[]
+
+  @@index([title, content])
 }
 
 model Post {
@@ -107,6 +110,8 @@ model Post {
   author      User       @relation(fields: [authorId], references: [id])
   comments    Comment[]
   votes       PostVote[]
+
+  @@index([title])
 }
 
 model Answer {

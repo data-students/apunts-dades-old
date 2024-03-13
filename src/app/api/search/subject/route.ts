@@ -11,7 +11,7 @@ const results = await db.subject.findMany({
         OR: [
             {
                 name: {
-                    contains: q,
+                    search: q,
                 },
             },
             {
