@@ -37,7 +37,8 @@ const page = async ({ params }: PageProps) => {
   return (
     <>
       <h1 className="text-3xl md:text-4xl h-14">
-        <span className="font-bold">{subject.acronym} Questions:</span>
+        <span className="font-bold">{subject.acronym}/</span>
+        {subject.name} - Preguntes
       </h1>
 
       <MiniCreateQuestion session={session} subjectId={subject.id} />
