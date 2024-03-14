@@ -1,7 +1,7 @@
 // import CustomFeed from "@/components/CustomFeed";
 import { buttonVariants } from "@/components/ui/Button"
 // import { getAuthSession } from "@/lib/auth";
-import { HomeIcon } from "lucide-react"
+import { HomeIcon, HelpCircleIcon } from "lucide-react"
 import Link from "next/link"
 
 import { db } from "@/lib/db"
@@ -88,7 +88,7 @@ export default async function Home() {
 				</div> */}
         <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first mb-4">
           <div className="bg-pink-100 px-6 py-4">
-            <p className="</div>font-semibold py-3 flex items-center gap-1.5">
+            <p className="font-semibold py-3 flex items-center gap-1.5">
               <HomeIcon className="w-4 h-4" />
               Inici
             </p>
@@ -102,6 +102,26 @@ export default async function Home() {
               href="/submit"
             >
               Penja Apunts
+            </Link>
+          </div>
+        </div>
+        <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first mb-4">
+          <div className="bg-blue-100 px-6 py-4">
+            <p className="font-semibold py-3 flex items-center gap-1.5">
+              <HelpCircleIcon className="w-4 h-4" />
+              Preguntes no resoltes
+            </p>
+          </div>
+
+          <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+            <Link
+              className={buttonVariants({
+                variant: "unansweredquestions",
+                className: "w-full mt-4 mb-6",
+              })}
+              href="/unansweredquestions"
+            >
+              <span className="text-black">Veure-les</span>
             </Link>
           </div>
         </div>
@@ -119,7 +139,7 @@ export default async function Home() {
                 <div
                   className={cn("px-6 py-2", semesterColor(subject.semester))}
                 >
-                  <p className="font-semibold py-1 flex items-center gap-1.5">
+                  <p className="py-1 flex items-center gap-1.5">
                     <BookIcon className="w-4 h-4" />
                     {subject.name}
                     {/* <HeartIcon className={cn("h-5 w-5", ColorClass)} /> */}
