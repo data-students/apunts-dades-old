@@ -1,4 +1,3 @@
-import SubscribeLeaveToggle from "@/components/SubscribeLeaveToggle"
 import { buttonVariants } from "@/components/ui/Button"
 import { getAuthSession } from "@/lib/auth"
 import { db } from "@/lib/db"
@@ -8,7 +7,6 @@ import {
   FileTextIcon,
   InfoIcon,
 } from "lucide-react"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import {
   Tooltip,
@@ -16,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import SubscribeHeartToggle from "@/components/SubscribeHeartToggle"
 
 const Layout = async ({
   children,
@@ -168,39 +167,19 @@ const Layout = async ({
                       </p>
                     </div>
                   ) : null}
-
-                  {subject.creatorId !== session?.user?.id ? (
-                    <SubscribeLeaveToggle
-                      subjectId={subject.id}
-                      subjectName={subject.name}
-                      isSubscribed={isSubscribed}
-                    />
-                  ) : null}
-
-                  <Link
-                    href={"/submit"}
-                    className={buttonVariants({
-                      variant: "outline",
-                      className: "w-full mb-2",
-                    })}
-                  >
-                    Penja Apunts
-                  </Link>
-
-                  <Link
-                    href={`/${slug}/q`}
-                    className={buttonVariants({
-                      variant: "outline",
-                      className: "w-full mb-6",
-                    })}
-                  >
-                    Llança una pregunta
-                  </Link>
                 </dl>
               </div>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        {subject.creatorId !== session?.user?.id ? (
+          <SubscribeHeartToggle
+            subjectId={subject.id}
+            subjectName={subject.name}
+            isSubscribed={isSubscribed}
+          />
+        ) : null}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
           <div className="flex flex-col col-span-3 space-y-6">{children}</div>
