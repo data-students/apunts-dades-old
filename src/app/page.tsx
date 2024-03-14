@@ -1,11 +1,10 @@
 // import CustomFeed from "@/components/CustomFeed";
 import { buttonVariants } from "@/components/ui/Button"
 // import { getAuthSession } from "@/lib/auth";
-import { HomeIcon, HelpCircleIcon } from "lucide-react"
+import { FileTextIcon, HelpCircleIcon, HomeIcon, BookIcon } from "lucide-react"
 import Link from "next/link"
 
 import { db } from "@/lib/db"
-import { BookIcon } from "lucide-react"
 // import { HeartIcon, HeartPulseIcon } from "lucide-react";
 import { Badge } from "@/components/ui/Badge"
 import { cn } from "@/lib/utils"
@@ -19,6 +18,16 @@ export default async function Home() {
       acronym: true,
       name: true,
       semester: true,
+      posts: {
+        select: {
+          _count: true,
+        },
+      },
+      questions: {
+        select: {
+          _count: true,
+        },
+      },
     },
   })
 
@@ -148,7 +157,15 @@ export default async function Home() {
 
                 <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6 space-x-2">
                   <Badge variant="outline">{subject.semester}</Badge>
-                  <Badge variant="outline">{subject.acronym}</Badge>
+                  <Badge variant="secondary">{subject.acronym}</Badge>
+                  <Badge variant="outline">
+                    {subject.posts.length}
+                    <FileTextIcon className="w-3 h-3 ml-2" />
+                  </Badge>
+                  <Badge variant="outline">
+                    {subject.questions.length}
+                    <HelpCircleIcon className="w-3 h-3 ml-2" />
+                  </Badge>
                 </div>
               </div>
             </Link>
