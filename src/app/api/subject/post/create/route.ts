@@ -57,6 +57,16 @@ export async function POST(req: Request) {
         return new Response("Author not found", { status: 404 })
       }
     }
+    const existingPost = await db.post.findFirst({
+      where: {
+        title: title,
+        subjectId: subject.id,
+        authorId: authorId,
+      },
+    })
+    if (existingPost) {
+      return new Response("Post already exists", { status: 406 })
+    }
     await db.post.create({
       data: {
         title: title,
