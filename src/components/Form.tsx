@@ -70,15 +70,15 @@ export function ProfileForm({
       return data
     },
     onError: (error) => {
-      if (error.response && error.response.status === 406) {
+      if ((error as any).response && (error as any).response.status === 406) {
         return toast({
           title: "Ja tens un post amb aquest títol per aquesta assignatura",
           description:
             "Si creus que això és un error, contacta amb nosaltres a hola@aed.cat",
         })
       } else {
-        Errmessage = error.message
-          ? error.message
+        const Errmessage = (error as Error).message
+          ? (error as Error).message
           : "No s'ha pogut crear el post."
         toast({
           title: Errmessage,
