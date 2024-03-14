@@ -75,7 +75,8 @@ model Subject {
   posts       Post[]
   questions   Question[]
 
-  @@index([name, acronym])
+  @@index([acronym])
+  @@index([name])
 }
 
 model Question {
@@ -90,6 +91,8 @@ model Question {
   author    User           @relation(fields: [authorId], references: [id])
   answers   Answer[]
   votes     QuestionVote[]
+
+  @@index([title])
 }
 
 model Post {
@@ -107,6 +110,8 @@ model Post {
   author      User       @relation(fields: [authorId], references: [id])
   comments    Comment[]
   votes       PostVote[]
+
+  @@index([title])
 }
 
 model Answer {
