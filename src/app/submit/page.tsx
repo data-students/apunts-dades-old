@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 const page = async ({}) => {
   const session = await getAuthSession()
   const isAdmin = session?.user?.isAdmin
-  if (!isAdmin) return notFound()
+  if (isAdmin === undefined) return notFound()
   return <ProfileForm PreselectedSubject={"AllSubjects"} isAdmin={isAdmin} />
 }
 

@@ -23,7 +23,7 @@ const page = async ({ params }: PageProps) => {
 
   const session = await getAuthSession()
   const isAdmin = session?.user?.isAdmin
-  if (!isAdmin) return notFound()
+  if (isAdmin === undefined) return notFound()
 
   return (
     <>
