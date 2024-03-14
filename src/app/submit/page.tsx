@@ -1,10 +1,12 @@
-import { FC } from "react"
+import { getAuthSession } from "@/lib/auth"
 import { ProfileForm } from "@/components/Form"
+import { notFound } from "next/navigation"
 
-interface pageProps {}
-
-const page: FC<pageProps> = ({}) => {
-  return <ProfileForm PreselectedSubject={"AllSubjects"} />
+const page = async ({}) => {
+  const session = await getAuthSession()
+  const isAdmin = session?.user?.isAdmin
+  if (isAdmin === undefined) return notFound()
+  return <ProfileForm PreselectedSubject={"AllSubjects"} isAdmin={isAdmin} />
 }
 
 export default page

@@ -22,6 +22,7 @@ export const ApuntsPostValidator = z.object({
   assignatura: z.string().min(2).max(5),
   tipus: z.string(),
   anonim: z.boolean(),
+  authorEmail: z.string(), // this is not an email field because it can be set as "Uploader"
 })
 
 export type PostCreationRequest = z.infer<typeof PostValidator>

@@ -42,6 +42,7 @@ model User {
   username        String?        @unique
   generacio       Int            @default(2020)
   image           String?
+  isAdmin        Boolean        @default(false)
   accounts        Account[]
   sessions        Session[]
   posts           Post[]
@@ -105,6 +106,7 @@ model Post {
   authorId    String
   tipus       TipusType
   year        Int
+  NonUploaderAuthorEmail String?
   isAnonymous Boolean    @default(false)
   subject     Subject    @relation(fields: [subjectId], references: [id])
   author      User       @relation(fields: [authorId], references: [id])

@@ -40,6 +40,7 @@ export const authOptions: NextAuthOptions = {
         session.user.image = token.picture
         session.user.username = token.username
         session.user.generacio = token.generacio as string
+        session.user.isAdmin = token.isAdmin as boolean
       }
 
       return session
@@ -75,6 +76,7 @@ export const authOptions: NextAuthOptions = {
         picture: dbUser.image,
         username: dbUser.username,
         generacio: dbUser.generacio,
+        isAdmin: dbUser.isAdmin,
       }
     },
     redirect() {
