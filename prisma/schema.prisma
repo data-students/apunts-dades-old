@@ -42,6 +42,7 @@ model User {
   username        String?        @unique
   generacio       Int            @default(2020)
   image           String?
+  isAdmin        Boolean        @default(false)
   accounts        Account[]
   sessions        Session[]
   posts           Post[]

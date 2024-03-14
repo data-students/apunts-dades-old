@@ -16,6 +16,7 @@ declare module "next-auth" {
       id: UserId
       username?: string | null
       generacio?: string | null
+      isAdmin?: boolean
     }
   }
 }
