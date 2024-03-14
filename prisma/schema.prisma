@@ -106,6 +106,7 @@ model Post {
   authorId    String
   tipus       TipusType
   year        Int
+  NonUploaderAuthorEmail String?
   isAnonymous Boolean    @default(false)
   subject     Subject    @relation(fields: [subjectId], references: [id])
   author      User       @relation(fields: [authorId], references: [id])

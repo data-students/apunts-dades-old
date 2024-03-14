@@ -35,12 +35,17 @@ const formSchema = z.object({
     required_error: "Selecciona un tipus.",
   }),
   anonim: z.boolean().default(false),
+  authorEmail: z.string({
+    required_error: "Selecciona un email",
+  }),
 })
 
 export function ProfileForm({
   PreselectedSubject,
+  isAdmin,
 }: {
   PreselectedSubject: string
+  isAdmin: boolean
 }) {
   const router = useRouter()
 
@@ -51,6 +56,7 @@ export function ProfileForm({
       assignatura,
       tipus,
       anonim,
+      authorEmail,
     }: ApuntsPostCreationRequest) => {
       const payload: ApuntsPostCreationRequest = {
         pdf,
@@ -58,6 +64,7 @@ export function ProfileForm({
         assignatura,
         tipus,
         anonim,
+        authorEmail,
       }
       const { data } = await axios.post("/api/subject/post/create", payload)
       return data
@@ -85,7 +92,12 @@ export function ProfileForm({
     if (PreselectedSubject !== "AllSubjects") {
       form.setValue("assignatura", PreselectedSubject)
     }
-  }, [PreselectedSubject])
+  }, [PreselectedSubject, form])
+  useEffect(() => {
+    if (!isAdmin) {
+      form.setValue("authorEmail", "Uploader")
+    }
+  }, [form, isAdmin])
   async function onSubmit(data: ApuntsPostCreationRequest) {
     const [res] = await uploadFiles([data.pdf], "fileUploader")
     const payload: ApuntsPostCreationRequest = {
@@ -94,6 +106,7 @@ export function ProfileForm({
       assignatura: data.assignatura,
       tipus: data.tipus,
       anonim: data.anonim,
+      authorEmail: data.authorEmail,
     }
 
     createApuntsPost(payload)
@@ -345,6 +358,24 @@ export function ProfileForm({
             </FormItem>
           )}
         />
+        {isAdmin && (
+          <FormField
+            control={form.control}
+            name="authorEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Gràcies per ajudar" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Email de l&apos;autor/a dels apunts
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button type="submit" isLoading={form.formState.isSubmitting}>
           Submit
         </Button>

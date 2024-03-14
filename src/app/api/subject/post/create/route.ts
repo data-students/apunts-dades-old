@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     const body = await req.json()
 
-    const { pdf, title, assignatura, tipus, anonim } =
+    const { pdf, title, assignatura, tipus, anonim, authorEmail } =
       ApuntsPostValidator.parse(body)
 
     const subject = await db.subject.findFirst({
@@ -42,14 +42,30 @@ export async function POST(req: Request) {
     ) {
       return new Response("Invalid tipus", { status: 422 })
     }
+    var authorId = session.user.id
+    var NonUploaderAuthorEmail = null
+    if (authorEmail !== "Uploader") {
+      NonUploaderAuthorEmail = session.user.email
+      const author = await db.user.findFirst({
+        where: {
+          email: authorEmail,
+        },
+      })
+      if (author) {
+        authorId = author.id
+      } else {
+        return new Response("Author not found", { status: 404 })
+      }
+    }
     await db.post.create({
       data: {
         title: title,
         content: pdf,
         subjectId: subject.id,
-        authorId: session.user.id,
+        authorId: authorId,
         tipus: tipus as TipusType,
         year: year,
+        NonUploaderAuthorEmail: NonUploaderAuthorEmail,
         isAnonymous: anonim,
       },
     })
