@@ -69,12 +69,24 @@ export function ProfileForm({
       const { data } = await axios.post("/api/subject/post/create", payload)
       return data
     },
-    onError: () => {
-      toast({
-        title: "Alguna cosa no ha anat bé",
-        description: "No s'ha pogut crear el post. Torna-ho a provar més tard.",
-        variant: "destructive",
-      })
+    onError: (error) => {
+      if (error.response && error.response.status === 406) {
+        return toast({
+          title: "Ja tens un post amb aquest títol per aquesta assignatura",
+          description:
+            "Si creus que això és un error, contacta amb nosaltres a hola@aed.cat",
+        })
+      } else {
+        Errmessage = error.message
+          ? error.message
+          : "No s'ha pogut crear el post."
+        toast({
+          title: Errmessage,
+          description:
+            "Alguna cosa ha anat malament, si creus que no hauria d'haver-hi cap problema, contacta amb nosaltres a hola@aed.cat",
+          variant: "destructive",
+        })
+      }
     },
     onSuccess: (subjectAcronym) => {
       router.push(`/${subjectAcronym}`)
