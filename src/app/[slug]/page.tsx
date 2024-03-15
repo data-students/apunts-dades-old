@@ -1,4 +1,4 @@
-import MiniCreatePost from "@/components/MiniCreatePost"
+import CreatePost from "@/components/CreatePost"
 import PostFeed from "@/components/PostFeed"
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config"
 import { getAuthSession } from "@/lib/auth"
@@ -48,7 +48,7 @@ const page = async ({ params }: PageProps) => {
         {subject.name}
       </h1>
 
-      <MiniCreatePost session={session} />
+      <CreatePost session={session} />
 
       <PostFeed initialPosts={subject.posts} subjectAcronym={subject.acronym} />
     </>

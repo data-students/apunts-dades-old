@@ -8,12 +8,12 @@ import axios from "axios"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "@/hooks/use-toast"
 
-interface MiniCreateComment {
+interface CreateComment {
   session: Session | null
   postId: string
 }
 
-const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
+const CreateComment: FC<CreateComment> = ({ session, postId }) => {
   const [content, setContent] = useState("")
 
   // Define the mutation function using useMutation hook
@@ -87,4 +87,4 @@ const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
   )
 }
 
-export default MiniCreateComment
+export default CreateComment

@@ -6,16 +6,12 @@ import { FC } from "react"
 import UserAvatar from "./UserAvatar"
 import Editor from "@/components/Editor"
 
-interface MiniCreateAnswer {
+interface CreateAnswer {
   session: Session | null
   subjectId: string
   questionId: string
 }
-const MiniCreateAnswer: FC<MiniCreateAnswer> = ({
-  session,
-  subjectId,
-  questionId,
-}) => {
+const CreateAnswer: FC<CreateAnswer> = ({ session, subjectId, questionId }) => {
   return (
     <div className="overflow-hidden rounded-md bg-white shadow">
       <div className="h-auto px-6 py-4 flex flex-col justify-between">
@@ -42,4 +38,4 @@ const MiniCreateAnswer: FC<MiniCreateAnswer> = ({
   )
 }
 
-export default MiniCreateAnswer
+export default CreateAnswer

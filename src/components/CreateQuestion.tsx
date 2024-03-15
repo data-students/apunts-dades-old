@@ -5,14 +5,11 @@ import { FC } from "react"
 import UserAvatar from "./UserAvatar"
 import Editor from "@/components/Editor"
 
-interface MiniCreateQuestionProps {
+interface CreateQuestionProps {
   session: Session | null
   subjectId: string
 }
-const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
-  session,
-  subjectId,
-}) => {
+const CreateQuestion: FC<CreateQuestionProps> = ({ session, subjectId }) => {
   return (
     <div className="overflow-hidden rounded-md bg-white shadow">
       <div className="h-auto px-6 py-4 flex flex-col justify-between">
@@ -38,4 +35,4 @@ const MiniCreateQuestion: FC<MiniCreateQuestionProps> = ({
   )
 }
 
-export default MiniCreateQuestion
+export default CreateQuestion

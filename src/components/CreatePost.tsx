@@ -7,11 +7,11 @@ import UserAvatar from "./UserAvatar"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/Button"
 
-interface MiniCreatePostProps {
+interface CreatePostProps {
   session: Session | null
 }
 
-const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
+const CreatePost: FC<CreatePostProps> = ({ session }) => {
   const router = useRouter()
   const pathname = usePathname()
 
@@ -51,4 +51,4 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
   )
 }
 
-export default MiniCreatePost
+export default CreatePost

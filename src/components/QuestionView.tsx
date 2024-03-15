@@ -3,7 +3,7 @@ import { FC } from "react"
 import QuestionComponent from "@/components/QuestionComponent"
 import { ExtendedQuestion, ExtendedAnswer } from "@/types/db"
 import { useSession } from "next-auth/react"
-import MiniCreateAnswer from "@/components/MiniCreateAnswer"
+import CreateAnswer from "@/components/CreateAnswer"
 import AnswerFeed from "@/components/AnswerFeed"
 
 interface AnswersViewProps {
@@ -33,7 +33,7 @@ export const AnswersView: FC<AnswersViewProps> = ({ question, answers }) => {
         />
       </div>
       <div className="mt-4">
-        <MiniCreateAnswer
+        <CreateAnswer
           session={session}
           subjectId={question.subject.id}
           questionId={question.id}

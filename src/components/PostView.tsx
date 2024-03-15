@@ -2,7 +2,7 @@
 import { FC } from "react"
 import { ExtendedPost, ExtendedComment } from "@/types/db"
 import { useSession } from "next-auth/react"
-import MiniCreateComment from "@/components/MiniCreateComment"
+import CreateComment from "@/components/CreateComment"
 import CommentFeed from "@/components/CommentFeed"
 import Post from "@/components/Post"
 
@@ -29,7 +29,7 @@ export const PostView: FC<PostViewProps> = ({ post, comments }) => {
         />
       </div>
       <div className="mt-4">
-        <MiniCreateComment session={session} postId={post.id} />
+        <CreateComment session={session} postId={post.id} />
       </div>
       <div className="mt-4">
         <CommentFeed
