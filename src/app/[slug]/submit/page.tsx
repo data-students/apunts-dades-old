@@ -1,5 +1,6 @@
 import { ProfileForm } from "@/components/Form"
 import { db } from "@/lib/db"
+import { getAuthSession } from "@/lib/auth"
 import { notFound } from "next/navigation"
 
 interface PageProps {
@@ -20,13 +21,17 @@ const page = async ({ params }: PageProps) => {
   const startsWithVowel = /^[aeiouàáâãäåæçèéêëìíîïðòóôõöøùúûüýÿ]/i
   const subjectNameArticle = subject.name.match(startsWithVowel) ? "d'" : "de "
 
+  const session = await getAuthSession()
+  const isAdmin = session?.user?.isAdmin
+  if (isAdmin === undefined) return notFound()
+
   return (
     <>
       <h1 className="text-3xl md:text-4xl h-14">
         Penja apunts {subjectNameArticle}
         {subject.name}
       </h1>
-      <ProfileForm PreselectedSubject={slug} />
+      <ProfileForm PreselectedSubject={slug} isAdmin={isAdmin} />
     </>
   )
 }

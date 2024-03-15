@@ -35,12 +35,17 @@ const formSchema = z.object({
     required_error: "Selecciona un tipus.",
   }),
   anonim: z.boolean().default(false),
+  authorEmail: z.string({
+    required_error: "Selecciona un email",
+  }),
 })
 
 export function ProfileForm({
   PreselectedSubject,
+  isAdmin,
 }: {
   PreselectedSubject: string
+  isAdmin: boolean
 }) {
   const router = useRouter()
 
@@ -51,6 +56,7 @@ export function ProfileForm({
       assignatura,
       tipus,
       anonim,
+      authorEmail,
     }: ApuntsPostCreationRequest) => {
       const payload: ApuntsPostCreationRequest = {
         pdf,
@@ -58,16 +64,29 @@ export function ProfileForm({
         assignatura,
         tipus,
         anonim,
+        authorEmail,
       }
       const { data } = await axios.post("/api/subject/post/create", payload)
       return data
     },
-    onError: () => {
-      toast({
-        title: "Alguna cosa no ha anat bé",
-        description: "No s'ha pogut crear el post. Torna-ho a provar més tard.",
-        variant: "destructive",
-      })
+    onError: (error) => {
+      if ((error as any).response && (error as any).response.status === 406) {
+        return toast({
+          title: "Ja tens un post amb aquest títol per aquesta assignatura",
+          description:
+            "Si creus que això és un error, contacta amb nosaltres a hola@aed.cat",
+        })
+      } else {
+        const Errmessage = (error as Error).message
+          ? (error as Error).message
+          : "No s'ha pogut crear el post."
+        toast({
+          title: Errmessage,
+          description:
+            "Alguna cosa ha anat malament, si creus que no hauria d'haver-hi cap problema, contacta amb nosaltres a hola@aed.cat",
+          variant: "destructive",
+        })
+      }
     },
     onSuccess: (subjectAcronym) => {
       router.push(`/${subjectAcronym}`)
@@ -85,7 +104,12 @@ export function ProfileForm({
     if (PreselectedSubject !== "AllSubjects") {
       form.setValue("assignatura", PreselectedSubject)
     }
-  }, [PreselectedSubject])
+  }, [PreselectedSubject, form])
+  useEffect(() => {
+    if (!isAdmin) {
+      form.setValue("authorEmail", "Uploader")
+    }
+  }, [form, isAdmin])
   async function onSubmit(data: ApuntsPostCreationRequest) {
     const [res] = await uploadFiles([data.pdf], "fileUploader")
     const payload: ApuntsPostCreationRequest = {
@@ -94,6 +118,7 @@ export function ProfileForm({
       assignatura: data.assignatura,
       tipus: data.tipus,
       anonim: data.anonim,
+      authorEmail: data.authorEmail,
     }
 
     createApuntsPost(payload)
@@ -345,6 +370,24 @@ export function ProfileForm({
             </FormItem>
           )}
         />
+        {isAdmin && (
+          <FormField
+            control={form.control}
+            name="authorEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Gràcies per ajudar" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Email de l&apos;autor/a dels apunts
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         <Button type="submit" isLoading={form.formState.isSubmitting}>
           Submit
         </Button>
