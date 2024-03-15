@@ -22,11 +22,15 @@ import { Combobox } from "@/components/Combobox"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
+import { Session } from "next-auth"
 
 const formSchema = z.object({
   pdf: z.any(),
   title: z.string({
     required_error: "Selecciona un títol",
+  }),
+  year: z.string({
+    required_error: "Selecciona un any",
   }),
   assignatura: z.string({
     required_error: "Selecciona una assignatura.",
@@ -43,9 +47,13 @@ const formSchema = z.object({
 export function ProfileForm({
   PreselectedSubject,
   isAdmin,
+  session,
+  semester,
 }: {
   PreselectedSubject: string
   isAdmin: boolean
+  session: Session
+  semester: number
 }) {
   const router = useRouter()
 
@@ -53,6 +61,7 @@ export function ProfileForm({
     mutationFn: async ({
       pdf,
       title,
+      year,
       assignatura,
       tipus,
       anonim,
@@ -61,6 +70,7 @@ export function ProfileForm({
       const payload: ApuntsPostCreationRequest = {
         pdf,
         title,
+        year,
         assignatura,
         tipus,
         anonim,
@@ -115,6 +125,7 @@ export function ProfileForm({
     const payload: ApuntsPostCreationRequest = {
       pdf: res.fileUrl,
       title: data.title,
+      year: Number(data.year),
       assignatura: data.assignatura,
       tipus: data.tipus,
       anonim: data.anonim,
@@ -264,6 +275,21 @@ export function ProfileForm({
       label: "Altres",
     },
   ]
+
+  const date = new Date()
+  const end = date.getFullYear()
+  const begin = session ? Number(session.user.generacio) : 2017 // primera promoció
+  let tipus_any = []
+  for (let i = begin; i <= end; i++) {
+    tipus_any.push({
+      value: i.toString(),
+      label: i.toString(),
+    })
+  }
+  const default_year = session
+    ? session.user.generacio + Math.floor((semester - 1) / 2)
+    : end
+
   // ------------------------------
   return (
     <Form {...form}>
@@ -271,6 +297,31 @@ export function ProfileForm({
         onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
         className="space-y-8"
       >
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => {
+            if (!field.value) {
+              field.value = default_year.toString()
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Any</FormLabel>
+                <FormControl>
+                  <Combobox
+                    options={tipus_any}
+                    value={field.value}
+                    setValue={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Any que has cursat l&apos;assignatura.
+                </FormDescription>
+              </FormItem>
+            )
+          }}
+        />
         <FormField
           control={form.control}
           name="pdf"

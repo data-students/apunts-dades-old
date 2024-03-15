@@ -31,7 +31,14 @@ const page = async ({ params }: PageProps) => {
         Penja apunts {subjectNameArticle}
         {subject.name}
       </h1>
-      <ProfileForm PreselectedSubject={slug} isAdmin={isAdmin} />
+      <ProfileForm
+        PreselectedSubject={slug}
+        isAdmin={isAdmin}
+        session={session}
+        semester={
+          subject.semester[0] === "Q" ? parseInt(subject.semester[1]) : 8
+        }
+      />
     </>
   )
 }
