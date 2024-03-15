@@ -303,6 +303,7 @@ export function ProfileForm({
           render={({ field }) => {
             if (!field.value) {
               field.value = default_year.toString()
+              field.onChange(default_year.toString())
             }
 
             return (
