@@ -23,7 +23,11 @@ const page = async ({ params }: PageProps) => {
         include: {
           author: true,
           votes: true,
-          comments: true,
+          comments: {
+            include: {
+              _count: true,
+            },
+          },
           subject: true,
         },
         orderBy: {
