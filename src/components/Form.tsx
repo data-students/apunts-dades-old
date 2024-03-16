@@ -22,6 +22,7 @@ import { Combobox } from "@/components/Combobox"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
+import { GCED_START } from "@/config"
 
 const formSchema = z.object({
   pdf: z.any(),
@@ -46,13 +47,13 @@ const formSchema = z.object({
 export function ProfileForm({
   PreselectedSubject,
   isAdmin,
+  generacio,
   semester,
-  generacio = 2017,
 }: {
   PreselectedSubject: string
   isAdmin: boolean
+  generacio: number
   semester?: number
-  generacio?: number
 }) {
   const router = useRouter()
 
