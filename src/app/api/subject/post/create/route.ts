@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     const body = await req.json()
 
-    const { pdf, title, assignatura, tipus, anonim, authorEmail } =
+    const { pdf, title, year, assignatura, tipus, anonim, authorEmail } =
       ApuntsPostValidator.parse(body)
 
     const subject = await db.subject.findFirst({
@@ -26,14 +26,6 @@ export async function POST(req: Request) {
     if (!subject) {
       return new Response("Subject not found", { status: 404 })
     }
-
-    const semester = subject.semester
-    const semesterNumber = semester[0] === "Q" ? parseInt(semester[1]) : 8
-    if (typeof session.user.generacio !== "number") {
-      return new Response("Invalid generacio", { status: 409 })
-    }
-    const year: number =
-      session.user.generacio + Math.floor((semesterNumber - 1) / 2)
 
     if (
       !["apunts", "examens", "exercicis", "diapositives", "altres"].includes(
