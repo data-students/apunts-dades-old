@@ -8,6 +8,7 @@ import axios, { AxiosError } from "axios"
 import { toast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { useCustomToasts } from "@/hooks/use-custom-toasts"
+import { Heart, HeartIcon } from "lucide-react"
 
 interface SubscribeLeaveToggleProps {
   subjectId: string
@@ -100,18 +101,28 @@ const SubscribeLeaveToggle: FC<SubscribeLeaveToggleProps> = ({
   return isSubscribed ? (
     <Button
       isLoading={isUnsubLoading}
-      onClick={() => unsubscribe()}
-      className="w-full mt-1 mb-4"
+      onClick={(e) => {
+        e.preventDefault()
+        unsubscribe()
+      }}
+      size="sm"
+      variant="ghost"
+      aria-label="unsubscribe"
     >
-      Deixar de seguir
+      <Heart fill="red" strokeWidth={0} className="h-5 w-5" />
     </Button>
   ) : (
     <Button
       isLoading={isSubLoading}
-      onClick={() => subscribe()}
-      className="w-full mt-1 mb-4"
+      onClick={(e) => {
+        e.preventDefault()
+        subscribe()
+      }}
+      size="sm"
+      variant="ghost"
+      aria-label="subscribe"
     >
-      Seguir
+      <HeartIcon className="h-5 w-5" />
     </Button>
   )
 }
