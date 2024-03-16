@@ -46,11 +46,11 @@ export function Combobox({
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="max-h-80 flex flex-col w-[200px] p-0">
           <Command>
             <CommandInput placeholder="Search..." />
-            <CommandEmpty>No option found.</CommandEmpty>
-            <CommandGroup>
+            <CommandEmpty className="flex-1">No option found.</CommandEmpty>
+            <CommandGroup className="flex-1 h-full overflow-y-scroll">
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
