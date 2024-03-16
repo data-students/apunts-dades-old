@@ -8,16 +8,16 @@ import axios from "axios"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "@/hooks/use-toast"
 
-interface MiniCreateComment {
+interface CreateComment {
   session: Session | null
   postId: string
 }
 
-const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
+const CreateComment: FC<CreateComment> = ({ session, postId }) => {
   const [content, setContent] = useState("")
 
   // Define the mutation function using useMutation hook
-  const { mutate: createComment } = useMutation({
+  const { mutate: createComment, isLoading } = useMutation({
     mutationFn: async () => {
       const { data } = await axios.post("/api/subject/comment/create", {
         content: content,
@@ -26,14 +26,18 @@ const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
       return data
     },
     onSuccess: ({}) => {
-      // Handle success and show toast
       toast({
         description: `Comment created successfully`,
       })
-      // You can add any additional handling specific to your needs here
+      setContent("")
+      window.location.reload()
     },
     onError: ({}) => {
-      // Handle error if needed
+      toast({
+        title: "Something went wrong",
+        description: `The comment could not be created. Please try again later.`,
+        variant: "destructive",
+      })
     },
   })
 
@@ -72,8 +76,8 @@ const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
           <Button
             type="submit"
             className="w-full sm:w-auto mt-2"
-            form="subject-question-form"
             onClick={handleSubmit}
+            isLoading={isLoading}
           >
             Compartir
           </Button>
@@ -83,4 +87,4 @@ const MiniCreateComment: FC<MiniCreateComment> = ({ session, postId }) => {
   )
 }
 
-export default MiniCreateComment
+export default CreateComment

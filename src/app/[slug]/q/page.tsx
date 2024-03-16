@@ -1,7 +1,7 @@
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config"
 import { getAuthSession } from "@/lib/auth"
 import { db } from "@/lib/db"
-import MiniCreateQuestion from "@/components/MiniCreateQuestion"
+import CreateQuestion from "@/components/CreateQuestion"
 import QuestionFeed from "@/components/QuestionFeed"
 import { notFound } from "next/navigation"
 
@@ -41,7 +41,7 @@ const page = async ({ params }: PageProps) => {
         {subject.name} - Preguntes
       </h1>
 
-      <MiniCreateQuestion session={session} subjectId={subject.id} />
+      <CreateQuestion session={session} subjectId={subject.id} />
 
       <QuestionFeed
         initialQuestions={subject.questions}
