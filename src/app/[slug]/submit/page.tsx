@@ -34,10 +34,10 @@ const page = async ({ params }: PageProps) => {
       <ProfileForm
         PreselectedSubject={slug}
         isAdmin={isAdmin}
-        session={session}
         semester={
           subject.semester[0] === "Q" ? parseInt(subject.semester[1]) : 8
         }
+        generacio={session ? Number(session.user.generacio) : 2017}
       />
     </>
   )

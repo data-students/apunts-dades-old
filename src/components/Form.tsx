@@ -22,7 +22,6 @@ import { Combobox } from "@/components/Combobox"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
-import { Session } from "next-auth"
 
 const formSchema = z.object({
   pdf: z.any(),
@@ -47,13 +46,13 @@ const formSchema = z.object({
 export function ProfileForm({
   PreselectedSubject,
   isAdmin,
-  session,
   semester,
+  generacio = 2017,
 }: {
   PreselectedSubject: string
   isAdmin: boolean
-  session: Session
-  semester: number
+  semester?: number
+  generacio?: number
 }) {
   const router = useRouter()
 
@@ -278,17 +277,20 @@ export function ProfileForm({
 
   const date = new Date()
   const end = date.getFullYear()
-  const begin = session ? Number(session.user.generacio) : 2017 // primera promoció
-  let tipus_any = []
-  for (let i = begin; i <= end; i++) {
+  interface Year {
+    value: string
+    label: string
+  }
+  let tipus_any: Year[] = []
+  for (let i = generacio; i < end; i++) {
     tipus_any.push({
       value: i.toString(),
       label: i.toString(),
     })
   }
-  const default_year = session
-    ? session.user.generacio + Math.floor((semester - 1) / 2)
-    : end
+  const default_year = semester
+    ? (generacio + Math.floor((semester - 1) / 2)).toString()
+    : undefined
 
   // ------------------------------
   return (
@@ -301,9 +303,9 @@ export function ProfileForm({
           control={form.control}
           name="year"
           render={({ field }) => {
-            if (!field.value) {
-              field.value = default_year.toString()
-              field.onChange(default_year.toString())
+            if (!field.value && default_year) {
+              field.value = default_year
+              field.onChange(default_year)
             }
 
             return (
