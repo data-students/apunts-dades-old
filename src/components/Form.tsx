@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/Button"
 import {
   Form,
@@ -48,6 +48,7 @@ export function ProfileForm({
   isAdmin: boolean
 }) {
   const router = useRouter()
+  const [assignatures, setAssignatures] = useState([])
 
   const { mutate: createApuntsPost } = useMutation({
     mutationFn: async ({
@@ -123,125 +124,19 @@ export function ProfileForm({
 
     createApuntsPost(payload)
   }
-  // ------------------------------
-  const assignatures = [
-    {
-      value: "alg",
-      label: "ALG",
-    },
-    {
-      value: "cal",
-      label: "CAL",
-    },
-    {
-      value: "lmd",
-      label: "LMD",
-    },
-    {
-      value: "ap1",
-      label: "AP1",
-    },
-    {
-      value: "ap2",
-      label: "AP2",
-    },
-    {
-      value: "ac2",
-      label: "AC2",
-    },
-    {
-      value: "pie1",
-      label: "PIE1",
-    },
-    {
-      value: "com",
-      label: "COM",
-    },
-    {
-      value: "sis",
-      label: "SIS",
-    },
-    {
-      value: "ap3",
-      label: "AP3",
-    },
-    {
-      value: "teoi",
-      label: "TEOI",
-    },
-    {
-      value: "pie2",
-      label: "PIE2",
-    },
-    {
-      value: "bd",
-      label: "BD",
-    },
-    {
-      value: "psd",
-      label: "PSD",
-    },
-    {
-      value: "ipa",
-      label: "IPA",
-    },
-    {
-      value: "om",
-      label: "OM",
-    },
-    {
-      value: "ad",
-      label: "AD",
-    },
-    {
-      value: "aa1",
-      label: "AA1",
-    },
-    {
-      value: "vi",
-      label: "VI",
-    },
-    {
-      value: "cai",
-      label: "CAI",
-    },
-    {
-      value: "bda",
-      label: "BDA",
-    },
-    {
-      value: "aa2",
-      label: "AA2",
-    },
-    {
-      value: "ei",
-      label: "EI",
-    },
-    {
-      value: "taed1",
-      label: "TAED1",
-    },
-    {
-      value: "poe",
-      label: "POE",
-    },
-    {
-      value: "piva",
-      label: "PIVA",
-    },
-    {
-      value: "pe",
-      label: "PE",
-    },
-    {
-      value: "taed2",
-      label: "TAED2",
-    },
-    {
-      value: "altres",
-      label: "Altres",
-    },
-  ]
+
+  useEffect(() => {
+    async function fetchAssignatures() {
+      try {
+        const response = await axios.get("/api/subject/all/value-label")
+        setAssignatures(response.data)
+      } catch (error) {
+        console.error("Error fetching subjects:", error)
+      }
+    }
+    fetchAssignatures()
+  }, [])
+
   const tipus = [
     {
       value: "apunts",
@@ -264,7 +159,7 @@ export function ProfileForm({
       label: "Altres",
     },
   ]
-  // ------------------------------
+
   return (
     <Form {...form}>
       <form
