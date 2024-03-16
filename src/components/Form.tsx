@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/Button"
 import {
   Form,
@@ -23,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
 import { GCED_START } from "@/config"
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 
 const formSchema = z.object({
   pdf: z.any(),
@@ -56,6 +57,7 @@ export function ProfileForm({
   semester?: number
 }) {
   const router = useRouter()
+  const [isVisible, setIsVisible] = useState(false)
 
   const { mutate: createApuntsPost } = useMutation({
     mutationFn: async ({
@@ -99,6 +101,7 @@ export function ProfileForm({
       }
     },
     onSuccess: (subjectAcronym) => {
+      setIsVisible(true)
       router.push(`/${subjectAcronym}`)
       router.refresh()
 
@@ -446,6 +449,7 @@ export function ProfileForm({
         <Button type="submit" isLoading={form.formState.isSubmitting}>
           Submit
         </Button>
+        {isVisible && <Fireworks autorun={{ speed: 0.5 }} />}
       </form>
     </Form>
   )
