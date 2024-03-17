@@ -144,7 +144,10 @@ export function ProfileForm({
         const response = await axios.get("/api/subject/all/value-label")
         setAssignatures(response.data)
       } catch (error) {
-        console.error("Error fetching subjects:", error)
+        toast({
+          title: "No s'han pogut carregar les assignatures",
+          description: `Error fetching subjects: ${error}`,
+        })
       }
     }
     fetchAssignatures()

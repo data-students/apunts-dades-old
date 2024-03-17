@@ -1,6 +1,6 @@
 import { db } from "@/lib/db"
 
-export async function GET(req: Request) {
+export async function GET() {
   const subjects = await db.subject.findMany({
     select: {
       acronym: true,

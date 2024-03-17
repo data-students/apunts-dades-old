@@ -1,7 +1,7 @@
 "use client"
 
 import { Session } from "next-auth"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { FC } from "react"
 import UserAvatar from "./UserAvatar"
 import Link from "next/link"
@@ -12,7 +12,6 @@ interface CreatePostProps {
 }
 
 const CreatePost: FC<CreatePostProps> = ({ session }) => {
-  const router = useRouter()
   const pathname = usePathname()
 
   return (

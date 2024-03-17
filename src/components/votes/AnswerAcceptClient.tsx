@@ -48,7 +48,7 @@ const AnswerAcceptClient = ({
 
       await axios.patch("/api/subject/answer/accept", payload)
     },
-    onError: (err, accept) => {
+    onError: (err) => {
       // reset current acceptation
       setCurrentAccepted(prevAccepted)
 
