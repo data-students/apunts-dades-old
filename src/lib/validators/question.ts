@@ -11,8 +11,8 @@ export const QuestionValidator = z.object({
 export const AnswerValidator = z.object({
   title: z
     .string()
-    .min(3, { message: "Content must be at least 3 characters long" })
-    .max(128, { message: "Content must be at most 2048 characters long" }),
+    .min(3, { message: "Title must be at least 3 characters long" })
+    .max(128, { message: "Title must be at most 2048 characters long" }),
   subjectId: z.string(),
   content: z.any(),
   questionId: z.string(),

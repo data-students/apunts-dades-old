@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         authorId: session.user.id,
       },
     })
-    return new Response("Answer created", { status: 201 })
+    return new Response(JSON.stringify(questionId), { status: 201 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(error.message, { status: 422 })

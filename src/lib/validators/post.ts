@@ -19,6 +19,7 @@ export const CommentValidator = z.object({
 export const ApuntsPostValidator = z.object({
   pdf: z.any(),
   title: z.string(),
+  year: z.number(),
   assignatura: z.string().min(2).max(5),
   tipus: z.string(),
   anonim: z.boolean(),

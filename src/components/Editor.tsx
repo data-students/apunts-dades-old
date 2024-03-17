@@ -1,6 +1,13 @@
 "use client"
 
-import { FC, useCallback, useEffect, useRef, useState } from "react"
+import {
+  FC,
+  startTransition,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import TextareaAutosize from "react-textarea-autosize"
 import { useForm } from "react-hook-form"
 import {
@@ -15,27 +22,34 @@ import { toast } from "@/hooks/use-toast"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { usePathname, useRouter } from "next/navigation"
+import { Button } from "./ui/Button"
+
+type FormData = QuestionCreationRequest | AnswerCreationRequest
 
 interface EditorProps {
   subjectId: string
   contentType: "question" | "answer"
   questionId?: string
+  formId: string
 }
 
-const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
+const Editor: FC<EditorProps> = ({
+  subjectId,
+  contentType,
+  questionId,
+  formId,
+}) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<QuestionCreationRequest | AnswerCreationRequest>({
+  } = useForm<FormData>({
     resolver: zodResolver(
       contentType === "question" ? QuestionValidator : AnswerValidator,
     ),
     defaultValues: {
       subjectId,
-      title: `${
-        contentType === "question" ? "Pregunta" : "Resposta"
-      } ${new Date().toLocaleDateString()}`,
+      title: "",
       content: null,
       questionId: questionId || "", // Add questionId as a value in the form
     },
@@ -61,6 +75,7 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
     if (!ref.current) {
       const editor = new EditorJS({
         holder: "editor",
+        minHeight: 200,
         onReady() {
           ref.current = editor
         },
@@ -124,13 +139,9 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
     }
   }, [isMounted, initializeEditor])
 
-  const { mutate: createContent } = useMutation({
-    mutationFn: async ({
-      title,
-      content,
-      subjectId,
-    }: QuestionCreationRequest | AnswerCreationRequest) => {
-      const payload: QuestionCreationRequest | AnswerCreationRequest = {
+  const { mutate: createContent, isLoading } = useMutation({
+    mutationFn: async ({ title, content, subjectId }: FormData) => {
+      const payload: FormData = {
         title,
         content,
         subjectId,
@@ -158,22 +169,26 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
         const questionId = data as string
         const newPathname = pathname.replace("/q", `/q/${questionId}`)
         router.push(newPathname)
+        router.refresh()
+      } else {
+        ref.current?.clear()
+        _titleRef.current!.value = ""
+        window.location.reload()
       }
-      router.refresh()
 
       return toast({
         description: `La teva ${
-          contentType === "question" ? "pregunta" : "reposta"
+          contentType === "question" ? "pregunta" : "resposta"
         } s'ha creat correctament`,
       })
     },
   })
 
-  async function onSubmit() {
+  async function onSubmit(data: FormData) {
     const blocks = await ref.current?.save()
-    const title = (await _titleRef.current?.value) as string
-    const payload: QuestionCreationRequest | AnswerCreationRequest = {
-      title: title,
+
+    const payload: FormData = {
+      title: data.title,
       content: blocks,
       subjectId: subjectId,
       ...(contentType === "answer" && { questionId: questionId }),
@@ -187,25 +202,38 @@ const Editor: FC<EditorProps> = ({ subjectId, contentType, questionId }) => {
 
   const { ref: titleRef, ...rest } = register("title")
   return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200 h-full">
-      <form
-        id="subject-question-form"
-        className="w-fit h-full"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="prose prose-stone dark:prose-invert h-full">
-          <TextareaAutosize
-            ref={(e) => {
-              titleRef(e)
-              // @ts-ignore
-              _titleRef.current = e
-            }}
-            placeholder="Títol"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-xl font-bold focus:outline-none h-12"
-          />
-          <div id="editor" className="min-h-[500px] h-full"></div>
-        </div>
-      </form>
+    <div className="flex-grow">
+      <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+        <form
+          id={formId}
+          className="w-full h-full"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="prose prose-stone dark:prose-invert h-full">
+            <TextareaAutosize
+              ref={(e) => {
+                titleRef(e)
+                // @ts-ignore
+                _titleRef.current = e
+              }}
+              {...rest}
+              placeholder="Títol"
+              className="w-full resize-none appearance-none overflow-hidden bg-transparent text-xl font-bold focus:outline-none h-12"
+            />
+            <div id="editor" className="min-h-[100px] h-full"></div>
+          </div>
+        </form>
+      </div>
+      <div className="flex justify-end">
+        <Button
+          type="submit"
+          className="w-full sm:w-auto mt-2"
+          form={formId}
+          isLoading={isLoading}
+        >
+          Compartir
+        </Button>
+      </div>
     </div>
   )
 }

@@ -22,11 +22,15 @@ import { Combobox } from "@/components/Combobox"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 
 const formSchema = z.object({
   pdf: z.any(),
   title: z.string({
     required_error: "Selecciona un títol",
+  }),
+  year: z.string({
+    required_error: "Selecciona un any",
   }),
   assignatura: z.string({
     required_error: "Selecciona una assignatura.",
@@ -43,17 +47,23 @@ const formSchema = z.object({
 export function ProfileForm({
   PreselectedSubject,
   isAdmin,
+  generacio,
+  semester,
 }: {
   PreselectedSubject: string
   isAdmin: boolean
+  generacio: number
+  semester?: number
 }) {
   const router = useRouter()
   const [assignatures, setAssignatures] = useState([])
+  const [isVisible, setIsVisible] = useState(false)
 
   const { mutate: createApuntsPost } = useMutation({
     mutationFn: async ({
       pdf,
       title,
+      year,
       assignatura,
       tipus,
       anonim,
@@ -62,6 +72,7 @@ export function ProfileForm({
       const payload: ApuntsPostCreationRequest = {
         pdf,
         title,
+        year,
         assignatura,
         tipus,
         anonim,
@@ -90,6 +101,7 @@ export function ProfileForm({
       }
     },
     onSuccess: (subjectAcronym) => {
+      setIsVisible(true)
       router.push(`/${subjectAcronym}`)
       router.refresh()
 
@@ -116,6 +128,7 @@ export function ProfileForm({
     const payload: ApuntsPostCreationRequest = {
       pdf: res.fileUrl,
       title: data.title,
+      year: Number(data.year),
       assignatura: data.assignatura,
       tipus: data.tipus,
       anonim: data.anonim,
@@ -160,12 +173,55 @@ export function ProfileForm({
     },
   ]
 
+  const date = new Date()
+  const end = date.getFullYear()
+  interface Year {
+    value: string
+    label: string
+  }
+  let tipus_any: Year[] = []
+  for (let i = generacio; i < end; i++) {
+    tipus_any.push({
+      value: i.toString(),
+      label: i.toString(),
+    })
+  }
+  const default_year = semester
+    ? (generacio + Math.floor((semester - 1) / 2)).toString()
+    : undefined
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
         className="space-y-8"
       >
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => {
+            if (!field.value && default_year) {
+              field.value = default_year
+              field.onChange(default_year)
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Any</FormLabel>
+                <FormControl>
+                  <Combobox
+                    options={tipus_any}
+                    value={field.value}
+                    setValue={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Any que has cursat l&apos;assignatura.
+                </FormDescription>
+              </FormItem>
+            )
+          }}
+        />
         <FormField
           control={form.control}
           name="pdf"
@@ -286,6 +342,7 @@ export function ProfileForm({
         <Button type="submit" isLoading={form.formState.isSubmitting}>
           Submit
         </Button>
+        {isVisible && <Fireworks autorun={{ speed: 0.5 }} />}
       </form>
     </Form>
   )
