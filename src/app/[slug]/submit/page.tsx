@@ -2,7 +2,7 @@ import { ProfileForm } from "@/components/Form"
 import { db } from "@/lib/db"
 import { getAuthSession } from "@/lib/auth"
 import { notFound } from "next/navigation"
-import { GCED_START } from "@/config"
+import { GCED_START, LAST_SEMESTER } from "@/config"
 
 interface PageProps {
   params: {
@@ -33,11 +33,13 @@ const page = async ({ params }: PageProps) => {
         {subject.name}
       </h1>
       <ProfileForm
-        PreselectedSubject={slug}
+        PreselectedSubject={slug.toLowerCase()}
         isAdmin={isAdmin}
         generacio={session ? Number(session.user.generacio) : GCED_START}
         semester={
-          subject.semester[0] === "Q" ? parseInt(subject.semester[1]) : 8
+          subject.semester[0] === "Q"
+            ? parseInt(subject.semester[1])
+            : LAST_SEMESTER
         }
       />
     </>

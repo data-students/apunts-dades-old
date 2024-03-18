@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button"
@@ -24,10 +24,12 @@ export function Combobox({
   options,
   value,
   setValue,
+  isLoading = false,
 }: {
   options: Option[]
   value: string
   setValue: Function
+  isLoading?: boolean
 }) {
   const [open, setOpen] = React.useState(false)
   return (
@@ -43,7 +45,11 @@ export function Combobox({
             {value
               ? options.find((option) => option.value === value)?.label
               : "Selecciona..."}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="max-h-80 flex flex-col w-80 p-0">

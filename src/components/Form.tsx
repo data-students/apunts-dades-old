@@ -23,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
+import useSemesterHook from "@/hooks/use-semester-hook"
 
 const formSchema = z.object({
   pdf: z.any(),
@@ -113,6 +114,7 @@ export function ProfileForm({
   const form = useForm({
     resolver: zodResolver(formSchema),
   })
+  const { data, isLoading } = useSemesterHook(form.watch("assignatura"))
   useEffect(() => {
     if (PreselectedSubject !== "AllSubjects") {
       form.setValue("assignatura", PreselectedSubject)
@@ -193,6 +195,24 @@ export function ProfileForm({
     ? (generacio + Math.floor((semester - 1) / 2)).toString()
     : undefined
 
+  useEffect(() => {
+    if (!isLoading) {
+      if (
+        data === -1 ||
+        data === undefined ||
+        data === null ||
+        !form.watch("assignatura")
+      ) {
+        form.setValue("year", "")
+      } else {
+        form.setValue(
+          "year",
+          (generacio + Math.floor((data - 1) / 2)).toString(),
+        )
+      }
+    }
+  }, [data, isLoading])
+
   return (
     <Form {...form}>
       <form
@@ -201,29 +221,17 @@ export function ProfileForm({
       >
         <FormField
           control={form.control}
-          name="year"
-          render={({ field }) => {
-            if (!field.value && default_year) {
-              field.value = default_year
-              field.onChange(default_year)
-            }
-
-            return (
-              <FormItem>
-                <FormLabel>Any</FormLabel>
-                <FormControl>
-                  <Combobox
-                    options={tipus_any}
-                    value={field.value}
-                    setValue={field.onChange}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Any que has cursat l&apos;assignatura.
-                </FormDescription>
-              </FormItem>
-            )
-          }}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nom dels Apunts</FormLabel>
+              <FormControl>
+                <Input placeholder="WhoIsGraf?" {...field} />
+              </FormControl>
+              <FormDescription>El nom dels teus apunts.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         <FormField
           control={form.control}
@@ -251,20 +259,6 @@ export function ProfileForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nom dels Apunts</FormLabel>
-              <FormControl>
-                <Input placeholder="WhoIsGraf?" {...field} />
-              </FormControl>
-              <FormDescription>El nom dels teus apunts.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         {PreselectedSubject === "AllSubjects" && (
           <FormField
             control={form.control}
@@ -285,6 +279,33 @@ export function ProfileForm({
           />
         )}
 
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => {
+            if (!field.value && default_year) {
+              field.value = default_year
+              field.onChange(default_year)
+            }
+
+            return (
+              <FormItem>
+                <FormLabel>Any</FormLabel>
+                <FormControl>
+                  <Combobox
+                    options={tipus_any}
+                    value={field.value}
+                    setValue={field.onChange}
+                    isLoading={isLoading}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Any que has cursat l&apos;assignatura.
+                </FormDescription>
+              </FormItem>
+            )
+          }}
+        />
         <FormField
           control={form.control}
           name="tipus"
