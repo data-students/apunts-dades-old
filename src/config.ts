@@ -1,2 +1,3 @@
 export const INFINITE_SCROLL_PAGINATION_RESULTS = 4
 export const GCED_START = 2017
+export const LAST_SEMESTER = 8
