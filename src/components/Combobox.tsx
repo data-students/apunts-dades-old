@@ -38,19 +38,21 @@ export function Combobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="w-80 justify-between"
           >
             {value
               ? options.find((option) => option.value === value)?.label
-              : "Select..."}
+              : "Selecciona..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="max-h-80 flex flex-col w-80 p-0">
           <Command>
             <CommandInput placeholder="Search..." />
-            <CommandEmpty>No option found.</CommandEmpty>
-            <CommandGroup>
+            <CommandEmpty className="flex-1">
+              No s&apos;han trobat resultats.
+            </CommandEmpty>
+            <CommandGroup className="flex-1 h-full overflow-y-scroll">
               {options.map((option) => (
                 <CommandItem
                   key={option.value}

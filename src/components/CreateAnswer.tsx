@@ -1,7 +1,6 @@
 "use client"
 
 import { Session } from "next-auth"
-import { Button } from "@/components/ui/Button"
 import { FC } from "react"
 import UserAvatar from "./UserAvatar"
 import Editor from "@/components/Editor"

@@ -22,7 +22,6 @@ import { Combobox } from "@/components/Combobox"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
-import { GCED_START } from "@/config"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 
 const formSchema = z.object({
@@ -57,6 +56,7 @@ export function ProfileForm({
   semester?: number
 }) {
   const router = useRouter()
+  const [assignatures, setAssignatures] = useState([])
   const [isVisible, setIsVisible] = useState(false)
 
   const { mutate: createApuntsPost } = useMutation({
@@ -137,125 +137,22 @@ export function ProfileForm({
 
     createApuntsPost(payload)
   }
-  // ------------------------------
-  const assignatures = [
-    {
-      value: "alg",
-      label: "ALG",
-    },
-    {
-      value: "cal",
-      label: "CAL",
-    },
-    {
-      value: "lmd",
-      label: "LMD",
-    },
-    {
-      value: "ap1",
-      label: "AP1",
-    },
-    {
-      value: "ap2",
-      label: "AP2",
-    },
-    {
-      value: "ac2",
-      label: "AC2",
-    },
-    {
-      value: "pie1",
-      label: "PIE1",
-    },
-    {
-      value: "com",
-      label: "COM",
-    },
-    {
-      value: "sis",
-      label: "SIS",
-    },
-    {
-      value: "ap3",
-      label: "AP3",
-    },
-    {
-      value: "teoi",
-      label: "TEOI",
-    },
-    {
-      value: "pie2",
-      label: "PIE2",
-    },
-    {
-      value: "bd",
-      label: "BD",
-    },
-    {
-      value: "psd",
-      label: "PSD",
-    },
-    {
-      value: "ipa",
-      label: "IPA",
-    },
-    {
-      value: "om",
-      label: "OM",
-    },
-    {
-      value: "ad",
-      label: "AD",
-    },
-    {
-      value: "aa1",
-      label: "AA1",
-    },
-    {
-      value: "vi",
-      label: "VI",
-    },
-    {
-      value: "cai",
-      label: "CAI",
-    },
-    {
-      value: "bda",
-      label: "BDA",
-    },
-    {
-      value: "aa2",
-      label: "AA2",
-    },
-    {
-      value: "ei",
-      label: "EI",
-    },
-    {
-      value: "taed1",
-      label: "TAED1",
-    },
-    {
-      value: "poe",
-      label: "POE",
-    },
-    {
-      value: "piva",
-      label: "PIVA",
-    },
-    {
-      value: "pe",
-      label: "PE",
-    },
-    {
-      value: "taed2",
-      label: "TAED2",
-    },
-    {
-      value: "altres",
-      label: "Altres",
-    },
-  ]
+
+  useEffect(() => {
+    async function fetchAssignatures() {
+      try {
+        const response = await axios.get("/api/subject/all/value-label")
+        setAssignatures(response.data)
+      } catch (error) {
+        toast({
+          title: "No s'han pogut carregar les assignatures",
+          description: `Error fetching subjects: ${error}`,
+        })
+      }
+    }
+    fetchAssignatures()
+  }, [])
+
   const tipus = [
     {
       value: "apunts",
@@ -296,7 +193,6 @@ export function ProfileForm({
     ? (generacio + Math.floor((semester - 1) / 2)).toString()
     : undefined
 
-  // ------------------------------
   return (
     <Form {...form}>
       <form

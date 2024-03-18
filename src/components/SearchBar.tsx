@@ -90,7 +90,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     _count: Prisma.QuestionCountOutputType
     subject: Subject
   })[]
-  const isFetching = queriesResults.some((query) => query.isFetching)
+  // const isFetching = queriesResults.some((query) => query.isFetching)
   const isFetched = queriesResults.every((query) => query.isFetched)
   const refetch = useCallback(() => {
     subjectQueryResultsObjects.refetch()

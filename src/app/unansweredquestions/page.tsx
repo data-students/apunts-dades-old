@@ -1,5 +1,4 @@
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config"
-import { getAuthSession } from "@/lib/auth"
 import { db } from "@/lib/db"
 import QuestionFeed from "@/components/QuestionFeed"
 import { buttonVariants } from "@/components/ui/Button"
@@ -7,15 +6,7 @@ import { HomeIcon } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
-interface PageProps {
-  params: {
-    slug: string
-  }
-}
-
-const page = async ({ params }: PageProps) => {
-  const { slug } = params
-  const session = await getAuthSession()
+const page = async () => {
   const questions = await db.question.findMany({
     where: {
       NOT: {
