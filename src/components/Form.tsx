@@ -124,9 +124,11 @@ export function ProfileForm({
     }
   }, [form, isAdmin])
   async function onSubmit(data: ApuntsPostCreationRequest) {
-    const [res] = await uploadFiles([data.pdf], "fileUploader")
+    const [res] = await uploadFiles("fileUploader", {
+      files: [data.pdf],
+    })
     const payload: ApuntsPostCreationRequest = {
-      pdf: res.fileUrl,
+      pdf: res.url,
       title: data.title,
       year: Number(data.year),
       assignatura: data.assignatura,
