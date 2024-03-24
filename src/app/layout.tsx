@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils"
 import "@/styles/globals.css"
 import { Inter } from "next/font/google"
 import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 import { Toaster } from "@/components/ui/Toaster"
 import Providers from "@/components/Providers"
 
@@ -13,7 +14,7 @@ export const metadata = {
 
 const inter = Inter({ subsets: ["latin"] }) // TODO: Fer servir la font de l'AED
 
-function RootLayout({
+export default async function RootLayout({
   children,
   authModal,
 }: {
@@ -30,20 +31,22 @@ function RootLayout({
     >
       <body className="min-h-screen pt-12 bg-slate-50 antialiased">
         <Providers>
-          {/* @ts-expect-error server component */}
-          <Navbar />
-
           {authModal}
 
-          <div className="container max-w-7xl mx-auto h-full pt-12">
-            {children}
+          <div className="min-h-screen">
+            {/* @ts-expect-error server component */}
+            <Navbar />
+            <div className="container max-w-7xl mx-auto h-full pt-12">
+              {children}
+            </div>
           </div>
 
           <Toaster />
+
+          {/* @ts-expect-error server component */}
+          <Footer />
         </Providers>
       </body>
     </html>
   )
 }
-
-export default RootLayout
