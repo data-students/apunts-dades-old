@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     await db.post.create({
       data: {
         title: title,
-        content: pdf,
+        content: JSON.stringify(pdf),
         subjectId: subject.id,
         authorId: authorId,
         tipus: tipus as TipusType,

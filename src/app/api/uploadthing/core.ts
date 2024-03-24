@@ -14,8 +14,8 @@ export const ourFileRouter = {
     .onUploadComplete(async ({}) => {}),
 
   fileUploader: f({
-    pdf: { maxFileCount: 1, maxFileSize: "128MB" },
-    text: { maxFileCount: 5 },
+    pdf: { maxFileCount: 10, maxFileSize: "32MB" },
+    text: { maxFileCount: 10, maxFileSize: "32MB" },
   })
     .middleware(async ({ req }) => {
       const user = await getToken({ req })

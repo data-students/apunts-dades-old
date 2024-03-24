@@ -23,9 +23,12 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
+import { MultiFileDropzone } from "@/components/MultiFileDropzone"
 
 const formSchema = z.object({
-  pdf: z.any(),
+  pdf: z.array(z.object({})).nonempty({
+    message: "Selecciona un fitxer",
+  }),
   title: z.string({
     required_error: "Selecciona un títol",
   }),
@@ -124,11 +127,11 @@ export function ProfileForm({
     }
   }, [form, isAdmin])
   async function onSubmit(data: ApuntsPostCreationRequest) {
-    const [res] = await uploadFiles("fileUploader", {
-      files: [data.pdf],
+    const res = await uploadFiles("fileUploader", {
+      files: data.pdf,
     })
     const payload: ApuntsPostCreationRequest = {
-      pdf: res.url,
+      pdf: res.map((file) => file.url),
       title: data.title,
       year: Number(data.year),
       assignatura: data.assignatura,
@@ -235,13 +238,10 @@ export function ProfileForm({
               <FormLabel>Fitxers PDF</FormLabel>
               <FormControl>
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Input
-                    id="pdf-file"
-                    type="file"
-                    onChange={(e) => {
-                      if (e.target.files) {
-                        field.onChange(e.target.files[0])
-                      }
+                  <MultiFileDropzone
+                    value={field.value}
+                    onChange={(acceptedFiles) => {
+                      field.onChange(acceptedFiles)
                     }}
                   />
                 </div>

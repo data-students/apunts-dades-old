@@ -7,6 +7,7 @@ export default withAuth(function middleware(req) {}, {
         req.nextUrl.pathname &&
         req.nextUrl.pathname.startsWith("/") &&
         !req.nextUrl.pathname.startsWith("/sign-in") &&
+        !req.nextUrl.pathname.startsWith("/api/uploadthing") &&
         token === null
       ) {
         return false
