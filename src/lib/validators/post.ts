@@ -20,7 +20,7 @@ export const ApuntsPostValidator = z.object({
   pdf: z.any(),
   title: z.string(),
   year: z.number(),
-  assignatura: z.string().min(2).max(5),
+  assignatura: z.string().min(2).max(6),
   tipus: z.string(),
   anonim: z.boolean(),
   authorEmail: z.string(), // this is not an email field because it can be set as "Uploader"
