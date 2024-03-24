@@ -26,7 +26,7 @@ const Footer = async () => {
             className="flex items-center h-fit rounded-lg border border-gray-200 hover:bg-zinc-800 active:scale-95 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900"
           >
             <Icons.github className="w-16 h-16 px-2" />
-            <h1 className="font-extrabold text-3xl md:text-5xl">
+            <h1 className="font-extrabold text-2xl md:text-4xl">
               Contribueix!
             </h1>
           </Link>
@@ -80,7 +80,7 @@ const Footer = async () => {
                   className="overflow-hidden h-fit mb-2 px-2 divide-y"
                 >
                   <div>
-                    <p className="font-black text-l md:text-xl">{semester}</p>
+                    <p className="font-black text-m md:text-l">{semester}</p>
                   </div>
                   <div>
                     {subjects
@@ -94,7 +94,7 @@ const Footer = async () => {
                             href={`/${subject.acronym}`}
                             className="text-zinc-100"
                           >
-                            <p className="font-medium text-m md:text-l">
+                            <p className="font-medium text-s md:text-m">
                               {subject.acronym}
                             </p>
                           </Link>
