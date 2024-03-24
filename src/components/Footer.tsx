@@ -72,7 +72,7 @@ const Footer = async () => {
           </div>
         </div>
         <div className="overflow-hidden h-fit col-span-2">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-y-4 md:gap-x-4">
+          <div className="grid grid-cols-2 md:grid-cols-8 gap-y-4 md:gap-x-4">
             {unique_semesters.map((semester, index) => {
               return (
                 <div
