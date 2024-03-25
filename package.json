@@ -11,7 +11,8 @@
     "lint": "next lint",
     "postinstall": "prisma generate",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "post-urls-from-content": "node scripts/post-urls-from-content.js"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

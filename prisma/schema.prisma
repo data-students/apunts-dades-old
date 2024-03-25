@@ -99,15 +99,16 @@ model Question {
 model Post {
   id                     String     @id @default(cuid())
   title                  String
-  content                Json
+  content                String?
+  urls                   Json       @default(dbgenerated())
   createdAt              DateTime   @default(now())
   updatedAt              DateTime   @updatedAt
   subjectId              String
   authorId               String
   tipus                  TipusType
   year                   Int
-  NonUploaderAuthorEmail String?
   isAnonymous            Boolean    @default(false)
+  NonUploaderAuthorEmail String?
   subject                Subject    @relation(fields: [subjectId], references: [id])
   author                 User       @relation(fields: [authorId], references: [id])
   comments               Comment[]
