@@ -26,9 +26,7 @@ import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 import { MultiFileDropzone } from "@/components/MultiFileDropzone"
 
 const formSchema = z.object({
-  pdf: z.array(z.object({})).nonempty({
-    message: "Selecciona un fitxer",
-  }),
+  pdf: z.array(z.any()),
   title: z.string({
     required_error: "Selecciona un títol",
   }),

@@ -73,6 +73,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectAcronym }) => {
                 subjectAcronym={post.subject.acronym}
                 votesAmt={votesAmt}
                 currentVote={currentVote}
+                partialView={true}
               />
             </li>
           )
@@ -85,6 +86,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subjectAcronym }) => {
               subjectAcronym={post.subject.acronym}
               votesAmt={votesAmt}
               currentVote={currentVote}
+              partialView={true}
             />
           )
         }
