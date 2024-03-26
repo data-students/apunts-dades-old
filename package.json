@@ -12,7 +12,7 @@
     "postinstall": "prisma generate",
     "format": "prettier --write .",
     "prepare": "husky",
-    "post-urls-from-content": "node scripts/post-urls-from-content.js"
+    "post-files-from-content": "node scripts/post-files-from-content.js"
   },
   "prisma": {
     "seed": "node prisma/seed.js"

@@ -1,13 +1,13 @@
 "use client"
 
-import { cn, formatTimeToNow } from "@/lib/utils"
+import { cn, formatFileSize, formatTimeToNow } from "@/lib/utils"
 import { Post, User, PostVote } from "@prisma/client"
 import { FileIcon, MessageSquare, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { buttonVariants } from "@/components/ui/Button"
 import { FC, useRef } from "react"
 import PostVoteClient from "./votes/PostVoteClient"
 import { Badge } from "@/components/ui/Badge"
+import { ClientUploadedFileData } from "uploadthing/types"
 
 type PartialVote = Pick<PostVote, "type">
 
@@ -33,10 +33,10 @@ const Post: FC<PostProps> = ({
 }) => {
   const pRef = useRef<HTMLParagraphElement>(null)
 
-  const filesUrls = Array.isArray(post.urls)
-    ? post.urls
-    : typeof post.urls === "string"
-      ? JSON.parse(post.urls)
+  const postFiles = Array.isArray(post.files)
+    ? post.files
+    : typeof post.files === "string"
+      ? JSON.parse(post.files)
       : []
 
   return (
@@ -84,27 +84,34 @@ const Post: FC<PostProps> = ({
             ref={pRef}
           >
             {/* TODO: If we add text content for posts it needs to be here */}
-            {filesUrls
-              ? filesUrls.map((url: string, i: number) => (
-                  <div
-                    key={i}
-                    className="flex h-16 flex-col justify-center rounded border border-solid border-zinc-300 px-4 py-2"
-                  >
-                    <Link
-                      className="flex items-center gap-2 text-zinc-900"
-                      href={url}
+            {postFiles
+              ? postFiles.map(
+                  (url: ClientUploadedFileData<null>, i: number) => (
+                    <div
+                      key={i}
+                      className="flex h-16 flex-col justify-center rounded border border-solid border-zinc-300 px-4 py-2"
                     >
-                      <FileIcon size="30" className="shrink-0" />
-                      <div className="min-w-0 text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">
-                        Fitxer {i + 1}
-                      </div>
-                      <div className="text-xs text-zinc-900">
-                        <ExternalLink size="16" className="shrink-0" />
-                      </div>
-                      <div className="grow" />
-                    </Link>
-                  </div>
-                ))
+                      <Link
+                        className="flex items-center gap-2 text-zinc-900"
+                        href={url.url ?? ""}
+                      >
+                        <FileIcon size="30" className="shrink-0" />
+                        <div className="min-w-0 text-sm">
+                          <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                            {url.name}
+                          </div>
+                          <div className="text-xs text-zinc-900">
+                            {formatFileSize(url.size)}
+                          </div>
+                        </div>
+                        <div className="text-xs text-zinc-900">
+                          <ExternalLink size="16" className="shrink-0" />
+                        </div>
+                        <div className="grow" />
+                      </Link>
+                    </div>
+                  ),
+                )
               : null}
             {partialView && pRef.current?.clientHeight === 160 ? (
               // blur bottom if content is too long

@@ -100,7 +100,7 @@ model Post {
   id                     String     @id @default(cuid())
   title                  String
   content                String?
-  urls                   Json       @default(dbgenerated())
+  files                  Json       @default(dbgenerated())
   createdAt              DateTime   @default(now())
   updatedAt              DateTime   @updatedAt
   subjectId              String

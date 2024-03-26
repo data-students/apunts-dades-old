@@ -44,6 +44,7 @@ const formSchema = z.object({
     required_error: "Selecciona un email",
   }),
 })
+type FormSchemaType = z.infer<typeof formSchema>
 
 export function ProfileForm({
   PreselectedSubject,
@@ -124,12 +125,12 @@ export function ProfileForm({
       form.setValue("authorEmail", "Uploader")
     }
   }, [form, isAdmin])
-  async function onSubmit(data: ApuntsPostCreationRequest) {
+  async function onSubmit(data: FormSchemaType) {
     const res = await uploadFiles("fileUploader", {
       files: data.pdf,
     })
     const payload: ApuntsPostCreationRequest = {
-      pdf: res.map((file) => file.url),
+      pdf: res,
       title: data.title,
       year: Number(data.year),
       assignatura: data.assignatura,

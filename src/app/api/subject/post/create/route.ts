@@ -62,7 +62,16 @@ export async function POST(req: Request) {
     await db.post.create({
       data: {
         title: title,
-        urls: JSON.stringify(pdf),
+        files: JSON.stringify(
+          pdf.map((file) => {
+            return {
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              url: file.url,
+            }
+          }),
+        ),
         subjectId: subject.id,
         authorId: authorId,
         tipus: tipus as TipusType,
