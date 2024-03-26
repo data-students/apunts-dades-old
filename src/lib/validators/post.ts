@@ -6,7 +6,7 @@ export const PostValidator = z.object({
     .min(3, { message: "Title must be at least 3 characters long" })
     .max(128, { message: "Title must be at most 128 characters long" }),
   subjectId: z.string(),
-  content: z.any(),
+  files: z.array(z.string()),
   tipus: z.string(),
   year: z.number(),
 })
@@ -17,7 +17,14 @@ export const CommentValidator = z.object({
 })
 
 export const ApuntsPostValidator = z.object({
-  pdf: z.any(),
+  pdf: z.array(
+    z.object({
+      name: z.string(),
+      url: z.string(),
+      size: z.number(),
+      type: z.string(),
+    }),
+  ),
   title: z.string(),
   year: z.number(),
   assignatura: z.string().min(2).max(6),

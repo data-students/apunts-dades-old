@@ -11,7 +11,8 @@
     "lint": "next lint",
     "postinstall": "prisma generate",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "post-files-from-content": "node scripts/post-files-from-content.js"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -60,7 +61,7 @@
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
-    "@uploadthing/react": "^4.1.3",
+    "@uploadthing/react": "^6.4.0",
     "@upstash/redis": "^1.21.0",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
@@ -83,7 +84,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.50.1",
-    "react-pdf": "^7.7.0",
+    "react-pdf": "^7.7.1",
     "react-textarea-autosize": "^8.4.1",
     "readline-sync": "^1.4.10",
     "server-only": "^0.0.1",
@@ -93,7 +94,7 @@
     "tailwindcss-animate": "^1.0.5",
     "ts-node": "^9.1.1",
     "typescript": "5.0.4",
-    "uploadthing": "^4.1.3",
+    "uploadthing": "^6.6.0",
     "yarn": "^1.22.21",
     "zod": "^3.22.4"
   },

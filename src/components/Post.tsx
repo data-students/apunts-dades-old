@@ -1,13 +1,13 @@
 "use client"
 
-import { formatTimeToNow } from "@/lib/utils"
+import { cn, formatFileSize, formatTimeToNow } from "@/lib/utils"
 import { Post, User, PostVote } from "@prisma/client"
-import { MessageSquare } from "lucide-react"
+import { FileIcon, MessageSquare, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { buttonVariants } from "@/components/ui/Button"
 import { FC, useRef } from "react"
 import PostVoteClient from "./votes/PostVoteClient"
 import { Badge } from "@/components/ui/Badge"
+import { ClientUploadedFileData } from "uploadthing/types"
 
 type PartialVote = Pick<PostVote, "type">
 
@@ -20,6 +20,7 @@ interface PostProps {
   subjectAcronym: string
   currentVote?: PartialVote
   commentAmt: number
+  partialView?: boolean
 }
 
 const Post: FC<PostProps> = ({
@@ -28,8 +29,15 @@ const Post: FC<PostProps> = ({
   currentVote: _currentVote,
   subjectAcronym,
   commentAmt,
+  partialView = false,
 }) => {
   const pRef = useRef<HTMLParagraphElement>(null)
+
+  const postFiles = Array.isArray(post.files)
+    ? post.files
+    : typeof post.files === "string"
+      ? JSON.parse(post.files)
+      : []
 
   return (
     <div className="rounded-md bg-white shadow">
@@ -69,22 +77,48 @@ const Post: FC<PostProps> = ({
           </div>
 
           <div
-            className="relative text-sm max-h-40 w-full overflow-clip"
+            className={cn(
+              partialView ? "max-h-40 overflow-clip" : "",
+              "grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 relative text-sm w-full mt-4 mb-6",
+            )}
             ref={pRef}
           >
-            {post.content && post.content.endsWith(".pdf") ? (
-              <Link
-                className={buttonVariants({
-                  className: "w-full mt-4 mb-6",
-                })}
-                href={post.content}
-              >
-                Visualitza els Apunts
-              </Link>
-            ) : null}
-            {pRef.current?.clientHeight === 160 ? (
+            {/* TODO: If we add text content for posts it needs to be here */}
+            {postFiles
+              ? postFiles.map(
+                  (url: ClientUploadedFileData<null>, i: number) => (
+                    <div
+                      key={i}
+                      className="flex h-16 flex-col justify-center rounded border border-solid border-zinc-300 px-4 py-2"
+                    >
+                      <Link
+                        className="flex items-center gap-2 text-zinc-900"
+                        href={url.url ?? ""}
+                      >
+                        <FileIcon size="30" className="shrink-0" />
+                        <div className="min-w-0 text-sm">
+                          <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+                            {url.name}
+                          </div>
+                          <div className="text-xs text-zinc-900">
+                            {formatFileSize(url.size)}
+                          </div>
+                        </div>
+                        <div className="text-xs text-zinc-900">
+                          <ExternalLink size="16" className="shrink-0" />
+                        </div>
+                        <div className="grow" />
+                      </Link>
+                    </div>
+                  ),
+                )
+              : null}
+            {partialView && pRef.current?.clientHeight === 160 ? (
               // blur bottom if content is too long
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"></div>
+              <Link
+                className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"
+                href={`/${subjectAcronym}/post/${post.id}`}
+              />
             ) : null}
           </div>
         </div>

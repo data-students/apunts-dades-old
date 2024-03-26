@@ -42,7 +42,7 @@ model User {
   username        String?        @unique
   generacio       Int            @default(2020)
   image           String?
-  isAdmin        Boolean        @default(false)
+  isAdmin         Boolean        @default(false)
   accounts        Account[]
   sessions        Session[]
   posts           Post[]
@@ -97,21 +97,22 @@ model Question {
 }
 
 model Post {
-  id          String     @id @default(cuid())
-  title       String
-  content     String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  subjectId   String
-  authorId    String
-  tipus       TipusType
-  year        Int
+  id                     String     @id @default(cuid())
+  title                  String
+  content                String?
+  files                  Json       @default(dbgenerated())
+  createdAt              DateTime   @default(now())
+  updatedAt              DateTime   @updatedAt
+  subjectId              String
+  authorId               String
+  tipus                  TipusType
+  year                   Int
+  isAnonymous            Boolean    @default(false)
   NonUploaderAuthorEmail String?
-  isAnonymous Boolean    @default(false)
-  subject     Subject    @relation(fields: [subjectId], references: [id])
-  author      User       @relation(fields: [authorId], references: [id])
-  comments    Comment[]
-  votes       PostVote[]
+  subject                Subject    @relation(fields: [subjectId], references: [id])
+  author                 User       @relation(fields: [authorId], references: [id])
+  comments               Comment[]
+  votes                  PostVote[]
 
   @@index([title])
 }
