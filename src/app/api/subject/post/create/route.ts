@@ -14,8 +14,16 @@ export async function POST(req: Request) {
 
     const body = await req.json()
 
-    const { pdf, title, year, assignatura, tipus, anonim, authorEmail } =
-      ApuntsPostValidator.parse(body)
+    const {
+      pdf,
+      title,
+      content,
+      year,
+      assignatura,
+      tipus,
+      anonim,
+      authorEmail,
+    } = ApuntsPostValidator.parse(body)
 
     const subject = await db.subject.findFirst({
       where: {
@@ -72,6 +80,7 @@ export async function POST(req: Request) {
             }
           }),
         ),
+        content: content,
         subjectId: subject.id,
         authorId: authorId,
         tipus: tipus as TipusType,

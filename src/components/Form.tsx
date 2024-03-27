@@ -24,12 +24,20 @@ import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 import { MultiFileDropzone } from "@/components/MultiFileDropzone"
+import { Textarea } from "./ui/Textarea"
 
 const formSchema = z.object({
   pdf: z.array(z.any()),
   title: z.string({
     required_error: "Selecciona un títol",
   }),
+  content: z
+    .string()
+    .max(320, {
+      message: "La descripció ha de tenir com a màxim 320 caràcters.",
+    })
+    .optional()
+    .default(""),
   year: z.string({
     required_error: "Selecciona un any",
   }),
@@ -65,6 +73,7 @@ export function ProfileForm({
     mutationFn: async ({
       pdf,
       title,
+      content,
       year,
       assignatura,
       tipus,
@@ -74,6 +83,7 @@ export function ProfileForm({
       const payload: ApuntsPostCreationRequest = {
         pdf,
         title,
+        content,
         year,
         assignatura,
         tipus,
@@ -132,6 +142,7 @@ export function ProfileForm({
     const payload: ApuntsPostCreationRequest = {
       pdf: res,
       title: data.title,
+      content: data.content,
       year: Number(data.year),
       assignatura: data.assignatura,
       tipus: data.tipus,
@@ -252,11 +263,10 @@ export function ProfileForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input
+                      <Textarea
                         placeholder="Descripció (opcional)"
-                        type="text"
+                        className="resize-none"
                         {...field}
-                        className="h-24 inline-block align-text-top file:inline-block file:align-text-top placeholder:inline-block placeholder:align-text-top"
                       />
                     </FormControl>
                     <FormMessage />
