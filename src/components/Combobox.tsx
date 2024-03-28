@@ -24,10 +24,12 @@ export function Combobox({
   options,
   value,
   setValue,
+  width = 80,
 }: {
   options: Option[]
   value: string
   setValue: Function
+  width?: number | string
 }) {
   const [open, setOpen] = React.useState(false)
   return (
@@ -38,7 +40,7 @@ export function Combobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-80 justify-between"
+            className={`w-${width} justify-between`}
           >
             {value
               ? options.find((option) => option.value === value)?.label
@@ -46,7 +48,7 @@ export function Combobox({
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="max-h-80 flex flex-col w-80 p-0">
+        <PopoverContent className="w-80 max-h-80 flex flex-col p-0">
           <Command>
             <CommandInput placeholder="Search..." />
             <CommandEmpty className="flex-1">

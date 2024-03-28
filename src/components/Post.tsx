@@ -83,7 +83,11 @@ const Post: FC<PostProps> = ({
             )}
             ref={pRef}
           >
-            {/* TODO: If we add text content for posts it needs to be here */}
+            {post.content ? (
+              <div className="md:col-span-3">
+                <p>{post.content}</p>
+              </div>
+            ) : null}
             {postFiles
               ? postFiles.map(
                   (url: ClientUploadedFileData<null>, i: number) => (

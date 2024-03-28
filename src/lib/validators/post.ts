@@ -26,6 +26,7 @@ export const ApuntsPostValidator = z.object({
     }),
   ),
   title: z.string(),
+  content: z.string().max(320),
   year: z.number(),
   assignatura: z.string().min(2).max(6),
   tipus: z.string(),

@@ -24,12 +24,20 @@ import { ApuntsPostCreationRequest } from "@/lib/validators/post"
 import { uploadFiles } from "@/lib/uploadthing"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 import { MultiFileDropzone } from "@/components/MultiFileDropzone"
+import { Textarea } from "./ui/Textarea"
 
 const formSchema = z.object({
   pdf: z.array(z.any()),
   title: z.string({
     required_error: "Selecciona un títol",
   }),
+  content: z
+    .string()
+    .max(320, {
+      message: "La descripció ha de tenir com a màxim 320 caràcters.",
+    })
+    .optional()
+    .default(""),
   year: z.string({
     required_error: "Selecciona un any",
   }),
@@ -65,6 +73,7 @@ export function ProfileForm({
     mutationFn: async ({
       pdf,
       title,
+      content,
       year,
       assignatura,
       tipus,
@@ -74,6 +83,7 @@ export function ProfileForm({
       const payload: ApuntsPostCreationRequest = {
         pdf,
         title,
+        content,
         year,
         assignatura,
         tipus,
@@ -132,6 +142,7 @@ export function ProfileForm({
     const payload: ApuntsPostCreationRequest = {
       pdf: res,
       title: data.title,
+      content: data.content,
       year: Number(data.year),
       assignatura: data.assignatura,
       tipus: data.tipus,
@@ -198,157 +209,186 @@ export function ProfileForm({
     : undefined
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
-        className="space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="year"
-          render={({ field }) => {
-            if (!field.value && default_year) {
-              field.value = default_year
-              field.onChange(default_year)
-            }
+    <div className="mb-6">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
+          className="space-y-8"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
+            <FormField
+              control={form.control}
+              name="pdf"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fitxers PDF</FormLabel>
+                  <FormControl>
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                      <MultiFileDropzone
+                        value={field.value}
+                        onChange={(acceptedFiles) => {
+                          field.onChange(acceptedFiles)
+                        }}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription>
+                    Penja els teus apunts en format PDF.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="md:col-span-2">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Títol dels Apunts</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="WhoIsGraf?"
+                        {...field}
+                        className="mb-0"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Descripció (opcional)"
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
+            {PreselectedSubject === "AllSubjects" && (
+              <FormField
+                control={form.control}
+                name="assignatura"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Assignatura</FormLabel>
+                    <FormControl>
+                      <Combobox
+                        options={assignatures}
+                        value={field.value}
+                        setValue={field.onChange}
+                        width="full"
+                      />
+                    </FormControl>
+                    <FormDescription>Tria l&apos;assignatura.</FormDescription>
+                  </FormItem>
+                )}
+              />
+            )}
+            <FormField
+              control={form.control}
+              name="year"
+              render={({ field }) => {
+                if (!field.value && default_year) {
+                  field.value = default_year
+                  field.onChange(default_year)
+                }
 
-            return (
-              <FormItem>
-                <FormLabel>Any</FormLabel>
+                return (
+                  <FormItem>
+                    <FormLabel>Any</FormLabel>
+                    <FormControl>
+                      <Combobox
+                        options={tipus_any}
+                        value={field.value}
+                        setValue={field.onChange}
+                        width="full"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Any que has cursat l&apos;assignatura.
+                    </FormDescription>
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="tipus"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipus</FormLabel>
+                  <FormControl>
+                    <Combobox
+                      options={tipus}
+                      value={field.value}
+                      setValue={field.onChange}
+                      width="full"
+                    />
+                  </FormControl>
+                  <FormDescription>Tria el tipus de document.</FormDescription>
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="anonim"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
                 <FormControl>
-                  <Combobox
-                    options={tipus_any}
-                    value={field.value}
-                    setValue={field.onChange}
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormDescription>
-                  Any que has cursat l&apos;assignatura.
-                </FormDescription>
-              </FormItem>
-            )
-          }}
-        />
-        <FormField
-          control={form.control}
-          name="pdf"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Fitxers PDF</FormLabel>
-              <FormControl>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <MultiFileDropzone
-                    value={field.value}
-                    onChange={(acceptedFiles) => {
-                      field.onChange(acceptedFiles)
-                    }}
-                  />
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Penjar com a anònim</FormLabel>
+                  <FormDescription>
+                    L&apos;AED guarda sempre l&apos;autor dels apunts.
+                    L&apos;opció d&apos;anònim permet que no es mostrin als
+                    altres usuaris.
+                  </FormDescription>
                 </div>
-              </FormControl>
-              <FormDescription>
-                Penja els teus apunts en format PDF.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nom dels Apunts</FormLabel>
-              <FormControl>
-                <Input placeholder="WhoIsGraf?" {...field} />
-              </FormControl>
-              <FormDescription>El nom dels teus apunts.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {PreselectedSubject === "AllSubjects" && (
-          <FormField
-            control={form.control}
-            name="assignatura"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Assignatura</FormLabel>
-                <FormControl>
-                  <Combobox
-                    options={assignatures}
-                    value={field.value}
-                    setValue={field.onChange}
-                  />
-                </FormControl>
-                <FormDescription>Tria l&apos;assignatura.</FormDescription>
               </FormItem>
             )}
           />
-        )}
-
-        <FormField
-          control={form.control}
-          name="tipus"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tipus</FormLabel>
-              <FormControl>
-                <Combobox
-                  options={tipus}
-                  value={field.value}
-                  setValue={field.onChange}
-                />
-              </FormControl>
-              <FormDescription>Tria el tipus de document.</FormDescription>
-            </FormItem>
+          {isAdmin && (
+            <FormField
+              control={form.control}
+              name="authorEmail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Gràcies per ajudar" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Email de l&apos;autor/a dels apunts
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           )}
-        />
-        <FormField
-          control={form.control}
-          name="anonim"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Penjar com a anònim</FormLabel>
-                <FormDescription>
-                  L&apos;AED guarda sempre l&apos;autor dels apunts.
-                  L&apos;opció d&apos;anònim permet que no es mostrin als altres
-                  usuaris.
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        />
-        {isAdmin && (
-          <FormField
-            control={form.control}
-            name="authorEmail"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Gràcies per ajudar" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Email de l&apos;autor/a dels apunts
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
-        <Button type="submit" isLoading={form.formState.isSubmitting}>
-          Submit
-        </Button>
-        {isVisible && <Fireworks autorun={{ speed: 0.5 }} />}
-      </form>
-    </Form>
+          <Button type="submit" isLoading={form.formState.isSubmitting}>
+            Submit
+          </Button>
+          {isVisible && <Fireworks autorun={{ speed: 0.5 }} />}
+        </form>
+      </Form>
+    </div>
   )
 }
 

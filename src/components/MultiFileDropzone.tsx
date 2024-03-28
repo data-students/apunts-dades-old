@@ -8,7 +8,7 @@ import { DropzoneOptions, useDropzone } from "react-dropzone"
 import { twMerge } from "tailwind-merge"
 
 const variants = {
-  base: "relative rounded-md p-4 w-96 flex justify-center items-center flex-col cursor-pointer border border-dashed border-zinc-300  transition-colors duration-200 ease-in-out bg-zinc-100",
+  base: "relative rounded-md p-4 w-full flex justify-center items-center flex-col cursor-pointer border border-dashed border-zinc-300  transition-colors duration-200 ease-in-out bg-zinc-100",
   active: "border-2",
   disabled:
     "bg-gray-700 border-white/20 cursor-default pointer-events-none bg-opacity-30",
@@ -120,7 +120,7 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
               <div className="flex flex-col items-center justify-center text-xs text-zinc-900">
                 <UploadCloudIcon className="mb-1 h-7 w-7" />
                 <div className="text-zinc-900">
-                  drag & drop or click to upload
+                  Arrossega i deixa anar o fes clic per pujar fitxers
                 </div>
               </div>
             </div>
@@ -133,7 +133,7 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
           {value?.map((file, i) => (
             <div
               key={i}
-              className="flex h-16 w-96 flex-col justify-center rounded border border-solid border-zinc-300 px-4 py-2"
+              className="flex h-fit max-h-36 w-full flex-col justify-center rounded border border-solid border-zinc-300 px-4 py-2"
             >
               <div className="flex items-center gap-2 text-zinc-900">
                 <FileIcon size="30" className="shrink-0" />
