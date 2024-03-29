@@ -25,6 +25,7 @@ import { uploadFiles } from "@/lib/uploadthing"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 import { MultiFileDropzone } from "@/components/MultiFileDropzone"
 import { Textarea } from "./ui/Textarea"
+import { MAX_FILE_COUNT, MAX_FILE_SIZE_MB } from "@/config"
 
 const formSchema = z.object({
   pdf: z.array(z.any()),
@@ -227,7 +228,23 @@ export function ProfileForm({
                       <MultiFileDropzone
                         value={field.value}
                         onChange={(acceptedFiles) => {
-                          field.onChange(acceptedFiles)
+                          if (
+                            acceptedFiles.length > MAX_FILE_COUNT ||
+                            acceptedFiles.some(
+                              (file) =>
+                                file.size >= MAX_FILE_SIZE_MB * 1024 * 1024,
+                            )
+                          ) {
+                            toast({
+                              variant: "destructive",
+                              title: "Fitxers no vàlids",
+                              description:
+                                "Només pots pujar fins a 10 fitxers de menys de 32MB cada un.",
+                            })
+                            field.onChange([])
+                          } else {
+                            field.onChange(acceptedFiles)
+                          }
                         }}
                       />
                     </div>
@@ -250,7 +267,7 @@ export function ProfileForm({
                       <Input
                         placeholder="WhoIsGraf?"
                         {...field}
-                        className="mb-0"
+                        className="my-2"
                       />
                     </FormControl>
                     <FormMessage />
@@ -265,7 +282,7 @@ export function ProfileForm({
                     <FormControl>
                       <Textarea
                         placeholder="Descripció (opcional)"
-                        className="resize-none"
+                        className="resize-none my-2"
                         {...field}
                       />
                     </FormControl>
