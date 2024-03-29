@@ -223,7 +223,7 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel>Fitxers PDF</FormLabel>
                   <FormControl>
-                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <div className="w-full max-w-sm items-center gap-1.5">
                       <MultiFileDropzone
                         value={field.value}
                         onChange={(acceptedFiles) => {
@@ -372,10 +372,14 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Gràcies per ajudar" {...field} />
+                    <Input placeholder="Uploader" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Email de l&apos;autor/a dels apunts
+                    Aquest camp t&apos;apareix ja que ets admin i tens permís
+                    per a compartir apunts en nom d&apos;algú altre. Escriu
+                    &quot;Uploader&quot; si els comparteixes en nom teu.
+                    <br />
+                    Gràcies per ajudar!
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
