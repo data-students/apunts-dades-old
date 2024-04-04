@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["uploadthing.com", "lh3.googleusercontent.com"],
+    remotePatterns: [
+      {
+        hostname: "*.googleusercontent.com",
+      },
+      {
+        hostname: "uploadthing.com",
+      },
+    ],
   },
   experimental: {
     appDir: true,

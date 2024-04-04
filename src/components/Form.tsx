@@ -25,6 +25,7 @@ import { uploadFiles } from "@/lib/uploadthing"
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks"
 import { MultiFileDropzone } from "@/components/MultiFileDropzone"
 import { Textarea } from "./ui/Textarea"
+import { MAX_FILE_COUNT, MAX_FILE_SIZE_MB } from "@/config"
 
 const formSchema = z.object({
   pdf: z.array(z.any()),
@@ -223,11 +224,26 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel>Fitxers PDF</FormLabel>
                   <FormControl>
-                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <div className="w-full max-w-sm items-center gap-1.5">
                       <MultiFileDropzone
                         value={field.value}
                         onChange={(acceptedFiles) => {
-                          field.onChange(acceptedFiles)
+                          if (
+                            acceptedFiles.length > MAX_FILE_COUNT ||
+                            acceptedFiles.some(
+                              (file) => file.size >= MAX_FILE_SIZE_MB * 10 ** 6,
+                            )
+                          ) {
+                            toast({
+                              variant: "destructive",
+                              title: "Fitxers no vàlids",
+                              description:
+                                "Només pots pujar fins a 10 fitxers de menys de 32MB cada un.",
+                            })
+                            field.onChange([])
+                          } else {
+                            field.onChange(acceptedFiles)
+                          }
                         }}
                       />
                     </div>
@@ -250,7 +266,7 @@ export function ProfileForm({
                       <Input
                         placeholder="WhoIsGraf?"
                         {...field}
-                        className="mb-0"
+                        className="my-2"
                       />
                     </FormControl>
                     <FormMessage />
@@ -265,7 +281,7 @@ export function ProfileForm({
                     <FormControl>
                       <Textarea
                         placeholder="Descripció (opcional)"
-                        className="resize-none"
+                        className="resize-none my-2"
                         {...field}
                       />
                     </FormControl>
@@ -372,10 +388,14 @@ export function ProfileForm({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Gràcies per ajudar" {...field} />
+                    <Input placeholder="Uploader" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Email de l&apos;autor/a dels apunts
+                    Aquest camp t&apos;apareix ja que ets admin i tens permís
+                    per a compartir apunts en nom d&apos;algú altre. Escriu
+                    &quot;Uploader&quot; si els comparteixes en nom teu.
+                    <br />
+                    Gràcies per ajudar!
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
