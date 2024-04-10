@@ -26,25 +26,27 @@ const CreatePost: FC<CreatePostProps> = ({ session }) => {
           />
         </div>
 
-        <Link
-          href={pathname + "/submit"}
-          className={buttonVariants({
-            variant: "outline",
-            className: "w-full",
-          })}
-        >
-          Penja Apunts
-        </Link>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 w-full">
+          <Link
+            href={pathname + "/submit"}
+            className={buttonVariants({
+              variant: "outline",
+              className: "w-full",
+            })}
+          >
+            Penja Apunts
+          </Link>
 
-        <Link
-          href={pathname + "/q"}
-          className={buttonVariants({
-            variant: "outline",
-            className: "w-full",
-          })}
-        >
-          Llança una pregunta
-        </Link>
+          <Link
+            href={pathname + "/q"}
+            className={buttonVariants({
+              variant: "outline",
+              className: "w-full",
+            })}
+          >
+            Llança una pregunta
+          </Link>
+        </div>
       </div>
     </div>
   )
