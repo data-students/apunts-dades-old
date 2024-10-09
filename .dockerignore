@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+node_modules
+README.md
+.next
+.vscode
+.git
+.github
+.eslintrc.json
+.prettierrc
+.env
+.env.*
