@@ -6,6 +6,7 @@ README.md
 .vscode
 .git
 .github
+.husky
 .eslintrc.json
 .prettierrc
 .env
