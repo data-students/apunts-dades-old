@@ -2,7 +2,8 @@ FROM node:alpine AS build
 
 WORKDIR /app
 
-COPY package*.json ./ prisma/schema.prisma ./prisma/schema.prisma
+COPY package*.json ./
+COPY prisma/schema.prisma ./prisma/schema.prisma
 
 # Clean install
 RUN npm ci
