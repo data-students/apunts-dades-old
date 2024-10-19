@@ -1,0 +1,13 @@
+Dockerfile
+.dockerignore
+node_modules
+README.md
+.next
+.vscode
+.git
+.github
+.husky
+.eslintrc.json
+.prettierrc
+.env
+.env.*
