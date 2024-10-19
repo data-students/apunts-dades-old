@@ -20,6 +20,8 @@ WORKDIR /app
 
 COPY --from=build /app/.next ./.next
 
+RUN mv .next/static .next/standalone/.next
+
 ENV NODE_ENV production
 
 EXPOSE 3000
