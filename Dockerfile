@@ -10,6 +10,8 @@ RUN npm ci
 
 COPY . .
 
+ARG DATABASE_URL=${DATABASE_URL}
+
 RUN npm run build
 
 FROM node:alpine AS runtime
